@@ -1,11 +1,11 @@
 # ============================================================
-# AuditPrep IA - V8.5.28 — version finale épurée + contraste complet Light/Dark
+# AuditPrep IA - V8.5.27 — version finale corrigée + contraste complet Light/Dark
 # Base : V8.4 sécurisée + interface portail métier Convergence
-# Fichier à placer dans : C:\PFE Omar\AuditPrep-IA\app\app_dashboard_auditprep_v8_5_28.py
+# Fichier à placer dans : C:\PFE Omar\AuditPrep-IA\app\app_dashboard_auditprep_v8_5_27.py
 #
 # Lancement PowerShell :
 #   cd "C:\PFE Omar\AuditPrep-IA"
-#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_28.py"
+#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_27.py"
 # ============================================================
 
 import base64
@@ -7264,7 +7264,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("### Version")
-    st.caption("AuditPrep V8.5.28 — version finale, compatibilité Cloud, contraste complet Light/Dark, moteur SQL V6 et IA supervisée par l’auditeur.")
+    st.caption("AuditPrep V8.5.27 — version finale corrigée, compatibilité Cloud, contraste complet Light/Dark, moteur SQL V6 et IA supervisée par l’auditeur.")
 
 render_brand_nav("Espace audit", current_user)
 

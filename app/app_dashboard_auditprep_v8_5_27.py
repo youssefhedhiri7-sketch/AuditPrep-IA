@@ -1,11 +1,11 @@
 # ============================================================
-# AuditPrep IA - V8.5.27 — interface Violet / Lavender / Soft Pink — Inter
+# AuditPrep IA - V8.5.28 — version finale épurée + contraste complet Light/Dark
 # Base : V8.4 sécurisée + interface portail métier Convergence
-# Fichier à placer dans : C:\PFE Omar\app\app_dashboard_auditprep_v8_5_27.py
+# Fichier à placer dans : C:\PFE Omar\AuditPrep-IA\app\app_dashboard_auditprep_v8_5_28.py
 #
 # Lancement PowerShell :
-#   cd "C:\PFE Omar"
-#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_27.py"
+#   cd "C:\PFE Omar\AuditPrep-IA"
+#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_28.py"
 # ============================================================
 
 import base64
@@ -2304,13 +2304,6 @@ label,
 small,
 .stCaption,
 [data-testid="stCaptionContainer"] {
-    color: #D9CF E3 !important;
-}
-
-/* fix accidental invalid color token from previous theme if browser ignores it */
-small,
-.stCaption,
-[data-testid="stCaptionContainer"] {
     color: #D9CFE3 !important;
 }
 
@@ -3436,6 +3429,759 @@ p.audit-caption-white {
     color: #111111 !important;
     opacity: 1 !important;
     text-shadow: none !important;
+}
+
+
+/* =========================================================
+   V8.5.28 — CONTRASTE STABLE STREAMLIT LIGHT / DARK
+   L'application conserve son univers sombre quel que soit le choix du
+   visiteur dans le menu Streamlit. Les composants natifs reçoivent donc
+   des surfaces et couleurs explicites au lieu de dépendre du thème actif.
+   ========================================================= */
+
+html,
+body {
+    color-scheme: dark !important;
+}
+
+/* Texte éditorial posé directement sur le fond sombre. */
+[data-testid="stAppViewContainer"] .main p,
+[data-testid="stAppViewContainer"] .main li,
+[data-testid="stAppViewContainer"] .main label,
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"],
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] p,
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] li {
+    color: #F7F3FB !important;
+    opacity: 1 !important;
+}
+
+/* Légendes, aides et texte sous la barre de progression. */
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] *,
+.stCaption,
+.stCaption *,
+[data-testid="stProgress"] p,
+[data-testid="stProgress"] span,
+[data-testid="stProgress"] label {
+    color: #EDE6F5 !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stProgress"] [role="progressbar"],
+[data-testid="stProgress"] > div > div {
+    background-color: rgba(255,255,255,.16) !important;
+}
+
+[data-testid="stProgress"] [role="progressbar"] > div,
+[data-testid="stProgress"] > div > div > div {
+    background: linear-gradient(90deg, #8A57FF, #C49FFF) !important;
+}
+
+/* Tous les boutons restent lisibles, y compris l'entraînement désactivé. */
+.stButton > button,
+.stButton > button *,
+.stDownloadButton > button,
+.stDownloadButton > button *,
+[data-testid="stFormSubmitButton"] > button,
+[data-testid="stFormSubmitButton"] > button *,
+.st-key-v82_train_models_advanced button,
+.st-key-v82_train_models_advanced button * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+.stButton > button:disabled,
+.stDownloadButton > button:disabled,
+[data-testid="stFormSubmitButton"] > button:disabled,
+.st-key-v82_train_models_advanced button:disabled {
+    color: #F7F2FB !important;
+    background: linear-gradient(180deg, #655572, #4C3F58) !important;
+    border-color: rgba(255,255,255,.24) !important;
+    opacity: 1 !important;
+}
+
+.stButton > button:disabled *,
+.stDownloadButton > button:disabled *,
+[data-testid="stFormSubmitButton"] > button:disabled *,
+.st-key-v82_train_models_advanced button:disabled * {
+    color: #F7F2FB !important;
+    fill: #F7F2FB !important;
+    opacity: 1 !important;
+}
+
+/* Champs, sélecteurs et listes : toujours sombre + texte clair. */
+[data-baseweb="input"] > div,
+[data-baseweb="textarea"] > div,
+[data-baseweb="select"] > div,
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stTimeInput input {
+    background: #251C2D !important;
+    border-color: rgba(196,159,255,.30) !important;
+    color: #FFFFFF !important;
+}
+
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] input,
+[data-baseweb="select"] span,
+[data-baseweb="select"] div,
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stTimeInput input {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="input"] input::placeholder,
+[data-baseweb="textarea"] textarea::placeholder,
+.stTextInput input::placeholder,
+.stTextArea textarea::placeholder {
+    color: #D8CFE1 !important;
+    -webkit-text-fill-color: #D8CFE1 !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[role="listbox"] {
+    background: #211827 !important;
+    border-color: rgba(196,159,255,.26) !important;
+}
+
+[role="option"],
+[role="option"] *,
+[data-baseweb="menu"] *,
+[role="listbox"] * {
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+[role="option"]:hover,
+[role="option"][aria-selected="true"] {
+    background: #563A78 !important;
+}
+
+/* Radios, cases et libellés de formulaires. */
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] *,
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] label *,
+[data-testid="stCheckbox"] label,
+[data-testid="stCheckbox"] label *,
+[data-testid="stToggle"] label,
+[data-testid="stToggle"] label * {
+    color: #F5EFFA !important;
+    opacity: 1 !important;
+}
+
+/* Alertes Streamlit : surface foncée explicite, quel que soit le thème. */
+[data-testid="stAlert"],
+div[data-baseweb="notification"] {
+    background: linear-gradient(135deg, #624B69, #4E3D5A) !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
+}
+
+[data-testid="stAlert"],
+[data-testid="stAlert"] *,
+div[data-baseweb="notification"],
+div[data-baseweb="notification"] * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+/* Info-bulles : choix assumé noir sur blanc, stable dans les deux modes. */
+[role="tooltip"],
+[role="tooltip"] > div,
+[role="tooltip"] [data-testid="stMarkdownContainer"],
+[data-baseweb="tooltip"] {
+    background: #FFFFFF !important;
+    color: #17111D !important;
+    border-color: rgba(125,79,254,.24) !important;
+}
+
+[role="tooltip"] *,
+[data-baseweb="tooltip"] * {
+    color: #17111D !important;
+    -webkit-text-fill-color: #17111D !important;
+    opacity: 1 !important;
+}
+
+/* Onglets et expanders. */
+[data-baseweb="tab"],
+[data-baseweb="tab"] *,
+button[role="tab"],
+button[role="tab"] *,
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary * {
+    color: #EEE7F5 !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="tab"][aria-selected="true"],
+[data-baseweb="tab"][aria-selected="true"] *,
+button[role="tab"][aria-selected="true"],
+button[role="tab"][aria-selected="true"] * {
+    color: #FFFFFF !important;
+}
+
+/* Les cartes volontairement claires gardent leur texte sombre. */
+.audit-requested-black,
+.audit-requested-black *,
+.audit-light-surface,
+.audit-light-surface *,
+.audit-white-card,
+.audit-white-card *,
+.audit-alert-card,
+.audit-alert-card *,
+.audit-warning,
+.audit-warning *,
+.audit-info-box.audit-first-audit-black,
+.audit-info-box.audit-first-audit-black * {
+    color: #111111 !important;
+    -webkit-text-fill-color: #111111 !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+
+/* =========================================================
+   V8.5.28-R1 — CONTRASTE COMPLET ET DETERMINISTE
+   Derniere couche CSS : elle annule les conflits des anciennes variantes
+   et definit toujours le fond ET le texte d'un composant ensemble.
+   Le rendu reste lisible quand Streamlit est regle sur Light, Dark ou System.
+   ========================================================= */
+:root {
+    --ap-r1-page-text: #FBF9FD;
+    --ap-r1-soft-text: #F1EBF7;
+    --ap-r1-muted-text: #DDD3E7;
+    --ap-r1-dark-surface: #2D2037;
+    --ap-r1-dark-surface-2: #3A2948;
+    --ap-r1-dark-border: rgba(226, 210, 244, .24);
+    --ap-r1-light-surface: #F8F4FC;
+    --ap-r1-light-surface-2: #EEE7F5;
+    --ap-r1-light-text: #211827;
+    --ap-r1-light-muted: #51455C;
+    --ap-r1-focus: #D4B8FF;
+}
+
+/* 1. Texte pose directement sur le fond violet. */
+[data-testid="stAppViewContainer"] .main,
+[data-testid="stAppViewContainer"] .main > div,
+[data-testid="stAppViewContainer"] .main p,
+[data-testid="stAppViewContainer"] .main li,
+[data-testid="stAppViewContainer"] .main label,
+[data-testid="stAppViewContainer"] .main small,
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"],
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] p,
+[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] li {
+    color: var(--ap-r1-page-text) !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stAppViewContainer"] .main h1,
+[data-testid="stAppViewContainer"] .main h2,
+[data-testid="stAppViewContainer"] .main h3,
+[data-testid="stAppViewContainer"] .main h4,
+[data-testid="stAppViewContainer"] .main h5,
+[data-testid="stAppViewContainer"] .main h6 {
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+/* 2. Cartes sombres : aucun gris faible sur violet. */
+.audit-card,
+.audit-soft-card,
+.audit-kpi-card,
+.audit-mini-card,
+.audit-note,
+.ap-card,
+[data-testid="stMetric"],
+[data-testid="stForm"],
+[data-testid="stExpander"] details,
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: linear-gradient(135deg, rgba(74, 48, 92, .96), rgba(44, 30, 55, .96)) !important;
+    border-color: var(--ap-r1-dark-border) !important;
+}
+
+.audit-card,
+.audit-card *,
+.audit-soft-card,
+.audit-soft-card *,
+.audit-kpi-card,
+.audit-kpi-card *,
+.audit-mini-card,
+.audit-mini-card *,
+.audit-note,
+.audit-note *,
+.ap-card,
+.ap-card *,
+[data-testid="stMetric"],
+[data-testid="stMetric"] *,
+[data-testid="stForm"],
+[data-testid="stForm"] *,
+[data-testid="stExpander"] summary,
+[data-testid="stExpander"] summary *,
+[data-testid="stExpander"] details,
+[data-testid="stExpander"] details * {
+    color: var(--ap-r1-soft-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-soft-text) !important;
+    opacity: 1 !important;
+}
+
+.audit-card h1, .audit-card h2, .audit-card h3,
+.audit-soft-card h1, .audit-soft-card h2, .audit-soft-card h3,
+.audit-kpi-card h1, .audit-kpi-card h2, .audit-kpi-card h3,
+.audit-mini-card h1, .audit-mini-card h2, .audit-mini-card h3,
+.audit-note h1, .audit-note h2, .audit-note h3,
+.ap-card h1, .ap-card h2, .ap-card h3,
+[data-testid="stMetricValue"],
+[data-testid="stMetricValue"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+[data-testid="stMetricLabel"],
+[data-testid="stMetricLabel"] *,
+[data-testid="stMetricDelta"],
+[data-testid="stMetricDelta"] * {
+    color: var(--ap-r1-muted-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-muted-text) !important;
+}
+
+/* 3. Toutes les surfaces volontairement claires utilisent du texte fonce. */
+.audit-info-box,
+.audit-warning,
+.audit-success,
+.audit-alert-card,
+.audit-user-chip,
+.audit-requested-black,
+.audit-first-audit-black,
+.audit-light-surface,
+.audit-white-card {
+    background: linear-gradient(135deg, var(--ap-r1-light-surface), var(--ap-r1-light-surface-2)) !important;
+    border-color: rgba(77, 57, 92, .22) !important;
+    color: var(--ap-r1-light-text) !important;
+    text-shadow: none !important;
+}
+
+.audit-info-box *,
+.audit-warning *,
+.audit-success *,
+.audit-alert-card *,
+.audit-user-chip *,
+.audit-requested-black *,
+.audit-first-audit-black *,
+.audit-light-surface *,
+.audit-white-card * {
+    color: var(--ap-r1-light-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
+    opacity: 1 !important;
+    text-shadow: none !important;
+}
+
+/* 4. Alertes natives : surface sombre et texte blanc, meme en mode Light. */
+[data-testid="stAlert"],
+[data-testid^="stAlert"],
+div[data-baseweb="notification"],
+div[role="alert"] {
+    background: linear-gradient(135deg, #5A4265, #3C2D49) !important;
+    border: 1px solid rgba(255, 255, 255, .25) !important;
+    color: #FFFFFF !important;
+}
+
+[data-testid="stAlert"] *,
+[data-testid^="stAlert"] *,
+div[data-baseweb="notification"] *,
+div[role="alert"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+/* 5. Champs, zones de texte, dates, heures et controles numeriques. */
+[data-baseweb="input"] > div,
+[data-baseweb="textarea"] > div,
+[data-baseweb="select"] > div,
+[data-baseweb="base-input"],
+.stTextInput [data-baseweb="input"],
+.stNumberInput [data-baseweb="input"],
+.stTextArea [data-baseweb="textarea"],
+.stDateInput [data-baseweb="input"],
+.stTimeInput [data-baseweb="input"] {
+    background: #241A2C !important;
+    border-color: rgba(212, 184, 255, .42) !important;
+    color: #FFFFFF !important;
+}
+
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] input,
+[data-baseweb="select"] span,
+.stTextInput input,
+.stNumberInput input,
+.stTextArea textarea,
+.stDateInput input,
+.stTimeInput input {
+    background-color: transparent !important;
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    caret-color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+input::placeholder,
+textarea::placeholder,
+[data-baseweb="input"] input::placeholder,
+[data-baseweb="textarea"] textarea::placeholder {
+    color: #D9CFE3 !important;
+    -webkit-text-fill-color: #D9CFE3 !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="input"] > div:focus-within,
+[data-baseweb="textarea"] > div:focus-within,
+[data-baseweb="select"] > div:focus-within {
+    border-color: var(--ap-r1-focus) !important;
+    box-shadow: 0 0 0 3px rgba(212, 184, 255, .24) !important;
+}
+
+/* Boutons +/- du number input et calendrier. */
+.stNumberInput button,
+.stDateInput button,
+.stTimeInput button,
+[data-testid="stNumberInputStepDown"],
+[data-testid="stNumberInputStepUp"] {
+    background: #3B2B47 !important;
+    border-color: rgba(255,255,255,.18) !important;
+    color: #FFFFFF !important;
+}
+
+.stNumberInput button *,
+.stDateInput button *,
+.stTimeInput button *,
+[data-testid="stNumberInputStepDown"] *,
+[data-testid="stNumberInputStepUp"] * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+}
+
+/* 6. Selectbox, multiselect, menus, tags et calendrier. */
+[data-baseweb="popover"],
+[data-baseweb="menu"],
+[data-baseweb="calendar"],
+[role="listbox"] {
+    background: #211727 !important;
+    border-color: rgba(212, 184, 255, .30) !important;
+    color: #FFFFFF !important;
+}
+
+[role="option"],
+[role="option"] *,
+[role="listbox"] *,
+[data-baseweb="menu"] *,
+[data-baseweb="calendar"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+[role="option"]:hover,
+[role="option"][aria-selected="true"] {
+    background: #604389 !important;
+}
+
+[data-baseweb="tag"] {
+    background: #6B49A0 !important;
+    color: #FFFFFF !important;
+}
+
+[data-baseweb="tag"] *,
+[data-baseweb="tag"] svg {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+}
+
+/* 7. Boutons : primaire, secondaire et desactive ont chacun un couple stable. */
+.stButton > button[kind="primary"],
+.stDownloadButton > button[kind="primary"],
+[data-testid="stFormSubmitButton"] > button[kind="primary"] {
+    background: linear-gradient(135deg, #7D4FFE, #6236D8) !important;
+    border-color: #B995FF !important;
+    color: #FFFFFF !important;
+}
+
+.stButton > button[kind="secondary"]:not(:disabled),
+.stButton > button:not([kind]):not(:disabled),
+.stDownloadButton > button[kind="secondary"]:not(:disabled),
+.stDownloadButton > button:not([kind]):not(:disabled) {
+    background: linear-gradient(135deg, #F8F4FC, #E9DFF2) !important;
+    border-color: #CDBBDD !important;
+    color: var(--ap-r1-light-text) !important;
+}
+
+.stButton > button[kind="secondary"]:not(:disabled) *,
+.stButton > button:not([kind]):not(:disabled) *,
+.stDownloadButton > button[kind="secondary"]:not(:disabled) *,
+.stDownloadButton > button:not([kind]):not(:disabled) * {
+    color: var(--ap-r1-light-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
+    fill: var(--ap-r1-light-text) !important;
+}
+
+.stButton > button:disabled,
+.stDownloadButton > button:disabled,
+[data-testid="stFormSubmitButton"] > button:disabled,
+button[disabled] {
+    background: #5B4B67 !important;
+    border-color: #877394 !important;
+    color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+.stButton > button:disabled *,
+.stDownloadButton > button:disabled *,
+[data-testid="stFormSubmitButton"] > button:disabled *,
+button[disabled] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+/* 8. Libelles, radios, cases, toggle et slider. */
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] *,
+[data-testid="stRadio"] label,
+[data-testid="stRadio"] label *,
+[data-testid="stCheckbox"] label,
+[data-testid="stCheckbox"] label *,
+[data-testid="stToggle"] label,
+[data-testid="stToggle"] label *,
+[data-testid="stSlider"] label,
+[data-testid="stSlider"] label * {
+    color: #F8F4FC !important;
+    -webkit-text-fill-color: #F8F4FC !important;
+    opacity: 1 !important;
+}
+
+[role="radiogroup"] *,
+[data-baseweb="checkbox"] * {
+    color: #F8F4FC !important;
+}
+
+/* 9. Tabs, expanders et popovers de commande. */
+[data-baseweb="tab-list"] {
+    background: #2A1E34 !important;
+    border-color: rgba(255,255,255,.18) !important;
+}
+
+[data-baseweb="tab"],
+[data-baseweb="tab"] *,
+button[role="tab"],
+button[role="tab"] * {
+    color: #E7DEEF !important;
+    -webkit-text-fill-color: #E7DEEF !important;
+    opacity: 1 !important;
+}
+
+[data-baseweb="tab"][aria-selected="true"],
+button[role="tab"][aria-selected="true"] {
+    background: #68479A !important;
+}
+
+[data-baseweb="tab"][aria-selected="true"],
+[data-baseweb="tab"][aria-selected="true"] *,
+button[role="tab"][aria-selected="true"],
+button[role="tab"][aria-selected="true"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+/* 10. Captions, aides, progression et textes secondaires. */
+.stCaption,
+.stCaption *,
+[data-testid="stCaptionContainer"],
+[data-testid="stCaptionContainer"] *,
+[data-testid="stProgress"] p,
+[data-testid="stProgress"] span,
+[data-testid="stProgress"] label,
+[data-testid="stFileUploaderDropzoneInstructions"],
+[data-testid="stFileUploaderDropzoneInstructions"] * {
+    color: var(--ap-r1-muted-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-muted-text) !important;
+    opacity: 1 !important;
+}
+
+[data-testid="stProgress"] [role="progressbar"],
+[data-testid="stProgress"] > div > div {
+    background: #594765 !important;
+}
+
+[data-testid="stProgress"] [role="progressbar"] > div,
+[data-testid="stProgress"] > div > div > div {
+    background: linear-gradient(90deg, #8E5CFF, #D0B1FF) !important;
+}
+
+/* 11. Upload, code, JSON et messages techniques. */
+[data-testid="stFileUploaderDropzone"],
+[data-testid="stFileUploader"] section {
+    background: #2D2037 !important;
+    border-color: rgba(212,184,255,.32) !important;
+}
+
+[data-testid="stFileUploaderDropzone"] *,
+[data-testid="stFileUploader"] section * {
+    color: #F8F4FC !important;
+    -webkit-text-fill-color: #F8F4FC !important;
+}
+
+pre,
+code,
+[data-testid="stCodeBlock"],
+[data-testid="stCodeBlock"] *,
+[data-testid="stJson"],
+[data-testid="stJson"] * {
+    background-color: #17111D !important;
+    color: #F8F4FC !important;
+    -webkit-text-fill-color: #F8F4FC !important;
+    opacity: 1 !important;
+}
+
+/* Inline code in an editorial paragraph keeps a visible violet chip. */
+p code,
+li code,
+[data-testid="stMarkdownContainer"] code {
+    background: #3B2950 !important;
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    padding: .08rem .3rem;
+    border-radius: .3rem;
+}
+
+/* 12. Tables HTML. Les dataframes/canvas gardent le theme natif coherent. */
+[data-testid="stTable"],
+[data-baseweb="table"] {
+    background: #211827 !important;
+    border-color: rgba(255,255,255,.18) !important;
+}
+
+[data-testid="stTable"] th,
+[data-testid="stTable"] th *,
+[data-baseweb="table"] th,
+[data-baseweb="table"] th * {
+    background: #443154 !important;
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+[data-testid="stTable"] td,
+[data-testid="stTable"] td *,
+[data-baseweb="table"] td,
+[data-baseweb="table"] td * {
+    background: #281D31 !important;
+    color: #F7F2FB !important;
+    -webkit-text-fill-color: #F7F2FB !important;
+}
+
+/* Bordure du dataframe sans imposer une couleur incompatible a son canvas. */
+[data-testid="stDataFrame"],
+[data-testid="stDataEditor"] {
+    border: 1px solid rgba(255,255,255,.22) !important;
+    background: transparent !important;
+}
+
+/* 13. Info-bulles : texte noir sur blanc, y compris les portails BaseWeb. */
+[role="tooltip"],
+[role="tooltip"] > div,
+[role="tooltip"] [data-testid="stMarkdownContainer"],
+[data-baseweb="tooltip"] {
+    background: #FFFFFF !important;
+    border-color: rgba(70,47,90,.25) !important;
+    color: #17111D !important;
+}
+
+[role="tooltip"] *,
+[data-baseweb="tooltip"] * {
+    color: #17111D !important;
+    -webkit-text-fill-color: #17111D !important;
+    fill: #17111D !important;
+    opacity: 1 !important;
+}
+
+/* 14. Barre laterale et navigation superieure. */
+[data-testid="stSidebar"],
+[data-testid="stSidebarContent"] {
+    background: linear-gradient(180deg, #1D1622, #151118) !important;
+}
+
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] small,
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] * {
+    color: var(--ap-r1-soft-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-soft-text) !important;
+    opacity: 1 !important;
+}
+
+/* La carte d'identite de la sidebar est la seule carte claire de cette zone. */
+[data-testid="stSidebar"] .audit-user-chip,
+[data-testid="stSidebar"] .audit-user-chip * {
+    color: var(--ap-r1-light-text) !important;
+    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
+}
+
+.audit-topbar,
+.audit-topbar *,
+.audit-hero,
+.audit-hero *,
+.audit-login-shell,
+.audit-login-shell *,
+.audit-section-head,
+.audit-section-head *,
+.audit-workflow-head,
+.audit-workflow-head * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+
+/* 15. Toasts, spinners, dialogues et menu Streamlit. */
+[data-testid="stToast"],
+[data-testid="stToast"] *,
+[data-testid="stSpinner"],
+[data-testid="stSpinner"] *,
+[data-baseweb="modal"],
+[data-baseweb="modal"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+
+[data-testid="stToast"],
+[data-baseweb="modal"] {
+    background: #2D2037 !important;
+    border-color: rgba(255,255,255,.22) !important;
+}
+
+/* L'interface de l'application ne depend plus des variables claires/sombres
+   injectees par Streamlit : les contrastes ci-dessus restent identiques. */
+@media (forced-colors: active) {
+    .stButton > button,
+    input,
+    textarea,
+    [data-baseweb="select"] > div,
+    [data-testid="stAlert"] {
+        forced-color-adjust: auto;
+    }
 }
 
 </style>
@@ -4724,7 +5470,22 @@ def load_supervised_dataset(host, port, dbname, user, password):
     )
     dataset["target_criticality"] = raw_score
     missing_score = dataset["target_criticality"].isna()
-    dataset.loc[missing_score, "target_criticality"] = dataset.loc[missing_score, "target_priority"].map(priority_to_score)
+    # V8.5.28 : pandas/Arrow sur Streamlit Cloud conserve parfois le dtype
+    # string d'une sélection vide. L'affecter à la colonne float64 provoquait
+    # alors ``Invalid value '<ArrowStringArray>' for dtype 'float64'`` même
+    # lorsqu'aucun score n'était manquant. On ne calcule les scores proxy que
+    # lorsqu'ils sont réellement nécessaires, puis on affecte un tableau
+    # explicitement numérique.
+    if bool(missing_score.any()):
+        proxy_scores = (
+            dataset.loc[missing_score, "target_priority"]
+            .astype("object")
+            .map(priority_to_score)
+        )
+        dataset.loc[missing_score, "target_criticality"] = pd.to_numeric(
+            proxy_scores,
+            errors="coerce",
+        ).to_numpy(dtype="float64")
 
     stored_source = coalesce(["ml__label_source"], "")
     dataset["target_source"] = stored_source.astype(str)
@@ -6503,7 +7264,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("### Version")
-    st.caption("AuditPrep V8.5.27 — interface Inter, moteur SQL V6 et IA supervisée par l’auditeur.")
+    st.caption("AuditPrep V8.5.28 — version finale, compatibilité Cloud, contraste complet Light/Dark, moteur SQL V6 et IA supervisée par l’auditeur.")
 
 render_brand_nav("Espace audit", current_user)
 
@@ -6767,10 +7528,6 @@ with st.expander("Créer une mission, ajouter ou importer des constats", expande
 
     with data_tabs[0]:
         st.markdown("### Créer une mission cible ou historique")
-        st.caption(
-            "V7.8 : la mission n’est plus seulement administrative. On enregistre aussi le contexte métier "
-            "pour que le moteur puisse comparer textile, école, logistique, formation, industrie, etc."
-        )
 
         c1, c2 = st.columns(2)
         with c1:
@@ -6990,16 +7747,6 @@ with st.expander("Créer une mission, ajouter ou importer des constats", expande
             key="v7_template_findings",
         )
 
-st.markdown(
-    """
-<div class="audit-note">
-<b>Lecture projet :</b> La V8.3 clarifie les lots et les décisions IA pour faciliter la validation humaine.
-</div>
-    """,
-    unsafe_allow_html=True,
-)
-
-
 # ============================================================
 # 10B. V8.3 - MODULE D'APPRENTISSAGE SUPERVISÉ
 # ============================================================
@@ -7020,12 +7767,6 @@ st.markdown(
     'La classification prédit Faible / Moyenne / Haute ; la régression estime un score de criticité entre 0 et 100.</p>',
     unsafe_allow_html=True,
 )
-st.markdown(
-    '<p class="audit-caption-white">Sécurité V8.3 : la gravité et le type de constat sont exclus des entrées du modèle, '
-    'car ils servent encore à construire certaines étiquettes proxy.</p>',
-    unsafe_allow_html=True,
-)
-
 try:
     ml_dataset_df = load_supervised_dataset(host, port, dbname, user, password)
     ml_dataset_error = ""
@@ -7751,16 +8492,6 @@ if contextual_message:
         f"""
 <div class="audit-info-box audit-requested-black">
 <b>Lecture du lot sélectionné :</b> {contextual_message}
-</div>
-        """,
-        unsafe_allow_html=True,
-    )
-
-if ml_application_message:
-    st.markdown(
-        f"""
-<div class="audit-info-box audit-requested-black">
-<b>Contrôle supervisé V8.3 :</b> {ml_application_message}
 </div>
         """,
         unsafe_allow_html=True,

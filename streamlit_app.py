@@ -4,7 +4,7 @@ AuditPrep IA - Point d'entrée principal pour Streamlit Cloud
 ============================================================
 Ce fichier permet à Streamlit Community Cloud (et à toute autre
 plateforme d'hébergement web) d'exécuter directement la dernière
-version d'AuditPrep IA (v8.5.37).
+version d'AuditPrep IA (v8.5.29).
 """
 
 import os
@@ -20,7 +20,7 @@ if str(ROOT_DIR) not in sys.path:
 if str(APP_DIR) not in sys.path:
     sys.path.insert(0, str(APP_DIR))
 
-TARGET_APP = APP_DIR / "app_dashboard_auditprep_v8_5_37.py"
+TARGET_APP = APP_DIR / "app_dashboard_auditprep_v8_5_29.py"
 
 if not TARGET_APP.exists():
     raise FileNotFoundError(f"Fichier d'application introuvable : {TARGET_APP}")

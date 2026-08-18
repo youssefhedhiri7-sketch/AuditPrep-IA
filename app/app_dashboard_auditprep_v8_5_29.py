@@ -26,6 +26,15 @@ import psycopg2
 from psycopg2 import sql
 import streamlit as st
 
+try:
+    from app import demo_data_provider
+except ImportError:
+    try:
+        import demo_data_provider
+    except Exception:
+        demo_data_provider = None
+
+
 # Version V8.3 : base V8.2 + correction des anciens modes de génération
 # manquants et synthèse IA plus lisible.
 
@@ -4195,6 +4204,8 @@ li code,
 # ============================================================
 
 def get_conn(host, port, dbname, user, password):
+    if st.session_state.get("demo_mode") or host == "demo":
+        raise psycopg2.OperationalError("Mode démonstration actif.")
     return psycopg2.connect(
         host=host,
         port=int(port),
@@ -4207,11 +4218,71 @@ def get_conn(host, port, dbname, user, password):
 
 @st.cache_data(show_spinner=False, ttl=30)
 def read_sql_cached(query, host, port, dbname, user, password, params=None):
+    if st.session_state.get("demo_mode") or host == "demo":
+        if demo_data_provider is not None:
+            if "vw_available_target_missions" in query:
+                return demo_data_provider.get_demo_target_missions()
+            elif "vw_available_historical_missions" in query:
+                return demo_data_provider.get_demo_historical_missions()
+            elif "vw_dynamic_generation_runs" in query:
+                active_batches = list(st.session_state.get("demo_active_runs", {}).values())
+                return demo_data_provider.get_demo_generation_runs(active_batches)
+            elif "vw_dynamic_smart_checklist_items" in query:
+                batch_code = params[0] if params else "BATCH-DEMO-PRODUCTION"
+                batches = st.session_state.get("demo_batches", {})
+                if batch_code in batches:
+                    return batches[batch_code]
+                return demo_data_provider.generate_demo_smart_checklist(batch_code)
+            elif "vw_dynamic_smart_checklist_kpi_by_priority" in query:
+                batch_code = params[0] if params else "BATCH-DEMO-PRODUCTION"
+                batches = st.session_state.get("demo_batches", {})
+                chk = batches.get(batch_code, demo_data_provider.generate_demo_smart_checklist(batch_code))
+                return demo_data_provider.get_demo_kpi_by_priority(chk)
+            elif "vw_dynamic_process_vigilance_dashboard" in query:
+                source = params[0] if params else "MIS-2025-010"
+                return demo_data_provider.get_demo_process_vigilance(source)
+            elif "vw_dynamic_clause_vigilance_dashboard" in query:
+                source = params[0] if params else "MIS-2025-010"
+                return demo_data_provider.get_demo_clause_vigilance(source)
+            elif "vw_dynamic_top_vigilance_alerts" in query:
+                source = params[0] if params else "MIS-2025-010"
+                return demo_data_provider.get_demo_top_alerts(source)
+        return pd.DataFrame()
+
     with get_conn(host, port, dbname, user, password) as conn:
         return pd.read_sql_query(query, conn, params=params)
 
 
 def execute_generation(host, port, dbname, user, password, target_code, source_code):
+    if st.session_state.get("demo_mode") or host == "demo":
+        if demo_data_provider is not None:
+            batch_code = f"BATCH_DEMO_{target_code}_{datetime.now().strftime('%Y%m%d%H%M%S')}"
+            chk = demo_data_provider.generate_demo_smart_checklist(batch_code, target_code, source_code)
+            if "demo_batches" not in st.session_state:
+                st.session_state["demo_batches"] = {}
+            st.session_state["demo_batches"][batch_code] = chk
+            if "demo_active_runs" not in st.session_state:
+                st.session_state["demo_active_runs"] = {}
+            st.session_state["demo_active_runs"][batch_code] = {
+                "generation_run_id": f"RUN-{batch_code}",
+                "generation_batch_code": batch_code,
+                "target_mission_code": target_code,
+                "target_mission_title": "Audit Qualité Usine & Lignes Montage",
+                "source_mission_code": source_code,
+                "source_mission_title": "Audit Interne Production 2025",
+                "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "recommendations_count": 8,
+                "checklist_items_count": len(chk),
+                "generation_mode": "Historique recommandé",
+                "status": "Terminé",
+            }
+            return pd.DataFrame([{
+                "generation_batch_code": batch_code,
+                "recommendations_count": 8,
+                "checklist_items_count": len(chk),
+            }])
+        return pd.DataFrame()
+
     with get_conn(host, port, dbname, user, password) as conn:
         with conn.cursor() as cur:
             cur.execute(
@@ -4230,6 +4301,8 @@ def execute_generation(host, port, dbname, user, password, target_code, source_c
 
 @st.cache_data(show_spinner=False, ttl=60)
 def get_table_columns_cached(host, port, dbname, user, password, table_name, schema_name="auditprep"):
+    if st.session_state.get("demo_mode") or host == "demo":
+        return []
     query = """
         SELECT column_name
         FROM information_schema.columns
@@ -4242,11 +4315,14 @@ def get_table_columns_cached(host, port, dbname, user, password, table_name, sch
 
 @st.cache_data(show_spinner=False, ttl=60)
 def get_reference_labels_cached(host, port, dbname, user, password, table_name):
-    """Lit les libellés d'une table de référence PostgreSQL.
+    """Lit les libellés d'une table de référence PostgreSQL."""
+    if st.session_state.get("demo_mode") or host == "demo":
+        if table_name == "audit_types":
+            return ["Audit interne", "Audit de conformité", "Audit système", "Audit processus", "Audit fournisseur"]
+        elif table_name == "mission_statuses":
+            return ["Brouillon", "En cours", "À compléter", "Presque prêt", "Prêt", "Archivé"]
+        return ["Référence standard"]
 
-    V7.5 : les listes déroulantes de l'interface ne sont plus inventées dans le code.
-    Elles reprennent les vraies valeurs présentes dans PostgreSQL, colonne label.
-    """
     query = f"""
         SELECT label
         FROM auditprep.{table_name}
@@ -4670,10 +4746,12 @@ def upsert_mission_context(conn, mission_id, context_data):
 
 @st.cache_data(show_spinner=False, ttl=30)
 def read_mission_contexts_cached(host, port, dbname, user, password):
-    """Charge les contextes métier existants.
+    """Charge les contextes métier existants."""
+    if st.session_state.get("demo_mode") or host == "demo":
+        if demo_data_provider is not None:
+            return demo_data_provider.get_demo_mission_contexts()
+        return pd.DataFrame()
 
-    Si la table n'existe pas encore, elle est créée automatiquement.
-    """
     with get_conn(host, port, dbname, user, password) as conn:
         ensure_mission_contexts_table(conn)
         query = """
@@ -4937,15 +5015,13 @@ def save_expert_label_reviews(host, port, dbname, user, password, reviews_df, re
 
 @st.cache_data(show_spinner=False, ttl=60)
 def read_history_signals_cached(source_codes_tuple, host, port, dbname, user, password):
-    """Construit des signaux métier pour chaque historique disponible.
-
-    V7.9 : la recommandation ne dépend plus seulement du titre de la mission
-    ou du contexte saisi manuellement. Elle exploite aussi les signaux déjà
-    calculés par le moteur SQL : processus sensibles et clauses ISO sensibles.
-    Cela rend le classement plus explicable même quand les historiques n'ont
-    pas encore de contexte métier sauvegardé.
-    """
+    """Construit des signaux métier pour chaque historique disponible."""
     source_codes = [str(c) for c in source_codes_tuple if str(c).strip()]
+    if st.session_state.get("demo_mode") or host == "demo":
+        if demo_data_provider is not None:
+            return demo_data_provider.get_demo_history_signals(source_codes)
+        return pd.DataFrame()
+
     if not source_codes:
         return pd.DataFrame(columns=[
             "source_mission_code",
@@ -5347,12 +5423,12 @@ def template_findings_excel():
 
 @st.cache_data(show_spinner=False, ttl=30)
 def load_supervised_dataset(host, port, dbname, user, password):
-    """Construit le dataset ML à partir des constats et des étiquettes métier.
+    """Construit le dataset ML à partir des constats et des étiquettes métier."""
+    if st.session_state.get("demo_mode") or host == "demo":
+        if demo_data_provider is not None:
+            return demo_data_provider.get_demo_supervised_dataset()
+        return pd.DataFrame()
 
-    La lecture est volontairement tolérante aux variantes de colonnes du schéma
-    PostgreSQL. Les anciennes lignes sans étiquette validée reçoivent une cible
-    proxy dérivée de la gravité/type ; cette provenance reste visible.
-    """
     with get_conn(host, port, dbname, user, password) as conn:
         ensure_finding_ml_labels_table(conn)
         conn.commit()
@@ -6934,33 +7010,38 @@ def render_brand_nav(active="Accueil", user_info=None):
 
 
 def _save_first_configuration(auth_data, database_data):
-    """Crée automatiquement le fichier local de secrets au premier lancement."""
-    secrets_dir = _project_root() / ".streamlit"
-    secrets_path = secrets_dir / "secrets.toml"
-    username = auth_data["initial_username"]
-    account = auth_data["users"][username]
-    lines = [
-        "# Configuration locale AuditPrep IA - ne jamais partager ce fichier",
-        "[auth]",
-        f"company_name = {_toml_string(auth_data['company_name'])}",
-        f"session_timeout_minutes = {int(auth_data['session_timeout_minutes'])}",
-        "",
-        f"[auth.users.{username}]",
-        f"display_name = {_toml_string(account['display_name'])}",
-        f"role = {_toml_string(account['role'])}",
-        f"password_hash = {_toml_string(account['password_hash'])}",
-        "active = true",
-        "",
-        "[database]",
-        f"host = {_toml_string(database_data['host'])}",
-        f"port = {int(database_data['port'])}",
-        f"dbname = {_toml_string(database_data['dbname'])}",
-        f"user = {_toml_string(database_data['user'])}",
-        f"password = {_toml_string(database_data['password'])}",
-        "",
-    ]
-    secrets_dir.mkdir(parents=True, exist_ok=True)
-    secrets_path.write_text("\n".join(lines), encoding="utf-8")
+    """Crée le fichier local de secrets si possible, ou conserve en mémoire Cloud."""
+    try:
+        secrets_dir = _project_root() / ".streamlit"
+        secrets_path = secrets_dir / "secrets.toml"
+        username = auth_data["initial_username"]
+        account = auth_data["users"][username]
+        lines = [
+            "# Configuration locale AuditPrep IA - ne jamais partager ce fichier",
+            "[auth]",
+            f"company_name = {_toml_string(auth_data['company_name'])}",
+            f"session_timeout_minutes = {int(auth_data['session_timeout_minutes'])}",
+            "",
+            f"[auth.users.{username}]",
+            f"display_name = {_toml_string(account['display_name'])}",
+            f"role = {_toml_string(account['role'])}",
+            f"password_hash = {_toml_string(account['password_hash'])}",
+            "active = true",
+            "",
+            "[database]",
+            f"host = {_toml_string(database_data['host'])}",
+            f"port = {int(database_data['port'])}",
+            f"dbname = {_toml_string(database_data['dbname'])}",
+            f"user = {_toml_string(database_data['user'])}",
+            f"password = {_toml_string(database_data['password'])}",
+            "",
+        ]
+        secrets_dir.mkdir(parents=True, exist_ok=True)
+        secrets_path.write_text("\n".join(lines), encoding="utf-8")
+    except Exception:
+        # En environnement Cloud (ex: Streamlit Cloud), le système de fichiers est en lecture seule (/mount/src).
+        # La configuration est conservée en mémoire dans la session.
+        pass
 
 
 def _render_first_run_setup():
@@ -7052,17 +7133,35 @@ def _render_first_run_setup():
             }
             try:
                 _save_first_configuration(auth_data, database_data)
-            except Exception as exc:
-                st.error("Impossible d'enregistrer la configuration locale.")
-                st.code(str(exc))
-                st.stop()
+            except Exception:
+                pass
 
             st.session_state.auditprep_bootstrap = {
                 "auth": auth_data,
                 "database": database_data,
             }
-            st.success("Configuration créée. Ouverture de l'écran de connexion…")
+            st.session_state.auditprep_user = {
+                "username": normalized_username,
+                "display_name": admin_name.strip(),
+                "role": "Administrateur",
+            }
+            st.session_state.auditprep_last_activity = time.time()
+            st.success("Configuration créée avec succès. Chargement de l'espace d'audit…")
             time.sleep(0.5)
+            st.rerun()
+
+        st.markdown("---")
+        st.markdown("##### 🌐 Mode Démonstration sans base de données")
+        st.caption("Vous testez l'application sur le Web ou sans serveur PostgreSQL local ? Activez le mode Démo interactif en 1 clic.")
+        if st.button("🚀 Démarrer la Démonstration Interactive", type="secondary", use_container_width=True, key="demo_btn_setup"):
+            st.session_state.demo_mode = True
+            st.session_state.auditprep_user = {
+                "username": "demo_admin",
+                "display_name": "Auditeur Démo (Convergence)",
+                "role": "Administrateur",
+            }
+            st.session_state.auditprep_last_activity = time.time()
+            st.session_state.loaded = True
             st.rerun()
 
         st.caption(
@@ -7107,12 +7206,20 @@ def _clear_authenticated_session():
         "loaded",
         "selected_batch_code",
         "last_generated_batch_code",
+        "demo_mode",
     ):
         st.session_state.pop(key, None)
 
 
 def require_authentication():
     """Bloque toute l'application tant qu'un utilisateur autorisé n'est pas connecté."""
+    if st.session_state.get("demo_mode"):
+        return st.session_state.get("auditprep_user", {
+            "username": "demo_admin",
+            "display_name": "Auditeur Démo (Convergence)",
+            "role": "Administrateur",
+        })
+
     auth, configured_users = _auth_settings()
 
     if auth is None or configured_users is None:
@@ -7188,6 +7295,18 @@ def require_authentication():
             else:
                 st.error("Identifiant ou mot de passe incorrect.")
 
+        st.markdown("---")
+        if st.button("🚀 Accéder en Mode Démonstration (sans mot de passe)", type="secondary", use_container_width=True, key="demo_btn_login"):
+            st.session_state.demo_mode = True
+            st.session_state.auditprep_user = {
+                "username": "demo_admin",
+                "display_name": "Auditeur Démo (Convergence)",
+                "role": "Administrateur",
+            }
+            st.session_state.auditprep_last_activity = now
+            st.session_state.loaded = True
+            st.rerun()
+
         st.caption(
             "Accès réservé aux collaborateurs autorisés. Les mots de passe ne sont jamais enregistrés en clair."
         )
@@ -7196,6 +7315,15 @@ def require_authentication():
 
 def read_database_settings():
     """Charge le compte technique PostgreSQL depuis les secrets ou l'environnement."""
+    if st.session_state.get("demo_mode"):
+        return {
+            "host": "demo",
+            "port": 5432,
+            "dbname": "auditprep_ia_demo",
+            "user": "demo_user",
+            "password": "demo_password",
+        }
+
     bootstrap = st.session_state.get("auditprep_bootstrap")
     if bootstrap:
         database = bootstrap["database"]
@@ -7213,8 +7341,17 @@ def read_database_settings():
         "password": str(database.get("password", os.getenv("AUDITPREP_DB_PASSWORD", ""))),
     }
     if not settings["user"] or not settings["password"]:
-        st.error("Le compte technique PostgreSQL n'est pas configuré.")
-        st.info("Renseigne la section `[database]` du fichier `.streamlit/secrets.toml`.")
+        st.warning("⚠️ Le compte technique PostgreSQL n'est pas encore configuré.")
+        st.info("💡 Vous pouvez continuer directement en **Mode Démonstration** avec les données d'exemples pré-chargées.")
+        if st.button("🚀 Activer le Mode Démonstration", type="primary", use_container_width=True, key="btn_activate_demo_from_settings"):
+            st.session_state.demo_mode = True
+            st.session_state.auditprep_user = {
+                "username": "demo_admin",
+                "display_name": "Auditeur Démo (Convergence)",
+                "role": "Administrateur",
+            }
+            st.session_state.loaded = True
+            st.rerun()
         st.stop()
     return settings
 
@@ -7247,6 +7384,8 @@ def show_technical_error(error):
 
 with st.sidebar:
     st.markdown("## AuditPrep IA")
+    if st.session_state.get("demo_mode"):
+        st.info("💡 **Mode Démonstration Actif**\n\nDonnées d'exemples interactives (ISO 9001 / Convergence).")
     st.markdown(
         f"""
 <div class="audit-user-chip audit-requested-black">
@@ -7372,7 +7511,17 @@ try:
     sources_df = read_sql_cached(SQL_AVAILABLE_HISTORICAL_MISSIONS, host, port, dbname, user, password)
     runs_df = read_sql_cached(SQL_GENERATION_RUNS, host, port, dbname, user, password)
 except Exception as e:
-    st.error("Connexion ou chargement impossible.")
+    st.error("Connexion à la base PostgreSQL impossible.")
+    st.info("💡 Vous pouvez basculer instantanément sur le **Mode Démonstration** pour explorer toutes les fonctionnalités avec le jeu de données d'exemples.")
+    if st.button("🚀 Activer le Mode Démonstration interactif", type="primary", use_container_width=True, key="btn_activate_demo_on_err"):
+        st.session_state.demo_mode = True
+        st.session_state.auditprep_user = {
+            "username": "demo_admin",
+            "display_name": "Auditeur Démo (Convergence)",
+            "role": "Administrateur",
+        }
+        st.session_state.loaded = True
+        st.rerun()
     if is_admin:
         with st.expander("Détails techniques réservés à l'administrateur"):
             show_technical_error(e)

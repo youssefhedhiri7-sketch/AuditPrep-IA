@@ -1,5 +1,5 @@
 # ============================================================
-# AuditPrep IA - V8.5.30
+# AuditPrep IA - V8.5.31
 # Correctif final de lisibilite / contraste sur surfaces claires et sombres
 # Base metier : V8.5.28 (logique fonctionnelle inchangee)
 #
@@ -7,7 +7,7 @@
 #
 # Lancement PowerShell :
 #   cd "C:\PFE Omar\AuditPrep-IA"
-#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_30.py"
+#   conda run -n auditprep python -m streamlit run "app\app_dashboard_auditprep_v8_5_31.py"
 # ============================================================
 
 from pathlib import Path
@@ -17,7 +17,7 @@ BASE_FILE = Path(__file__).with_name("app_dashboard_auditprep_v8_5_28.py")
 if not BASE_FILE.exists():
     raise FileNotFoundError(
         f"Fichier de base introuvable : {BASE_FILE}\n"
-        "Place app_dashboard_auditprep_v8_5_28.py dans le meme dossier que cette V8.5.30."
+        "Place app_dashboard_auditprep_v8_5_28.py dans le meme dossier que cette V8.5.31."
     )
 
 source = BASE_FILE.read_text(encoding="utf-8")
@@ -27,7 +27,7 @@ source = BASE_FILE.read_text(encoding="utf-8")
 FINAL_CONTRAST_CSS = r"""
 
 /* =========================================================
-   V8.5.30 — CONTRASTE FINAL CLAIR / SOMBRE
+   V8.5.31 — CONTRASTE FINAL CLAIR / SOMBRE
    Objectif : jamais de texte blanc sur fond clair ni de texte sombre
    sur fond violet/noir. Les couleurs sont liees a la SURFACE,
    pas au theme du navigateur, pour rester fiables dans Streamlit.
@@ -555,6 +555,51 @@ if last_style_end == -1:
     raise RuntimeError("Impossible de localiser le dernier bloc CSS </style> dans la V8.5.28.")
 
 source = source[:last_style_end] + FINAL_CONTRAST_CSS + "\n" + source[last_style_end:]
+
+# ============================================================
+# V8.5.31 — LIGNE ML DEMANDEE EN ROUGE
+# ============================================================
+# Le texte vise uniquement la phrase visible sous "Étape 1".
+# On intercepte son rendu Streamlit sans toucher a la logique ML.
+
+import html as _html
+import streamlit as _st
+
+_AP31_TARGET = (
+    "Les constats historiques deviennent des exemples étiquetés. "
+    "La classification prédit Faible / Moyenne / Haute ; "
+    "la régression estime un score de criticité entre 0 et 100."
+)
+
+_AP31_RED_STYLE = (
+    '<span style="color:#FF4B4B !important;'
+    '-webkit-text-fill-color:#FF4B4B !important;'
+    'font-weight:750 !important;">{}</span>'
+)
+
+_ap31_original_markdown = _st.markdown
+_ap31_original_write = _st.write
+
+def _ap31_markdown(body, *args, **kwargs):
+    if isinstance(body, str) and _AP31_TARGET in body:
+        body = body.replace(
+            _AP31_TARGET,
+            _AP31_RED_STYLE.format(_html.escape(_AP31_TARGET))
+        )
+        kwargs["unsafe_allow_html"] = True
+    return _ap31_original_markdown(body, *args, **kwargs)
+
+def _ap31_write(*args, **kwargs):
+    if len(args) == 1 and isinstance(args[0], str) and _AP31_TARGET in args[0]:
+        rendered = args[0].replace(
+            _AP31_TARGET,
+            _AP31_RED_STYLE.format(_html.escape(_AP31_TARGET))
+        )
+        return _ap31_original_markdown(rendered, unsafe_allow_html=True)
+    return _ap31_original_write(*args, **kwargs)
+
+_st.markdown = _ap31_markdown
+_st.write = _ap31_write
 
 # Execution de la base metier avec la couche de contraste finale.
 exec(compile(source, str(BASE_FILE), "exec"), globals(), globals())

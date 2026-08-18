@@ -4245,6 +4245,54 @@ button[aria-disabled="true"] * {
     opacity: 1 !important;
 }
 
+/* 17. Mode Streamlit « System ».
+   Ce mode reprend automatiquement le réglage Clair/Sombre de Windows. */
+@media (prefers-color-scheme: dark) {
+    .stButton > button,
+    .stDownloadButton > button,
+    [data-testid="stFormSubmitButton"] > button,
+    [data-testid="stBaseButton-secondary"],
+    [data-testid="stBaseButton-primary"] {
+        background: linear-gradient(135deg, #68479A, #4B315F) !important;
+        border-color: #B995FF !important;
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+
+    .stButton > button *,
+    .stDownloadButton > button *,
+    [data-testid="stFormSubmitButton"] > button *,
+    [data-testid="stBaseButton-secondary"] *,
+    [data-testid="stBaseButton-primary"] * {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+        fill: #FFFFFF !important;
+    }
+}
+
+@media (prefers-color-scheme: light) {
+    .stButton > button,
+    .stDownloadButton > button,
+    [data-testid="stFormSubmitButton"] > button,
+    [data-testid="stBaseButton-secondary"],
+    [data-testid="stBaseButton-primary"] {
+        background: linear-gradient(135deg, #624187, #432A58) !important;
+        border-color: #8E69B5 !important;
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+    }
+
+    .stButton > button *,
+    .stDownloadButton > button *,
+    [data-testid="stFormSubmitButton"] > button *,
+    [data-testid="stBaseButton-secondary"] *,
+    [data-testid="stBaseButton-primary"] * {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+        fill: #FFFFFF !important;
+    }
+}
+
 </style>
 """,
     unsafe_allow_html=True,

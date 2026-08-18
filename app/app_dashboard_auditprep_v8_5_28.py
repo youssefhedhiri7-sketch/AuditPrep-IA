@@ -43,4260 +43,797 @@ st.set_page_config(
 
 
 # ============================================================
-# 2. CSS V6 - correction lisibilité dark/light + largeur
-# ============================================================
-
-st.markdown(
-    """
-<style>
-/* ============================================================
-   AuditPrep IA - CSS V6 sécurisé Light/Dark
-   Objectif : rendu propre en mode clair ET sombre sans cartes grisées
-   ============================================================ */
-
-:root {
-    --audit-red: #ff4b4b;
-    --audit-red-dark: #d93636;
-    --audit-border-soft: rgba(148, 163, 184, 0.34);
-    --audit-border-strong: rgba(148, 163, 184, 0.52);
-    --audit-shadow: 0 14px 34px rgba(15, 23, 42, 0.08);
-}
-
-/* Zone principale */
-.main .block-container {
-    max-width: 1340px;
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-}
-
-/* Ne pas forcer une couleur globale : on respecte Light/Dark Streamlit */
-[data-testid="stAppViewContainer"] {
-    color: inherit;
-}
-
-/* Sidebar */
-[data-testid="stSidebar"] {
-    border-right: 1px solid var(--audit-border-soft);
-}
-
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] span {
-    color: inherit !important;
-}
-
-/* Cartes : compatibles avec le thème actif */
-.audit-hero,
-.audit-card,
-.audit-soft-card,
-.audit-kpi-card,
-.audit-info-box,
-.audit-warning-box,
-.audit-success-box,
-.audit-alert-card {
-    color: inherit !important;
-    border-radius: 18px;
-    border: 1px solid var(--audit-border-soft);
-    padding: 1.15rem 1.35rem;
-    margin-bottom: 1rem;
-    box-shadow: var(--audit-shadow);
-}
-
-.audit-hero,
-.audit-card,
-.audit-soft-card,
-.audit-kpi-card,
-.audit-alert-card {
-    background: rgba(148, 163, 184, 0.08);
-}
-
-.audit-hero {
-    background: linear-gradient(135deg, rgba(148, 163, 184, 0.18), rgba(148, 163, 184, 0.06));
-}
-
-.audit-card h3,
-.audit-soft-card h4,
-.audit-kpi-card,
-.audit-alert-card,
-.audit-info-box,
-.audit-warning-box,
-.audit-success-box,
-.audit-card p,
-.audit-hero div {
-    color: inherit !important;
-}
-
-.audit-title {
-    font-size: clamp(1.45rem, 2.4vw, 2.2rem);
-    font-weight: 850;
-    line-height: 1.15;
-    margin-bottom: 0.45rem;
-}
-
-.audit-subtitle {
-    font-size: 1rem;
-    opacity: 0.82;
-}
-
-.audit-section-title {
-    font-size: 1.55rem;
-    font-weight: 800;
-    margin-top: 1.2rem;
-    margin-bottom: 0.4rem;
-}
-
-.audit-section-subtitle {
-    opacity: 0.78;
-    margin-bottom: 1rem;
-}
-
-.audit-mini-label {
-    font-size: 0.82rem;
-    font-weight: 800;
-    opacity: 0.72;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.audit-big-number {
-    font-size: clamp(1.7rem, 2.5vw, 2.35rem);
-    font-weight: 780;
-    margin-top: 0.2rem;
-}
-
-.audit-pill {
-    display: inline-block;
-    padding: 0.22rem 0.58rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 850;
-    margin-left: 0.45rem;
-    white-space: nowrap;
-}
-
-.audit-pill-high {
-    background: rgba(248, 113, 113, 0.18);
-    color: #ef4444 !important;
-}
-
-.audit-pill-mid {
-    background: rgba(245, 158, 11, 0.18);
-    color: #b45309 !important;
-}
-
-.audit-pill-low {
-    background: rgba(34, 197, 94, 0.14);
-    color: #15803d !important;
-}
-
-.audit-alert-card {
-    border-left: 7px solid rgba(100, 116, 139, 0.9);
-}
-
-.audit-alert-title {
-    font-weight: 850;
-    margin-bottom: 0.3rem;
-}
-
-.audit-success-box {
-    background: rgba(34, 197, 94, 0.12);
-    border-color: rgba(34, 197, 94, 0.30);
-}
-
-.audit-warning-box {
-    background: rgba(245, 158, 11, 0.14);
-    border-color: rgba(245, 158, 11, 0.34);
-}
-
-.audit-info-box {
-    background: rgba(59, 130, 246, 0.11);
-    border-color: rgba(59, 130, 246, 0.27);
-}
-
-/* Boutons */
-.stButton > button {
-    border-radius: 12px !important;
-    font-weight: 850 !important;
-    min-height: 2.75rem;
-}
-
-.stButton > button[kind="primary"] {
-    background-color: var(--audit-red) !important;
-    border-color: var(--audit-red) !important;
-    color: white !important;
-}
-
-/* Écran de connexion entreprise */
-.audit-login-shell {
-    max-width: 520px;
-    margin: 7vh auto 1rem auto;
-    padding: 2rem 2.2rem;
-    border: 1px solid var(--audit-border-soft);
-    border-radius: 24px;
-    background: linear-gradient(145deg, rgba(15, 23, 42, 0.04), rgba(148, 163, 184, 0.10));
-    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.13);
-    text-align: center;
-}
-
-.audit-login-mark {
-    width: 58px;
-    height: 58px;
-    margin: 0 auto 1rem auto;
-    display: grid;
-    place-items: center;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #ef4444, #b91c1c);
-    color: white;
-    font-size: 1.65rem;
-    box-shadow: 0 12px 30px rgba(239, 68, 68, 0.26);
-}
-
-.audit-login-title {
-    font-size: 1.75rem;
-    font-weight: 850;
-    margin-bottom: 0.35rem;
-}
-
-.audit-login-company {
-    font-size: 0.86rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    opacity: 0.64;
-}
-
-.audit-user-chip {
-    padding: 0.75rem 0.9rem;
-    border: 1px solid var(--audit-border-soft);
-    border-radius: 14px;
-    background: rgba(148, 163, 184, 0.08);
-    margin-bottom: 0.9rem;
-}
-
-/* L'authentification est gérée dans l'application : les contrôles Streamlit
-   de déploiement ne font pas partie du parcours métier local. */
-[data-testid="stStatusWidget"] {
-    visibility: hidden;
-}
-
-.stButton > button[kind="primary"]:hover {
-    background-color: var(--audit-red-dark) !important;
-    border-color: var(--audit-red-dark) !important;
-}
-
-/* Inputs */
-.stTextInput input,
-.stNumberInput input,
-.stPasswordInput input,
-.stSelectbox div[data-baseweb="select"] > div {
-    border-radius: 12px !important;
-}
-
-/* Dataframes */
-[data-testid="stDataFrame"] {
-    border-radius: 14px;
-    overflow: hidden;
-    border: 1px solid var(--audit-border-soft);
-}
-
-/* Tabs */
-button[data-baseweb="tab"] {
-    font-weight: 780;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-    color: var(--audit-red) !important;
-    border-bottom-color: var(--audit-red) !important;
-}
-
-/* Expander */
-.streamlit-expanderHeader {
-    font-weight: 780 !important;
-}
-
-/* Pas de @media prefers-color-scheme : on laisse Streamlit gérer Light/Dark correctement. */
-
-/* Grilles et cartes utilisées par le dashboard */
-.audit-grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-    margin: 1rem 0 1.4rem 0;
-}
-.audit-grid-4 {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 1rem;
-    margin: 1rem 0 1.4rem 0;
-}
-.audit-mini-card {
-    color: inherit !important;
-    background: rgba(148, 163, 184, 0.08);
-    border: 1px solid var(--audit-border-soft);
-    border-radius: 18px;
-    padding: 1.15rem 1.35rem;
-    box-shadow: var(--audit-shadow);
-    min-height: 130px;
-}
-.audit-mini-card h3 { margin: 0.35rem 0 0.55rem 0; }
-.audit-mini-card p { margin: 0; opacity: 0.86; }
-.audit-kpi-label {
-    font-size: 0.78rem;
-    font-weight: 850;
-    opacity: 0.74;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-.audit-kpi-value {
-    font-size: 2.1rem;
-    font-weight: 850;
-    line-height: 1.15;
-    margin-top: 0.35rem;
-}
-.audit-step-bubble {
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 999px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-    background: rgba(248, 113, 113, 0.18);
-    color: var(--audit-red);
-    margin-bottom: 0.6rem;
-}
-.audit-badge {
-    display: inline-block;
-    padding: 0.22rem 0.58rem;
-    border-radius: 999px;
-    font-size: 0.78rem;
-    font-weight: 850;
-    margin-left: 0.35rem;
-}
-.badge-high { background: rgba(248, 113, 113, 0.18); color: #ef4444 !important; }
-.badge-medium { background: rgba(245, 158, 11, 0.18); color: #b45309 !important; }
-.badge-low { background: rgba(34, 197, 94, 0.14); color: #15803d !important; }
-.audit-warning,
-.audit-success,
-.audit-note {
-    border-radius: 14px;
-    padding: 0.95rem 1.1rem;
-    margin: 0.8rem 0 1rem 0;
-    border: 1px solid var(--audit-border-soft);
-}
-.audit-warning { background: rgba(245, 158, 11, 0.14); border-color: rgba(245, 158, 11, 0.34); }
-.audit-success { background: rgba(34, 197, 94, 0.12); border-color: rgba(34, 197, 94, 0.30); }
-.audit-note { background: rgba(59, 130, 246, 0.10); border-color: rgba(59, 130, 246, 0.24); }
-.audit-separator {
-    border: none;
-    border-top: 1px solid var(--audit-border-soft);
-    margin: 1.8rem 0;
-}
-
-/* ============================================================
-   V8.5 - identité Convergence inspirée d'un portail métier
-   ============================================================ */
-:root {
-    --audit-navy: #102a68;
-    --audit-navy-dark: #081b49;
-    --audit-orange: #ff5a1f;
-    --audit-orange-dark: #e94a12;
-    --audit-page: #f5f6f8;
-}
-
-[data-testid="stAppViewContainer"] {
-    background: var(--audit-page);
-}
-
-.main .block-container {
-    max-width: 1180px;
-    padding-top: 1.25rem;
-}
-
-.audit-topbar {
-    min-height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    padding: 0.72rem 1.25rem;
-    margin: -1.25rem 0 1.6rem 0;
-    border-radius: 0 0 16px 16px;
-    background: linear-gradient(135deg, var(--audit-navy-dark), var(--audit-navy));
-    color: white !important;
-    box-shadow: 0 12px 30px rgba(8, 27, 73, 0.18);
-}
-
-.audit-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.72rem;
-    font-weight: 850;
-}
-
-.audit-brand-mark {
-    width: 38px;
-    height: 38px;
-    display: inline-grid;
-    place-items: center;
-    border-radius: 10px;
-    background: var(--audit-orange);
-    color: white !important;
-    font-size: 0.84rem;
-    letter-spacing: 0.03em;
-}
-
-.audit-brand-name {
-    padding: 0.35rem 0.65rem;
-    border-radius: 7px;
-    background: var(--audit-orange);
-    color: white !important;
-    font-size: 0.88rem;
-    letter-spacing: 0.02em;
-}
-
-.audit-nav-items {
-    display: flex;
-    align-items: center;
-    gap: 1.15rem;
-    font-size: 0.86rem;
-    color: rgba(255, 255, 255, 0.76) !important;
-}
-
-.audit-nav-active {
-    color: var(--audit-orange) !important;
-    font-weight: 850;
-}
-
-.audit-hero {
-    background: linear-gradient(135deg, var(--audit-navy-dark), var(--audit-navy)) !important;
-    border: none !important;
-    color: white !important;
-    text-align: center;
-    padding: 3rem 2.2rem !important;
-    box-shadow: 0 18px 38px rgba(8, 27, 73, 0.20) !important;
-}
-
-.audit-hero *,
-.audit-hero div,
-.audit-hero p {
-    color: white !important;
-}
-
-.audit-hero-title {
-    font-size: clamp(1.8rem, 3vw, 2.65rem) !important;
-    font-weight: 900 !important;
-    letter-spacing: -0.02em;
-}
-
-.audit-hero-subtitle {
-    max-width: 760px;
-    margin: 0.75rem auto 0 auto;
-    color: rgba(255,255,255,0.78) !important;
-}
-
-.audit-mini-card,
-.audit-card,
-.audit-soft-card,
-.audit-kpi-card,
-.audit-alert-card {
-    background: #ffffff !important;
-    border-color: rgba(15, 42, 104, 0.10) !important;
-    box-shadow: 0 10px 26px rgba(15, 42, 104, 0.08) !important;
-}
-
-.audit-grid-3 .audit-mini-card {
-    text-align: center;
-}
-
-.audit-kpi-value,
-.audit-big-number {
-    color: var(--audit-orange) !important;
-}
-
-.audit-step-bubble {
-    background: rgba(255, 90, 31, 0.12) !important;
-    color: var(--audit-orange) !important;
-}
-
-.stButton > button[kind="primary"] {
-    background: var(--audit-orange) !important;
-    border-color: var(--audit-orange) !important;
-    color: white !important;
-}
-
-.stButton > button[kind="primary"]:hover {
-    background: var(--audit-orange-dark) !important;
-    border-color: var(--audit-orange-dark) !important;
-}
-
-.audit-login-shell {
-    background: linear-gradient(135deg, var(--audit-navy-dark), var(--audit-navy)) !important;
-    border: none !important;
-    color: white !important;
-    box-shadow: 0 22px 52px rgba(8, 27, 73, 0.24) !important;
-}
-
-.audit-login-shell *,
-.audit-login-shell div {
-    color: white !important;
-}
-
-.audit-login-mark {
-    background: var(--audit-orange) !important;
-    box-shadow: 0 12px 30px rgba(255, 90, 31, 0.28) !important;
-}
-
-.audit-info-box,
-.audit-note {
-    border-left: 4px solid var(--audit-navy) !important;
-}
-
-[data-testid="stSidebar"] {
-    background: #ffffff;
-    border-right: 1px solid rgba(15, 42, 104, 0.10);
-}
-
-[data-testid="stDataFrame"] {
-    background: white;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-    .main .block-container {
-        padding-left: 1rem;
-        padding-right: 1rem;
-    }
-    .audit-card,
-    .audit-soft-card,
-    .audit-kpi-card,
-    .audit-info-box,
-    .audit-warning-box,
-    .audit-success-box,
-    .audit-alert-card {
-        padding: 0.95rem 1rem;
-    }
-    .audit-nav-items {
-        display: none;
-    }
-    .audit-topbar {
-        margin-top: -1rem;
-    }
-}
-</style>
-""",
-    unsafe_allow_html=True,
-)
-
-# ============================================================
-# 2B. THÈME VISUEL FINAL INTÉGRÉ — V8.5.27 / INTER
-#     Modification purement visuelle : logique métier inchangée
+# 2. CSS — thème unique "Glass Violet" (clair/sombre supprimés,
+#    un seul thème cohérent = plus de conflit de contraste).
+#    Chaque règle définit TOUJOURS le fond ET le texte ensemble.
 # ============================================================
 
 st.markdown(
     r"""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
 /* =========================================================
-   AUDITPREP — UI THEME
-   Palette: Violet #7D4FFE + Lavender #C49FFF + Soft Pink #FFD0E6
-   Typography: Inter
+   0. VARIABLES — une seule source de vérité pour les couleurs
    ========================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 :root {
-    --ap-lime: #7D4FFE;          /* Primary violet */
-    --ap-lime-dark: #6036D6;
-    --ap-lime-deep: #4422A8;
-    --ap-lime-soft: #DCCFFF;
-    --ap-lime-pale: #F0EAFF;
+    --ap-purple:      #7D4FFE;
+    --ap-purple-dark: #6236D8;
+    --ap-purple-deep: #4B315F;
+    --ap-lilac:       #C49FFF;
+    --ap-pink:        #FFD0E6;
 
-    --ap-lime-grey: #C49FFF;
-    --ap-lime-grey-dark: #956FD0;
-    --ap-lime-grey-soft: #E9DCFF;
+    /* Fond général de l'application (sombre, unique, non animé) */
+    --ap-bg: linear-gradient(155deg, #17121C 0%, #1E1526 45%, #241730 100%);
 
-    --ap-blue-grey: #FFD0E6;
-    --ap-blue-grey-dark: #B75F89;
-    --ap-blue-grey-deep: #5A3147;
-    --ap-blue-grey-soft: #FFE0EE;
-    --ap-blue-grey-pale: #FFF0F7;
+    /* Cartes "sombres" (majorité de l'interface) */
+    --ap-panel:        linear-gradient(135deg, #3A2948, #2A1E34);
+    --ap-panel-border: rgba(255,255,255,.14);
 
-    --ap-bg: #EEE9F8;
-    --ap-surface: #F8F4FF;
-    --ap-surface-alt: #F2ECFA;
-    --ap-text: #30243F;
-    --ap-muted: #716580;
-    --ap-border: #D9CCE8;
-    --ap-shadow: 0 10px 30px rgba(76, 48, 112, 0.10);
-    --ap-shadow-hover: 0 14px 34px rgba(76, 48, 112, 0.17);
+    /* Texte sur fond sombre */
+    --ap-text:        #F8F4FC;   /* corps de texte */
+    --ap-text-strong: #FFFFFF;   /* titres */
+    --ap-text-muted:  #D9CFE3;   /* légendes / aide */
+
+    /* Cartes volontairement "claires" (badges de contexte, etc.) */
+    --ap-panel-light:        linear-gradient(135deg, #F8F4FC, #EEE7F5);
+    --ap-panel-light-border: rgba(77,57,92,.22);
+    --ap-text-onlight:       #211827;
+    --ap-text-onlight-muted: #51455C;
+
     --ap-radius: 16px;
+    --ap-shadow: 0 12px 30px rgba(0,0,0,.28);
 }
 
-/* ---------- Global ---------- */
-html, body, [class*="css"], [data-testid="stAppViewContainer"] {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+/* =========================================================
+   1. FOND GÉNÉRAL / TYPOGRAPHIE
+   ========================================================= */
+html, body, [class*="css"], [data-testid="stAppViewContainer"],
+button, input, textarea, select {
+    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
 }
 
-[data-testid="stAppViewContainer"] {
-    background:
-        radial-gradient(circle at 8% 2%, rgba(125, 79, 254, 0.12), transparent 25%),
-        radial-gradient(circle at 96% 8%, rgba(255, 208, 230, 0.32), transparent 28%),
-        var(--ap-bg);
-    color: var(--ap-text);
+html, body, .stApp, [data-testid="stAppViewContainer"] {
+    background: var(--ap-bg) !important;
 }
 
-[data-testid="stAppViewContainer"] > .main {
-    background: transparent;
+header[data-testid="stHeader"] {
+    background: rgba(10,8,12,.25) !important;
 }
+
+[data-testid="stStatusWidget"] { visibility: hidden; }
 
 .main .block-container {
-    max-width: 1420px;
+    max-width: 1400px;
     margin: 0 auto;
-    padding-top: 2.2rem;
+    padding-top: 1.8rem;
     padding-bottom: 3.5rem;
     padding-left: clamp(1rem, 3vw, 3rem);
     padding-right: clamp(1rem, 3vw, 3rem);
 }
 
-/* Smooth arrival without making the interface distracting */
-.main .block-container > div {
-    animation: apFadeUp 0.38s ease both;
-}
+html { scroll-behavior: smooth !important; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto !important; } }
 
-@keyframes apFadeUp {
-    from { opacity: 0; transform: translateY(5px); }
-    to   { opacity: 1; transform: translateY(0); }
-}
-
-/* ---------- Typography hierarchy ---------- */
-h1, h2, h3, h4, h5, h6 {
-    font-family: 'Inter', system-ui, sans-serif !important;
-    letter-spacing: -0.025em;
-    color: var(--ap-blue-grey-deep);
-    text-wrap: balance;
-}
-
-h1 {
-    font-size: clamp(2rem, 3vw, 2.9rem) !important;
-    line-height: 1.08 !important;
-    font-weight: 800 !important;
-    text-align: center;
-    margin: 0.25rem auto 1.65rem !important;
-    max-width: 1050px;
-    position: relative;
-}
-
-h1::after {
-    content: "";
-    display: block;
-    width: 78px;
-    height: 5px;
-    margin: 0.8rem auto 0;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--ap-lime), var(--ap-blue-grey));
-}
-
-h2 {
-    font-size: clamp(1.45rem, 2vw, 1.95rem) !important;
-    line-height: 1.2 !important;
-    font-weight: 750 !important;
-    margin-top: 2.2rem !important;
-    margin-bottom: 1rem !important;
-    padding-left: 0.85rem;
-    border-left: 5px solid var(--ap-lime);
-}
-
-h3 {
-    font-size: clamp(1.08rem, 1.45vw, 1.3rem) !important;
-    line-height: 1.35 !important;
-    font-weight: 700 !important;
-    color: var(--ap-blue-grey-dark) !important;
-    margin-top: 1.5rem !important;
-    margin-bottom: 0.75rem !important;
-}
-
-p, li, label, .stMarkdown, [data-testid="stText"] {
-    color: var(--ap-text);
-    line-height: 1.65;
-}
-
-small, .caption, [data-testid="stCaptionContainer"] {
-    color: var(--ap-muted) !important;
-}
-
-/* ---------- Sidebar ---------- */
-[data-testid="stSidebar"] {
-    background:
-        linear-gradient(180deg, rgba(196, 214, 0, 0.08), rgba(127, 149, 163, 0.08)),
-        #F8F4FF;
-    border-right: 1px solid var(--ap-border);
-}
-
-[data-testid="stSidebar"] .block-container {
-    padding-top: 1.7rem;
-}
-
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 {
-    text-align: left !important;
-}
-
-[data-testid="stSidebar"] h1::after {
-    margin-left: 0;
-}
-
-/* ---------- Generic surfaces / cards ---------- */
-[data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stForm"],
-[data-testid="stExpander"] {
-    border-radius: var(--ap-radius) !important;
-}
-
-[data-testid="stForm"] {
-    background: rgba(255,255,255,0.92);
-    border: 1px solid var(--ap-border) !important;
-    box-shadow: var(--ap-shadow);
-    padding: 1.15rem;
-}
-
-[data-testid="stExpander"] details {
-    border: 1px solid var(--ap-border) !important;
-    border-radius: 14px !important;
-    overflow: hidden;
-    background: rgba(255,255,255,0.85);
-}
-
-[data-testid="stExpander"] summary {
-    font-weight: 650;
-    color: var(--ap-blue-grey-deep);
-}
-
-/* ---------- Metrics ---------- */
-[data-testid="stMetric"] {
-    background: linear-gradient(145deg, #FFFFFF, var(--ap-blue-grey-pale));
-    border: 1px solid var(--ap-border);
-    border-top: 4px solid var(--ap-lime);
-    border-radius: var(--ap-radius);
-    padding: 1.05rem 1.15rem;
-    box-shadow: var(--ap-shadow);
-    min-height: 118px;
-    transition: transform .22s ease, box-shadow .22s ease, border-color .22s ease;
-}
-
-[data-testid="stMetric"]:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--ap-shadow-hover);
-    border-color: rgba(196,214,0,.55);
-}
-
-[data-testid="stMetricLabel"] {
-    color: var(--ap-muted) !important;
-    font-weight: 600;
-}
-
-[data-testid="stMetricValue"] {
-    color: var(--ap-blue-grey-deep) !important;
-    font-weight: 800;
-    letter-spacing: -0.035em;
-}
-
-/* ---------- Buttons ---------- */
-.stButton > button,
-.stDownloadButton > button,
-[data-testid="stFormSubmitButton"] > button {
-    position: relative;
-    overflow: hidden;
-    min-height: 44px;
-    border-radius: 12px !important;
-    border: 1px solid var(--ap-lime-dark) !important;
-    background: linear-gradient(135deg, var(--ap-lime) 0%, #C49FFF 100%) !important;
-    color: #FFFFFF !important;
-    font-family: 'Inter', sans-serif !important;
-    font-weight: 750 !important;
-    letter-spacing: -0.01em;
-    box-shadow: 0 6px 16px rgba(138, 150, 0, .16);
-    transition:
-        transform .18s cubic-bezier(.2,.8,.2,1),
-        box-shadow .18s ease,
-        filter .18s ease,
-        border-color .18s ease;
-}
-
-.stButton > button::before,
-.stDownloadButton > button::before,
-[data-testid="stFormSubmitButton"] > button::before {
-    content: "";
-    position: absolute;
-    top: -100%;
-    left: -35%;
-    width: 32%;
-    height: 300%;
-    transform: rotate(24deg);
-    background: rgba(255,255,255,.36);
-    transition: left .5s ease;
-    pointer-events: none;
-}
-
-.stButton > button:hover,
-.stDownloadButton > button:hover,
-[data-testid="stFormSubmitButton"] > button:hover {
-    transform: translateY(-2px) scale(1.012);
-    box-shadow: 0 10px 24px rgba(67, 88, 102, .20);
-    filter: saturate(1.05) brightness(1.02);
-    border-color: var(--ap-blue-grey-dark) !important;
-}
-
-.stButton > button:hover::before,
-.stDownloadButton > button:hover::before,
-[data-testid="stFormSubmitButton"] > button:hover::before {
-    left: 120%;
-}
-
-.stButton > button:active,
-.stDownloadButton > button:active,
-[data-testid="stFormSubmitButton"] > button:active {
-    transform: translateY(0) scale(.985);
-    box-shadow: 0 3px 9px rgba(38,57,67,.14);
-}
-
-.stButton > button:focus-visible,
-.stDownloadButton > button:focus-visible,
-[data-testid="stFormSubmitButton"] > button:focus-visible {
-    outline: 3px solid rgba(127,149,163,.28) !important;
-    outline-offset: 2px;
-}
-
-/* Secondary buttons stay cool gray-blue when Streamlit marks them secondary */
-.stButton > button[kind="secondary"],
-.stDownloadButton > button[kind="secondary"] {
-    background: linear-gradient(135deg, #FFFFFF, var(--ap-blue-grey-pale)) !important;
-    color: var(--ap-blue-grey-deep) !important;
-    border-color: #E3D4F2 !important;
-    box-shadow: 0 5px 14px rgba(67,88,102,.10);
-}
-
-/* ---------- Inputs ---------- */
-[data-baseweb="input"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="textarea"] > div,
-.stNumberInput > div > div,
-.stDateInput > div > div {
-    border-radius: 11px !important;
-}
-
-[data-baseweb="input"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="textarea"] > div {
-    border-color: #E0D3EC !important;
-    background: rgba(255,255,255,.96) !important;
-    transition: border-color .18s ease, box-shadow .18s ease;
-}
-
-[data-baseweb="input"] > div:focus-within,
-[data-baseweb="select"] > div:focus-within,
-[data-baseweb="textarea"] > div:focus-within {
-    border-color: var(--ap-blue-grey) !important;
-    box-shadow: 0 0 0 3px rgba(196,214,0,.14) !important;
-}
-
-/* ---------- Tabs ---------- */
-[data-baseweb="tab-list"] {
-    gap: .35rem;
-    background: rgba(255,255,255,.75);
-    border: 1px solid var(--ap-border);
-    border-radius: 13px;
-    padding: .3rem;
-}
-
-button[data-baseweb="tab"] {
-    border-radius: 9px !important;
-    color: var(--ap-muted) !important;
-    font-weight: 650 !important;
-    padding-left: 1rem !important;
-    padding-right: 1rem !important;
-}
-
-button[data-baseweb="tab"][aria-selected="true"] {
-    background: var(--ap-lime-pale) !important;
-    color: var(--ap-blue-grey-deep) !important;
-}
-
-[data-baseweb="tab-highlight"] {
-    background-color: var(--ap-lime) !important;
-}
-
-/* ---------- Radio / checkbox ---------- */
-[data-testid="stCheckbox"] label,
-[data-testid="stRadio"] label {
-    font-weight: 520;
-}
-
-/* ---------- Alerts ---------- */
-[data-testid="stAlert"] {
-    border-radius: 13px !important;
-    border: 1px solid var(--ap-border) !important;
-    box-shadow: 0 4px 14px rgba(38,57,67,.05);
-}
-
-/* ---------- Dataframes / tables ---------- */
-[data-testid="stDataFrame"],
-[data-testid="stTable"] {
-    border: 1px solid var(--ap-border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: white;
-    box-shadow: 0 7px 22px rgba(76,48,112,.08);
-}
-
-/* ---------- Progress ---------- */
-[data-testid="stProgress"] > div > div > div > div {
-    background: linear-gradient(90deg, var(--ap-lime), var(--ap-blue-grey)) !important;
-}
-
-/* ---------- Dividers ---------- */
-hr {
-    border: 0 !important;
-    height: 1px !important;
-    background: linear-gradient(90deg, transparent, #E2D4EE, transparent) !important;
-    margin: 1.8rem 0 !important;
-}
-
-/* ---------- Links ---------- */
-a {
-    color: var(--ap-blue-grey-dark) !important;
-    text-decoration-color: rgba(196,214,0,.8) !important;
-    text-underline-offset: 3px;
-}
-
-a:hover {
-    color: var(--ap-lime-dark) !important;
-}
-
-/* ---------- Custom utility classes for st.markdown HTML ---------- */
-.ap-center {
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.ap-hero {
-    max-width: 1040px;
-    margin: 0 auto 1.4rem;
-    padding: 1.35rem 1.5rem;
-    text-align: center;
-    background: linear-gradient(135deg, rgba(255,255,255,.95), rgba(242,246,248,.95));
-    border: 1px solid var(--ap-border);
-    border-radius: 20px;
-    box-shadow: var(--ap-shadow);
-}
-
-.ap-card {
-    background: rgba(255,255,255,.94);
-    border: 1px solid var(--ap-border);
-    border-radius: var(--ap-radius);
-    padding: 1.15rem 1.2rem;
-    box-shadow: var(--ap-shadow);
-    height: 100%;
-    transition: transform .22s ease, box-shadow .22s ease;
-}
-
-.ap-card:hover {
-    transform: translateY(-3px);
-    box-shadow: var(--ap-shadow-hover);
-}
-
-.ap-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: .35rem;
-    padding: .38rem .72rem;
-    border-radius: 999px;
-    background: var(--ap-lime-pale);
-    color: var(--ap-blue-grey-deep);
-    border: 1px solid rgba(196,214,0,.42);
-    font-size: .82rem;
-    font-weight: 700;
-}
-
-.ap-subtitle {
-    max-width: 850px;
-    margin: -.65rem auto 1.5rem;
-    text-align: center;
-    color: var(--ap-muted) !important;
-    font-size: 1rem;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 768px) {
-    .main .block-container {
-        padding-top: 1.35rem;
-        padding-left: .9rem;
-        padding-right: .9rem;
-    }
-
-    h1 {
-        font-size: 2rem !important;
-    }
-
-    h2 {
-        font-size: 1.35rem !important;
-    }
-
-    [data-testid="stMetric"] {
-        min-height: 104px;
-    }
-}
-
-/* Accessibility: respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
-
-
-/* =========================================================
-   AUDITPREP V8.5 — FINAL VISUAL OVERRIDES
-   Existing business/layout classes are preserved.
-   Palette: #7D4FFE / #C49FFF / #FFD0E6
-   ========================================================= */
-:root {
-    --audit-red: #7D4FFE;
-    --audit-red-dark: #6036D6;
-    --audit-navy: #B75F89;
-    --audit-navy-dark: #5A3147;
-    --audit-orange: #7D4FFE;
-    --audit-orange-dark: #6036D6;
-    --audit-page: #EEE9F8;
-}
-
-/* Main page alignment */
-.main .block-container {
-    width: calc(100% - 28px) !important;
-    max-width: 1600px !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    padding-left: clamp(1rem, 1.8vw, 2rem) !important;
-    padding-right: clamp(1rem, 1.8vw, 2rem) !important;
-    padding-top: 1.35rem !important;
-}
-
-/* Streamlit headings: deliberate hierarchy */
-.main h1 {
-    text-align: center !important;
-    max-width: 1000px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-}
-.main h2 {
-    text-align: center !important;
-    padding-left: 0 !important;
-    border-left: 0 !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    color: var(--ap-blue-grey-deep) !important;
-}
-.main h2::after {
-    content: "";
-    display: block;
-    width: 62px;
-    height: 4px;
-    margin: .55rem auto 0;
-    border-radius: 999px;
-    background: linear-gradient(90deg, var(--ap-lime), var(--ap-blue-grey));
-}
-.main h3 {
-    color: var(--ap-blue-grey-dark) !important;
-}
-.audit-mini-card h3,
-.audit-card h3,
-.audit-hero-title,
-.audit-login-title {
-    text-align: center !important;
-}
-
-/* Keep sidebar headings practical rather than centered */
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 {
-    text-align: left !important;
-    border-left: 0 !important;
-    padding-left: 0 !important;
-}
-[data-testid="stSidebar"] h2::after { margin-left: 0 !important; }
-
-/* Top navigation */
-.audit-topbar {
-    width: 100% !important;
-    max-width: none !important;
-    min-height: 76px !important;
-    margin: -1.35rem auto 1.9rem auto !important;
-    padding: 0.88rem clamp(1.25rem, 2.4vw, 2.25rem) !important;
-    background: linear-gradient(125deg, var(--ap-blue-grey-deep), var(--ap-blue-grey-dark)) !important;
-    border-bottom: 3px solid var(--ap-lime) !important;
-    box-shadow: 0 14px 32px rgba(76,48,112,.18) !important;
-}
-.audit-brand-mark {
-    background: var(--ap-lime) !important;
-    color: #FFFFFF !important;
-    box-shadow: 0 5px 16px rgba(125,79,254,.24);
-}
-.audit-brand-name {
-    background: rgba(255,255,255,.10) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255,255,255,.15);
-}
-.audit-nav-items { color: rgba(255,255,255,.82) !important; }
-.audit-nav-active {
-    color: var(--ap-lime) !important;
-    position: relative;
-}
-
-/* Hero / central focus */
-.audit-hero {
-    max-width: 1120px;
-    margin: 0 auto 1.5rem !important;
-    background:
-        radial-gradient(circle at 15% 15%, rgba(125,79,254,.18), transparent 28%),
-        linear-gradient(135deg, var(--ap-blue-grey-deep), #7D4FFE) !important;
-    border: 1px solid rgba(196,159,255,.34) !important;
-    border-radius: 22px !important;
-    padding: clamp(2rem, 5vw, 3.2rem) clamp(1.2rem, 4vw, 2.6rem) !important;
-    box-shadow: 0 18px 44px rgba(76,48,112,.18) !important;
-}
-.audit-hero-title {
-    max-width: 900px;
-    margin: 0 auto !important;
-    color: #fff !important;
-    line-height: 1.12 !important;
-}
-.audit-hero-title::after {
-    content: "";
-    display: block;
-    width: 74px;
-    height: 5px;
-    margin: .9rem auto .2rem;
-    border-radius: 999px;
-    background: var(--ap-lime);
-}
-.audit-hero-subtitle {
-    max-width: 790px !important;
-    margin: .8rem auto 0 !important;
-    text-align: center !important;
-    color: rgba(255,255,255,.82) !important;
-    line-height: 1.65;
-}
-
-/* Existing dashboard cards re-skinned */
-.audit-card,
-.audit-soft-card,
-.audit-kpi-card,
-.audit-mini-card,
-.audit-alert-card {
-    background: rgba(248,244,255,.96) !important;
-    border: 1px solid var(--ap-border) !important;
-    box-shadow: var(--ap-shadow) !important;
+/* Texte "brut" posé directement sur le fond de page */
+.main p, .main li, .main label, .main small, .main span, .main strong, .main em,
+[data-testid="stMarkdownContainer"], [data-testid="stMarkdownContainer"] p,
+[data-testid="stMarkdownContainer"] li, [data-testid="stMarkdownContainer"] span,
+[data-testid="stText"], [data-testid="stCaptionContainer"] {
     color: var(--ap-text) !important;
-}
-.audit-card,
-.audit-mini-card {
-    transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
-}
-.audit-card:hover,
-.audit-mini-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(125,79,254,.48) !important;
-    box-shadow: var(--ap-shadow-hover) !important;
-}
-.audit-grid-3,
-.audit-grid-4 {
-    width: 100%;
-    max-width: 1160px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    align-items: stretch;
-}
-.audit-grid-3 .audit-mini-card,
-.audit-grid-4 .audit-mini-card { text-align: center !important; }
-.audit-kpi-value,
-.audit-big-number {
-    color: var(--ap-blue-grey-deep) !important;
-}
-.audit-kpi-label {
-    color: var(--ap-muted) !important;
-}
-.audit-step-bubble {
-    background: var(--ap-lime-soft) !important;
-    color: var(--ap-lime-deep) !important;
-    border: 1px solid rgba(125,79,254,.42);
-    box-shadow: inset 0 0 0 3px rgba(255,255,255,.50);
+    opacity: 1 !important;
 }
 
-/* Login */
-.audit-login-shell {
-    background:
-        radial-gradient(circle at 50% 0%, rgba(125,79,254,.18), transparent 34%),
-        linear-gradient(145deg, var(--ap-blue-grey-deep), var(--ap-blue-grey-dark)) !important;
-    border: 1px solid rgba(196,159,255,.34) !important;
-    box-shadow: 0 24px 60px rgba(76,48,112,.24) !important;
-}
-.audit-login-mark {
-    background: var(--ap-lime) !important;
-    color: #FFFFFF !important;
-    box-shadow: 0 10px 28px rgba(125,79,254,.25) !important;
-}
-
-/* Sidebar and user chip */
-[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #F8F4FF 0%, #EEE7F7 100%) !important;
-    border-right: 1px solid var(--ap-border) !important;
-}
-.audit-user-chip {
-    background: #F8F4FF !important;
-    border: 1px solid var(--ap-border) !important;
-    border-left: 4px solid var(--ap-lime) !important;
-    box-shadow: 0 5px 16px rgba(76,48,112,.08);
-}
-
-/* Primary actions use the V8.5.27 violet palette, overriding legacy orange/red selectors */
-.stButton > button[kind="primary"],
-.stDownloadButton > button[kind="primary"],
-[data-testid="stFormSubmitButton"] > button[kind="primary"] {
-    background: linear-gradient(135deg, var(--ap-lime), #C49FFF) !important;
-    border-color: var(--ap-lime-dark) !important;
-    color: #FFFFFF !important;
-}
-.stButton > button[kind="primary"]:hover,
-.stDownloadButton > button[kind="primary"]:hover,
-[data-testid="stFormSubmitButton"] > button[kind="primary"]:hover {
-    background: linear-gradient(135deg, #956FD0, var(--ap-lime)) !important;
-    border-color: var(--ap-blue-grey-dark) !important;
-    color: #FFFFFF !important;
-}
-
-/* Tints/shades on supporting information blocks */
-.audit-info-box,
-.audit-note {
-    background: var(--ap-blue-grey-pale) !important;
-    border-color: #E5D4EE !important;
-    border-left: 4px solid var(--ap-blue-grey) !important;
-}
-.audit-warning {
-    background: #FFF0F7 !important;
-    border-color: #E7C6D8 !important;
-    border-left: 4px solid var(--ap-lime-dark) !important;
-}
-.audit-success {
-    background: #F0EAFF !important;
-    border-color: #DCCFFF !important;
-    border-left: 4px solid var(--ap-lime-grey-dark) !important;
-}
-
-/* Tabs: remove previous orange active state */
-button[data-baseweb="tab"][aria-selected="true"] {
-    color: var(--ap-blue-grey-deep) !important;
-    border-bottom-color: var(--ap-lime) !important;
-}
-
-/* Center CTA rows and common form containers */
-[data-testid="stForm"] {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Responsive central layout */
-@media (max-width: 980px) {
-    .audit-grid-4 { grid-template-columns: repeat(2, minmax(0,1fr)) !important; }
-}
-@media (max-width: 760px) {
-    .audit-grid-3,
-    .audit-grid-4 { grid-template-columns: 1fr !important; }
-    .audit-topbar { border-radius: 0 0 14px 14px !important; }
-    .audit-hero { border-radius: 18px !important; }
-    .main h2 { font-size: 1.35rem !important; }
-}
-
-
-/* =========================================================
-   V8.5.27 — HEADER LARGE ÉCRAN
-   ========================================================= */
-.audit-brand {
-    gap: .82rem !important;
-}
-
-.audit-brand-mark {
-    width: 42px !important;
-    height: 42px !important;
-    font-size: .88rem !important;
-    border-radius: 11px !important;
-}
-
-.audit-brand-name {
-    font-size: .92rem !important;
-    padding: .42rem .72rem !important;
-}
-
-.audit-nav-items {
-    gap: clamp(.95rem, 1.45vw, 1.45rem) !important;
-    font-size: clamp(.82rem, .82vw, .94rem) !important;
-    white-space: nowrap !important;
-}
-
-/* On large displays the header almost reaches both sides of the content area. */
-@media (min-width: 1200px) {
-    .audit-topbar {
-        width: 100% !important;
-        max-width: none !important;
-    }
-}
-
-/* Keep the header clean on tablets/mobile. */
-@media (max-width: 900px) {
-    .main .block-container {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding-left: .9rem !important;
-        padding-right: .9rem !important;
-    }
-
-    .audit-topbar {
-        min-height: 66px !important;
-        padding: .72rem 1rem !important;
-    }
-}
-
-
-/* =========================================================
-   V8.5.27 — GLASS DARK FIGMA-INSPIRED THEME
-   Visual-only override
-   Source inspiration: dark purple figma glass effect reference
-   ========================================================= */
-
-:root {
-    --gf-bg: #181319;
-    --gf-bg-2: #21162A;
-    --gf-bg-3: #2B1840;
-    --gf-panel: rgba(255,255,255,0.06);
-    --gf-panel-2: rgba(255,255,255,0.08);
-    --gf-panel-3: rgba(255,255,255,0.10);
-    --gf-border: rgba(255,255,255,0.14);
-    --gf-border-soft: rgba(255,255,255,0.08);
-
-    --gf-text: #FFFFFF;
-    --gf-text-soft: #E9E4EE;
-    --gf-muted: #C9C0D3;
-    --gf-subtle: #AFA5BC;
-
-    --gf-purple-1: #5F2EFF;
-    --gf-purple-2: #7E46FF;
-    --gf-purple-3: #9A61FF;
-    --gf-pink: #C28BFF;
-    --gf-blue-glow: #45C7FF;
-
-    --gf-shadow-xl: 0 24px 70px rgba(0,0,0,.35);
-    --gf-shadow-lg: 0 18px 48px rgba(0,0,0,.28);
-    --gf-shadow-md: 0 12px 30px rgba(0,0,0,.24);
-    --gf-glass-blur: blur(18px) saturate(140%);
-}
-
-/* -------- GLOBAL TYPO -------- */
-html,
-body,
-.stApp,
-[data-testid="stAppViewContainer"],
-[data-testid="stSidebar"],
-button,
-input,
-textarea,
-select,
-.main,
-.main * {
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-}
-
-html, body, .stApp,
-[data-testid="stAppViewContainer"] {
-    background-color: var(--gf-bg) !important;
-}
-
-/* Main page dark purple animated background */
-[data-testid="stAppViewContainer"] {
-    background:
-        radial-gradient(circle at 18% 18%, rgba(126,70,255,.23), transparent 28%),
-        radial-gradient(circle at 85% 12%, rgba(194,139,255,.12), transparent 24%),
-        radial-gradient(circle at 78% 78%, rgba(95,46,255,.20), transparent 30%),
-        radial-gradient(circle at 38% 72%, rgba(69,199,255,.07), transparent 22%),
-        linear-gradient(135deg, #181319 0%, #1D1421 24%, #23152C 44%, #261637 62%, #22152F 78%, #181319 100%) !important;
-    background-size: 140% 140%, 145% 145%, 150% 150%, 145% 145%, 100% 100% !important;
-    animation: gfAmbientDrift 22s ease-in-out infinite alternate !important;
-}
-
-/* Top white host header strip if present */
-header[data-testid="stHeader"] {
-    background: rgba(10, 8, 12, 0.22) !important;
-    backdrop-filter: blur(10px) !important;
-}
-
-@keyframes gfAmbientDrift {
-    0% {
-        background-position: 0% 0%, 100% 0%, 86% 100%, 30% 80%, 0 0;
-    }
-    50% {
-        background-position: 8% 10%, 92% 8%, 76% 88%, 38% 73%, 0 0;
-    }
-    100% {
-        background-position: 16% 6%, 86% 16%, 68% 82%, 45% 68%, 0 0;
-    }
-}
-
-/* -------- MAIN CONTAINER -------- */
-.main .block-container {
-    background: transparent !important;
-}
-
-/* -------- TEXT -------- */
-body,
-.main,
-.main p,
-.main li,
-.main label,
-.main div,
-.main span,
-.main small,
-.main strong,
-.main em,
-.main code,
-[data-testid="stMarkdownContainer"],
-[data-testid="stMarkdownContainer"] *,
-[data-testid="stCaptionContainer"],
-[data-testid="stText"],
-[data-testid="stWidgetLabel"],
-[data-testid="stWidgetLabel"] * {
-    color: var(--gf-text-soft) !important;
-}
-
-.main h1,
-.main h2,
-.main h3,
-.main h4,
-.main h5,
-.main h6,
-[data-testid="stMarkdownContainer"] h1,
-[data-testid="stMarkdownContainer"] h2,
+.main h1, .main h2, .main h3, .main h4, .main h5, .main h6,
+[data-testid="stMarkdownContainer"] h1, [data-testid="stMarkdownContainer"] h2,
 [data-testid="stMarkdownContainer"] h3 {
-    color: var(--gf-text) !important;
+    color: var(--ap-text-strong) !important;
     letter-spacing: -0.02em !important;
 }
 
-/* Links */
-a,
-.main a,
-[data-testid="stMarkdownContainer"] a {
-    color: #E8D8FF !important;
+h1 {
+    font-size: clamp(1.9rem, 3vw, 2.7rem) !important;
+    font-weight: 850 !important;
+    line-height: 1.12 !important;
+    text-align: center;
+    margin: .25rem auto 1.5rem !important;
+    max-width: 1050px;
 }
-a:hover,
-.main a:hover {
-    color: #FFFFFF !important;
+h1::after {
+    content: "";
+    display: block;
+    width: 78px; height: 5px;
+    margin: .8rem auto 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--ap-purple), var(--ap-lilac));
+}
+h2 {
+    font-size: clamp(1.4rem, 2vw, 1.9rem) !important;
+    font-weight: 750 !important;
+    margin-top: 2rem !important;
+    margin-bottom: .9rem !important;
+    padding-left: .8rem;
+    border-left: 5px solid var(--ap-purple);
+}
+h3 { font-weight: 700 !important; margin-top: 1.3rem !important; }
+
+.stCaption, [data-testid="stCaptionContainer"], small {
+    color: var(--ap-text-muted) !important;
+    opacity: 1 !important;
 }
 
-/* -------- SIDEBAR -------- */
-[data-testid="stSidebar"] {
-    background:
-        linear-gradient(180deg, rgba(28,21,32,.90), rgba(20,16,24,.96)) !important;
+a, .main a { color: var(--ap-lilac) !important; text-underline-offset: 3px; }
+a:hover, .main a:hover { color: #FFFFFF !important; }
+
+hr {
+    border: 0 !important;
+    height: 1px !important;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent) !important;
+    margin: 1.8rem 0 !important;
+}
+
+/* =========================================================
+   2. BARRE LATÉRALE
+   ========================================================= */
+[data-testid="stSidebar"], [data-testid="stSidebarContent"] {
+    background: linear-gradient(180deg, #1D1622, #151118) !important;
     border-right: 1px solid rgba(255,255,255,.08) !important;
-    box-shadow: 8px 0 24px rgba(0,0,0,.22) !important;
 }
 
-[data-testid="stSidebar"] .block-container {
-    background: transparent !important;
+[data-testid="stSidebar"] * {
+    color: var(--ap-text) !important;
+    opacity: 1 !important;
+}
+[data-testid="stSidebar"] h1, [data-testid="stSidebar"] h2, [data-testid="stSidebar"] h3,
+[data-testid="stSidebar"] strong, [data-testid="stSidebar"] b {
+    color: var(--ap-text-strong) !important;
+}
+[data-testid="stSidebar"] [data-testid="stCaptionContainer"] {
+    color: var(--ap-text-muted) !important;
+}
+[data-testid="stSidebar"] hr { border-color: rgba(255,255,255,.10) !important; }
+
+/* Conteneurs bordés natifs dans la sidebar : panneau sombre cohérent */
+[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.10) !important;
+    border-radius: var(--ap-radius) !important;
 }
 
-[data-testid="stSidebar"] *,
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] span,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] div {
-    color: var(--gf-text-soft) !important;
-}
-
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3 {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stSidebar"] hr {
-    border-color: rgba(255,255,255,.08) !important;
-}
-
-.audit-version-block {
-    background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(255,255,255,.03)) !important;
-    border: 1px solid rgba(255,255,255,.12) !important;
-    color: var(--gf-muted) !important;
-    box-shadow: var(--gf-shadow-md) !important;
-    backdrop-filter: var(--gf-glass-blur) !important;
-    -webkit-backdrop-filter: var(--gf-glass-blur) !important;
-}
-.audit-version-block * {
-    color: var(--gf-muted) !important;
-}
-.audit-version-block b,
-.audit-version-title {
-    color: #FFFFFF !important;
-}
-
-/* -------- GLASS PANELS / CARDS -------- */
-.audit-topbar,
-.audit-hero,
-.ap-hero,
-.ap-card,
-.audit-note,
-.audit-mini-card,
-[data-testid="stMetric"],
-[data-testid="stForm"],
-[data-testid="stExpander"] details,
-[data-testid="stDataFrame"],
-[data-testid="stTable"],
-[data-baseweb="tab-list"],
-[data-baseweb="input"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="textarea"] > div,
-div[data-baseweb="notification"],
-[data-testid="stAlert"] {
-    background:
-        linear-gradient(135deg, rgba(255,255,255,.09), rgba(255,255,255,.035)) !important;
-    border: 1px solid rgba(255,255,255,.12) !important;
-    box-shadow: var(--gf-shadow-lg) !important;
-    backdrop-filter: var(--gf-glass-blur) !important;
-    -webkit-backdrop-filter: var(--gf-glass-blur) !important;
-}
-
-/* -------- TOPBAR -------- */
+/* =========================================================
+   3. TOPBAR / MARQUE / NAVIGATION
+   ========================================================= */
 .audit-topbar {
-    position: relative !important;
-    overflow: hidden !important;
-    background:
-        linear-gradient(135deg, rgba(65,31,96,.78), rgba(47,27,83,.72)) !important;
+    position: relative;
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .72rem 1.25rem;
+    margin: -1.25rem 0 1.6rem 0;
+    border-radius: 0 0 18px 18px;
+    background: linear-gradient(135deg, #3A2154, #2A1840) !important;
     border-bottom: 1px solid rgba(126,70,255,.38) !important;
-    box-shadow:
-        0 18px 42px rgba(0,0,0,.24),
-        0 2px 0 rgba(126,70,255,.80),
-        inset 0 1px 0 rgba(255,255,255,.12) !important;
+    box-shadow: var(--ap-shadow);
 }
+.audit-topbar, .audit-topbar * { color: var(--ap-text-strong) !important; opacity: 1 !important; }
 
-.audit-topbar::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background:
-        radial-gradient(circle at 16% 20%, rgba(255,255,255,.10), transparent 18%),
-        radial-gradient(circle at 82% 18%, rgba(126,70,255,.25), transparent 24%),
-        linear-gradient(90deg, rgba(255,255,255,.04), transparent 25%, transparent 75%, rgba(255,255,255,.03));
-    pointer-events: none !important;
-}
+.audit-brand { display: flex; align-items: center; gap: .72rem; font-weight: 850; }
 
 .audit-brand-mark {
-    background: linear-gradient(135deg, var(--gf-purple-2), var(--gf-purple-3)) !important;
+    width: 38px; height: 38px;
+    display: inline-grid; place-items: center;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--ap-purple), var(--ap-lilac)) !important;
     color: #FFFFFF !important;
-    box-shadow: 0 10px 22px rgba(126,70,255,.28) !important;
+    font-size: .95rem;
 }
 
 .audit-brand-name {
-    background: rgba(255,255,255,.08) !important;
+    padding: .35rem .65rem;
+    border-radius: 7px;
+    background: rgba(255,255,255,.10) !important;
+    border: 1px solid rgba(255,255,255,.14);
     color: #FFFFFF !important;
-    border: 1px solid rgba(255,255,255,.13) !important;
+    font-size: .88rem;
 }
 
-.audit-nav-items,
-.audit-nav-items a,
-.audit-nav-items span {
-    color: rgba(255,255,255,.90) !important;
+.audit-nav-items { display: flex; align-items: center; gap: 1.15rem; font-size: .86rem; }
+
+.audit-nav-link {
+    display: inline-flex; align-items: center; justify-content: center;
+    position: relative;
+    text-decoration: none !important;
+    color: rgba(255,255,255,.82) !important;
+    font-weight: 650;
+    white-space: nowrap;
+    padding: .42rem .18rem;
+    transition: color .18s ease, transform .18s ease;
 }
-.audit-nav-items a:hover,
-.audit-nav-items .active {
-    color: #F3E9FF !important;
-    text-shadow: 0 0 12px rgba(194,139,255,.20) !important;
+.audit-nav-link:visited { color: rgba(255,255,255,.82) !important; }
+.audit-nav-link:hover, .audit-nav-link.audit-nav-active {
+    color: #FFFFFF !important;
+    font-weight: 800;
+}
+.audit-nav-link::after {
+    content: "";
+    position: absolute; left: 50%; bottom: .05rem;
+    width: 0; height: 2px;
+    border-radius: 999px;
+    background: var(--ap-lilac);
+    transform: translateX(-50%);
+    transition: width .18s ease;
+}
+.audit-nav-link:hover::after, .audit-nav-link.audit-nav-active::after { width: 72%; }
+
+.audit-nav-user { color: rgba(255,255,255,.72) !important; font-weight: 550; white-space: nowrap; }
+
+.audit-anchor {
+    position: relative; display: block; width: 1px; height: 1px;
+    margin-top: -18px; padding-top: 18px; visibility: hidden;
 }
 
-/* -------- HERO -------- */
-.audit-hero,
-.ap-hero {
-    position: relative !important;
-    overflow: hidden !important;
-    background:
-        linear-gradient(135deg, rgba(22,14,28,.88) 0%, rgba(40,20,67,.88) 56%, rgba(52,24,88,.85) 100%) !important;
+/* =========================================================
+   4. HERO
+   ========================================================= */
+.audit-hero, .ap-hero {
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+    padding: 2.6rem 2.2rem;
+    border-radius: 22px;
+    background: linear-gradient(135deg, #241633 0%, #33195C 60%, #3A1E66 100%) !important;
     border: 1px solid rgba(255,255,255,.10) !important;
-    box-shadow:
-        0 28px 64px rgba(0,0,0,.34),
-        inset 0 1px 0 rgba(255,255,255,.11) !important;
+    box-shadow: 0 24px 56px rgba(0,0,0,.34);
+    margin-bottom: 1.2rem;
 }
-
-.audit-hero::before,
-.ap-hero::before {
-    content: "" !important;
-    position: absolute !important;
-    inset: 0 !important;
-    background:
-        radial-gradient(circle at 14% 18%, rgba(126,70,255,.18), transparent 22%),
-        radial-gradient(circle at 84% 22%, rgba(255,255,255,.06), transparent 18%),
-        radial-gradient(circle at 74% 76%, rgba(95,46,255,.18), transparent 24%);
-    pointer-events: none !important;
-}
-
-.audit-hero h1,
-.audit-hero h2,
-.ap-hero h1,
-.ap-hero h2 {
+.audit-hero *, .ap-hero * { color: var(--ap-text) !important; opacity: 1 !important; }
+.audit-hero h1, .audit-hero h2, .ap-hero h1, .ap-hero h2 {
     color: #FFFFFF !important;
     font-weight: 860 !important;
-    letter-spacing: -0.03em !important;
 }
-
-.audit-hero p,
-.audit-hero .stMarkdown,
-.ap-hero p,
-.ap-hero .stMarkdown {
-    color: rgba(255,255,255,.92) !important;
-}
-
-.audit-hero h1::after,
-.audit-hero h2::after,
-.ap-hero h1::after,
-.ap-hero h2::after {
-    content: "" !important;
-    display: block !important;
-    width: 106px !important;
-    height: 4px !important;
-    margin: .9rem auto 0 auto !important;
-    border-radius: 999px !important;
-    background: linear-gradient(90deg, rgba(255,255,255,.12), var(--gf-purple-3), rgba(255,255,255,.12)) !important;
-}
-
-/* -------- MINI CARDS / NOTES / STEPS -------- */
-.audit-mini-card,
-.audit-note,
-.ap-card {
-    color: var(--gf-text-soft) !important;
-}
-.audit-mini-card h3,
-.audit-note b,
-.audit-step-bubble {
+.audit-hero p, .ap-hero p { color: rgba(255,255,255,.90) !important; }
+.audit-hero-title {
+    font-size: clamp(1.8rem, 3vw, 2.65rem) !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.02em;
     color: #FFFFFF !important;
 }
-
-.audit-step-bubble {
-    background: linear-gradient(135deg, var(--gf-purple-2), var(--gf-purple-3)) !important;
-    box-shadow: 0 8px 22px rgba(126,70,255,.24) !important;
+.audit-hero-subtitle {
+    max-width: 760px;
+    margin: .75rem auto 0 auto;
+    color: rgba(255,255,255,.85) !important;
 }
-
-/* -------- FORMS / INPUTS -------- */
-input,
-textarea,
-[data-baseweb="input"] input,
-[data-baseweb="textarea"] textarea,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea {
-    color: #FFFFFF !important;
-    caret-color: #FFFFFF !important;
+.audit-subtitle {
+    font-size: 1rem;
+    color: rgba(255,255,255,.82) !important;
 }
-
-[data-baseweb="input"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="textarea"] > div,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea {
-    background: rgba(255,255,255,.045) !important;
-    border-color: rgba(255,255,255,.12) !important;
+.audit-separator {
+    border: none !important;
+    border-top: 1px solid rgba(255,255,255,.14) !important;
+    margin: 1.8rem 0 !important;
 }
-
-input::placeholder,
-textarea::placeholder {
-    color: rgba(233,228,238,.56) !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="select"] *,
-[data-baseweb="menu"] *,
-[data-baseweb="popover"] *,
-[data-baseweb="tag"] *,
-[role="option"] *,
-[role="listbox"] * {
-    color: #FFFFFF !important;
-}
-[data-baseweb="menu"],
-[data-baseweb="popover"],
-[role="listbox"] {
-    background: #24182E !important;
-    border: 1px solid rgba(255,255,255,.10) !important;
-}
-[role="option"]:hover,
-[aria-selected="true"][role="option"] {
-    background: rgba(126,70,255,.22) !important;
-}
-
-/* -------- BUTTONS -------- */
-.stButton > button,
-.stDownloadButton > button,
-[data-testid="stFormSubmitButton"] > button {
-    background:
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.04)) !important;
-    color: #FFFFFF !important;
-    border: 1px solid rgba(255,255,255,.14) !important;
-    border-radius: 999px !important;
-    box-shadow:
-        0 12px 28px rgba(0,0,0,.22),
-        inset 0 1px 0 rgba(255,255,255,.12) !important;
-}
-
-.stButton > button:hover,
-.stDownloadButton > button:hover,
-[data-testid="stFormSubmitButton"] > button:hover {
-    background:
-        linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.06)) !important;
-    border-color: rgba(194,139,255,.26) !important;
-    box-shadow:
-        0 16px 34px rgba(0,0,0,.28),
-        inset 0 1px 0 rgba(255,255,255,.14) !important;
-}
-
-/* Let main CTA keep a purple premium emphasis */
-button[kind="primary"],
-.stButton > button[kind="primary"],
-[data-testid="stFormSubmitButton"] > button {
-    background:
-        linear-gradient(135deg, rgba(126,70,255,.82), rgba(95,46,255,.76)) !important;
-    border-color: rgba(194,139,255,.26) !important;
-}
-
-/* -------- METRICS / TABLES / TABS -------- */
-[data-testid="stMetric"] * {
-    color: var(--gf-text-soft) !important;
-}
-[data-testid="stMetricValue"] {
-    color: #FFFFFF !important;
-}
-[data-testid="stMetricLabel"] {
-    color: var(--gf-muted) !important;
-}
-
-[data-baseweb="tab"] {
-    color: var(--gf-muted) !important;
-}
-[data-baseweb="tab"][aria-selected="true"] {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stDataFrame"],
-[data-testid="stTable"],
-[data-testid="stDataFrame"] *,
-[data-testid="stTable"] * {
-    color: var(--gf-text-soft) !important;
-}
-
-/* -------- EXPANDERS / ALERTS / CODE -------- */
-[data-testid="stExpander"] summary,
-[data-testid="stExpander"] summary *,
-[data-testid="stExpander"] details,
-[data-testid="stExpander"] details * {
-    color: var(--gf-text-soft) !important;
-}
-
-pre,
-code,
-[data-testid="stCodeBlock"],
-[data-testid="stCodeBlock"] * {
-    color: #F2EDFA !important;
-}
-pre,
-[data-testid="stCodeBlock"] {
-    background: rgba(18,13,22,.92) !important;
-    border: 1px solid rgba(255,255,255,.08) !important;
-}
-
-[data-testid="stAlert"],
-[data-testid="stAlert"] * {
-    color: #FFFFFF !important;
-}
-
-/* -------- SMALL POLISH -------- */
-hr {
-    border-color: rgba(255,255,255,.08) !important;
-}
-
-.audit-topbar,
-.audit-hero,
-.ap-hero,
-.ap-card,
-.audit-mini-card,
-.audit-note,
-[data-testid="stMetric"],
-[data-testid="stForm"],
-[data-testid="stExpander"] details {
-    border-radius: 22px !important;
-}
-
-.audit-topbar {
-    border-radius: 0 0 20px 20px !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    [data-testid="stAppViewContainer"] {
-        animation: none !important;
-    }
-}
-
 
 /* =========================================================
-   V8.5.27 — READABILITY / CONTRAST PATCH
-   Fix white/gray text that is too hard to read.
-   Visual-only patch.
+   5. BOUTONS — un seul couple fond/texte par état, toujours lisible
    ========================================================= */
-
-:root {
-    --gf-text: #FFFFFF;
-    --gf-text-soft: #F6F2FA;
-    --gf-muted: #E2DAEA;
-    --gf-subtle: #CBBFD7;
-    --gf-label: #EFE8F6;
-    --gf-dim: #CFC4DA;
-}
-
-/* Global content */
-body,
-.main,
-.main p,
-.main li,
-.main div,
-.main span,
-.main small,
-.main strong,
-.main em,
-.main code,
-.main label,
-[data-testid="stMarkdownContainer"],
-[data-testid="stMarkdownContainer"] *,
-[data-testid="stCaptionContainer"],
-[data-testid="stText"],
-[data-testid="stWidgetLabel"],
-[data-testid="stWidgetLabel"] *,
-[data-testid="stAlert"],
-[data-testid="stAlert"] *,
-div[data-baseweb="notification"],
-div[data-baseweb="notification"] * {
-    color: var(--gf-text-soft) !important;
-}
-
-/* Headings */
-.main h1,
-.main h2,
-.main h3,
-.main h4,
-.main h5,
-.main h6,
-[data-testid="stMarkdownContainer"] h1,
-[data-testid="stMarkdownContainer"] h2,
-[data-testid="stMarkdownContainer"] h3 {
-    color: #FFFFFF !important;
-}
-
-/* Sidebar readability */
-[data-testid="stSidebar"] *,
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] span,
-[data-testid="stSidebar"] div,
-[data-testid="stSidebar"] small {
-    color: var(--gf-text-soft) !important;
-}
-
-[data-testid="stSidebar"] h1,
-[data-testid="stSidebar"] h2,
-[data-testid="stSidebar"] h3,
-[data-testid="stSidebar"] strong,
-[data-testid="stSidebar"] b {
-    color: #FFFFFF !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stCaptionContainer"],
-[data-testid="stSidebar"] .stCaption {
-    color: var(--gf-dim) !important;
-}
-
-/* Topbar / nav */
-.audit-topbar,
-.audit-topbar *,
-.audit-brand-name,
-.audit-nav-items,
-.audit-nav-items *,
-.audit-brand-mark {
-    color: #FFFFFF !important;
-}
-
-.audit-nav-items a,
-.audit-nav-items span {
-    color: rgba(255,255,255,.92) !important;
-}
-
-.audit-nav-items a:hover,
-.audit-nav-items .active {
-    color: #FFFFFF !important;
-}
-
-/* Hero and key cards */
-.audit-hero *,
-.ap-hero *,
-.audit-mini-card *,
-.audit-note *,
-.ap-card * {
-    color: var(--gf-text-soft) !important;
-}
-
-.audit-hero h1,
-.audit-hero h2,
-.ap-hero h1,
-.ap-hero h2,
-.audit-mini-card h3,
-.audit-note b,
-.ap-card h3 {
-    color: #FFFFFF !important;
-}
-
-/* Inputs / text fields */
-input,
-textarea,
-select,
-[data-baseweb="input"] input,
-[data-baseweb="textarea"] textarea,
-[data-baseweb="select"] input,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea {
-    color: #FFFFFF !important;
-    caret-color: #FFFFFF !important;
-}
-
-[data-baseweb="input"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="textarea"] > div,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea {
-    color: #FFFFFF !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-    color: #D7CDE1 !important;
-    opacity: 1 !important;
-}
-
-/* Dropdown menus / options */
-[data-baseweb="menu"] *,
-[data-baseweb="popover"] *,
-[data-baseweb="select"] *,
-[data-baseweb="tag"] *,
-[role="listbox"] *,
-[role="option"] * {
-    color: #FFFFFF !important;
-}
-
-[data-baseweb="menu"],
-[data-baseweb="popover"],
-[role="listbox"] {
-    background: #24182E !important;
-}
-
-[role="option"] {
-    color: #FFFFFF !important;
-}
-
-[role="option"]:hover,
-[aria-selected="true"][role="option"] {
-    color: #FFFFFF !important;
-    background: rgba(126,70,255,.24) !important;
-}
-
-/* Tabs */
-[data-baseweb="tab"] *,
-[data-baseweb="tab"] {
-    color: var(--gf-dim) !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"],
-[data-baseweb="tab"][aria-selected="true"] *,
-button[role="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] * {
-    color: #FFFFFF !important;
-}
-
-/* Metrics */
-[data-testid="stMetricLabel"],
-[data-testid="stMetricLabel"] * {
-    color: var(--gf-muted) !important;
-}
-
-[data-testid="stMetricValue"],
-[data-testid="stMetricValue"] * {
-    color: #FFFFFF !important;
-}
-
-/* Tables / dataframes */
-[data-testid="stTable"],
-[data-testid="stTable"] *,
-[data-testid="stDataFrame"],
-[data-testid="stDataFrame"] * {
-    color: #F6F2FA !important;
-}
-
-[data-testid="stDataFrame"] [role="columnheader"],
-[data-testid="stDataFrame"] [role="gridcell"],
-[data-testid="stDataFrame"] [data-testid="StyledDataFrameCell"],
-[data-testid="stDataFrame"] [data-testid="StyledDataFrameCell"] * {
-    color: #F6F2FA !important;
-}
-
-/* Expander */
-[data-testid="stExpander"] summary,
-[data-testid="stExpander"] summary *,
-[data-testid="stExpander"] details,
-[data-testid="stExpander"] details * {
-    color: #F4EFF8 !important;
-}
-
-/* Code / pre */
-pre,
-code,
-[data-testid="stCodeBlock"],
-[data-testid="stCodeBlock"] * {
-    color: #F8F4FC !important;
-}
-
-/* Version block */
-.audit-version-block,
-.audit-version-block * {
-    color: var(--gf-muted) !important;
-}
-.audit-version-block b,
-.audit-version-title {
-    color: #FFFFFF !important;
-}
-
-/* Labels / forms / helper copy */
-label,
-.stSelectbox label,
-.stMultiSelect label,
-.stTextInput label,
-.stNumberInput label,
-.stTextArea label,
-.stDateInput label,
-.stTimeInput label,
-.stRadio label,
-.stCheckbox label,
-.stToggle label,
-[data-testid="stWidgetLabel"] label,
-[data-testid="stWidgetLabel"] span {
-    color: var(--gf-label) !important;
-}
-
-/* Buttons text */
-.stButton > button,
-.stButton > button *,
-.stDownloadButton > button,
-.stDownloadButton > button *,
+.stButton > button, .stDownloadButton > button,
 [data-testid="stFormSubmitButton"] > button,
-[data-testid="stFormSubmitButton"] > button * {
+[data-testid="stBaseButton-secondary"], [data-testid="stBaseButton-primary"] {
+    min-height: 44px;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    background: linear-gradient(135deg, #5B3F86, #402A5C) !important;
+    border: 1px solid rgba(255,255,255,.16) !important;
     color: #FFFFFF !important;
+    box-shadow: 0 8px 20px rgba(0,0,0,.22);
+    transition: transform .16s ease, box-shadow .16s ease, background .16s ease;
+}
+.stButton > button *, .stDownloadButton > button *,
+[data-testid="stFormSubmitButton"] > button *,
+[data-testid="stBaseButton-secondary"] *, [data-testid="stBaseButton-primary"] * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
+    opacity: 1 !important;
+}
+.stButton > button:hover:not(:disabled), .stDownloadButton > button:hover:not(:disabled),
+[data-testid="stFormSubmitButton"] > button:hover:not(:disabled) {
+    transform: translateY(-1px);
+    background: linear-gradient(135deg, var(--ap-purple), var(--ap-purple-dark)) !important;
+    box-shadow: 0 12px 26px rgba(0,0,0,.28);
+}
+.stButton > button[kind="primary"], [data-testid="stBaseButton-primary"] {
+    background: linear-gradient(135deg, var(--ap-purple), var(--ap-purple-dark)) !important;
+    border-color: var(--ap-lilac) !important;
+}
+.stButton > button:disabled, .stDownloadButton > button:disabled,
+[data-testid="stFormSubmitButton"] > button:disabled, button[disabled] {
+    background: #4A3E55 !important;
+    border-color: rgba(255,255,255,.12) !important;
+    color: #D9CFE3 !important;
+    opacity: 1 !important;
+    cursor: not-allowed !important;
+    box-shadow: none !important;
+}
+.stButton > button:disabled *, .stDownloadButton > button:disabled *,
+[data-testid="stFormSubmitButton"] > button:disabled *, button[disabled] * {
+    color: #D9CFE3 !important;
 }
 
-/* Keep weaker metadata visible enough */
-small,
-.stCaption,
-[data-testid="stCaptionContainer"] {
-    color: var(--gf-dim) !important;
+/* Bouton spécial "entraînement avancé" : demandé en texte noir -> on lui
+   donne donc un fond clair assorti, pour que ce soit lisible. */
+.st-key-v82_train_models_advanced button {
+    background: linear-gradient(135deg, #F3ECFF, #E4D6FF) !important;
+    border: 1px solid #C9AEFA !important;
 }
-
+.st-key-v82_train_models_advanced button,
+.st-key-v82_train_models_advanced button * {
+    color: #241448 !important;
+    fill: #241448 !important;
+}
+.st-key-v82_train_models_advanced button:hover {
+    background: linear-gradient(135deg, #E4D6FF, #D5C0FF) !important;
+}
 
 /* =========================================================
-   V8.5.27 — TARGETED CONTRAST FIX
-   Fixes the hard-to-read components visible in the UI screenshot:
-   - sidebar user card
-   - secondary and disabled buttons
-   - KPI cards / metrics
-   - info banners
-   - tabs
-   - expander headers
-   - labels on violet surfaces
+   6. CHAMPS DE SAISIE (texte, nombre, date, heure, zone de texte)
    ========================================================= */
-
-/* -------- SIDEBAR user / identity card -------- */
-/* Make the light card readable: dark text on light surface */
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] {
-    border-color: rgba(255,255,255,.10) !important;
+[data-baseweb="input"] > div, [data-baseweb="textarea"] > div,
+[data-baseweb="select"] > div, [data-baseweb="base-input"],
+.stNumberInput > div > div, .stDateInput > div > div {
+    background: #241A2C !important;
+    border: 1px solid rgba(212,184,255,.38) !important;
+    border-radius: 11px !important;
 }
-
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"],
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"] *,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] p,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] span,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] div,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] small,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] strong {
-    color: #2B2035 !important;
-}
-
-/* If the sidebar contains a light internal card, force light background + dark text */
-[data-testid="stSidebar"] .stContainer,
-[data-testid="stSidebar"] [data-testid="stElementContainer"] .stAlert,
-[data-testid="stSidebar"] [data-testid="stElementContainer"] .st-emotion-cache-1r6slb0,
-[data-testid="stSidebar"] [data-testid="stElementContainer"] .st-emotion-cache-ocqkz7 {
-    color: inherit !important;
-}
-
-/* -------- Buttons -------- */
-/* Primary button stays bright and readable */
-.stButton > button,
-.stDownloadButton > button,
-[data-testid="stFormSubmitButton"] > button {
+[data-baseweb="input"] input, [data-baseweb="textarea"] textarea,
+[data-baseweb="select"] input, [data-baseweb="select"] span,
+.stTextInput input, .stNumberInput input, .stTextArea textarea,
+.stDateInput input, .stTimeInput input {
+    background-color: transparent !important;
     color: #FFFFFF !important;
-    font-weight: 700 !important;
+    caret-color: #FFFFFF !important;
+    opacity: 1 !important;
+}
+input::placeholder, textarea::placeholder { color: #B9AEC6 !important; opacity: 1 !important; }
+
+[data-baseweb="input"] > div:focus-within, [data-baseweb="textarea"] > div:focus-within,
+[data-baseweb="select"] > div:focus-within {
+    border-color: var(--ap-lilac) !important;
+    box-shadow: 0 0 0 3px rgba(196,159,255,.22) !important;
 }
 
-/* Secondary buttons: give them a stronger readable surface */
-.stButton > button:not([kind="primary"]),
-.stDownloadButton > button:not([kind="primary"]) {
-    background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.08)) !important;
-    color: #FFFFFF !important;
+.stNumberInput button, .stDateInput button, .stTimeInput button,
+[data-testid="stNumberInputStepDown"], [data-testid="stNumberInputStepUp"] {
+    background: #3B2B47 !important;
     border-color: rgba(255,255,255,.18) !important;
 }
+.stNumberInput button *, .stDateInput button *, .stTimeInput button *,
+[data-testid="stNumberInputStepDown"] *, [data-testid="stNumberInputStepUp"] * {
+    color: #FFFFFF !important; fill: #FFFFFF !important;
+}
 
-/* Disabled buttons should still be readable */
-.stButton > button:disabled,
-.stDownloadButton > button:disabled,
-[data-testid="stFormSubmitButton"] > button:disabled,
-button[disabled] {
+/* =========================================================
+   7. LISTES DÉROULANTES / MENUS / TAGS / CALENDRIER
+   ========================================================= */
+[data-baseweb="popover"], [data-baseweb="menu"], [data-baseweb="calendar"], [role="listbox"] {
+    background: #241A30 !important;
+    border: 1px solid rgba(212,184,255,.28) !important;
+}
+[role="option"], [role="option"] *, [role="listbox"] *,
+[data-baseweb="menu"] *, [data-baseweb="calendar"] * {
+    color: #FFFFFF !important;
     opacity: 1 !important;
-    color: #F2ECF8 !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08)) !important;
-    border: 1px solid rgba(255,255,255,.16) !important;
-    box-shadow: none !important;
-    cursor: not-allowed !important;
 }
-.stButton > button:disabled *,
-.stDownloadButton > button:disabled *,
-[data-testid="stFormSubmitButton"] > button:disabled *,
-button[disabled] * {
-    color: #F2ECF8 !important;
+[role="option"]:hover, [role="option"][aria-selected="true"] {
+    background: rgba(126,70,255,.30) !important;
 }
+[data-baseweb="tag"] { background: #6B49A0 !important; }
+[data-baseweb="tag"], [data-baseweb="tag"] * { color: #FFFFFF !important; fill: #FFFFFF !important; }
 
-/* -------- Expanders / section bars -------- */
-[data-testid="stExpander"] summary,
-[data-testid="stExpander"] summary *,
-details summary,
-details summary * {
-    color: #F8F4FC !important;
-    font-weight: 700 !important;
-}
-
-/* -------- KPI cards / metric cards -------- */
-[data-testid="stMetric"] {
-    background:
-        linear-gradient(135deg, rgba(84,45,122,.60), rgba(58,30,88,.64)) !important;
-    border: 1px solid rgba(255,255,255,.14) !important;
-}
-
-[data-testid="stMetricLabel"],
-[data-testid="stMetricLabel"] *,
-[data-testid="stMetric"] label,
-[data-testid="stMetric"] small {
-    color: #E8E0F0 !important;
-    font-weight: 650 !important;
-}
-
-[data-testid="stMetricValue"],
-[data-testid="stMetricValue"] *,
-[data-testid="stMetric"] [data-testid="stMarkdownContainer"] strong {
-    color: #FFFFFF !important;
-    font-weight: 800 !important;
-}
-
-/* -------- Info banners / notes / explanation blocks -------- */
-.audit-note,
-.audit-note *,
-.ap-card,
-.ap-card *,
-.audit-mini-card,
-.audit-mini-card * {
-    color: #F5F1F9 !important;
-}
-
-.audit-note b,
-.ap-card h3,
-.audit-mini-card h3 {
-    color: #FFFFFF !important;
-}
-
-/* Generic markdown/info strips that look too dim */
-div[data-baseweb="notification"],
-div[data-baseweb="notification"] *,
-[data-testid="stAlert"],
-[data-testid="stAlert"] * {
-    color: #F8F4FC !important;
-}
-
-/* -------- Tabs -------- */
-[data-baseweb="tab-list"] {
-    background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04)) !important;
-    border: 1px solid rgba(255,255,255,.10) !important;
-}
-
-[data-baseweb="tab"],
-button[role="tab"] {
-    color: #E2D8EC !important;
+/* =========================================================
+   8. LIBELLÉS / RADIO ("les 3 modes") / CASES / TOGGLE / SLIDER
+   ========================================================= */
+label, [data-testid="stWidgetLabel"], [data-testid="stWidgetLabel"] *,
+.stSelectbox label, .stMultiSelect label, .stTextInput label, .stNumberInput label,
+.stTextArea label, .stDateInput label, .stTimeInput label,
+.stRadio label, .stCheckbox label, .stToggle label, .stSlider label {
+    color: var(--ap-text) !important;
     font-weight: 600 !important;
     opacity: 1 !important;
 }
 
-[data-baseweb="tab"] *,
-button[role="tab"] * {
-    color: #E2D8EC !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] {
-    background: rgba(255,255,255,.12) !important;
-    color: #FFFFFF !important;
-    border-radius: 10px !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"] *,
-button[role="tab"][aria-selected="true"] * {
-    color: #FFFFFF !important;
-}
-
-/* -------- Form labels / helper text -------- */
-label,
-[data-testid="stWidgetLabel"],
-[data-testid="stWidgetLabel"] *,
-.stSelectbox label,
-.stMultiSelect label,
-.stTextInput label,
-.stNumberInput label,
-.stTextArea label,
-.stDateInput label,
-.stTimeInput label,
-.stRadio label,
-.stCheckbox label {
-    color: #F1EBF7 !important;
-    font-weight: 650 !important;
-}
-
-/* Helper captions need to be readable too */
-small,
-.stCaption,
-[data-testid="stCaptionContainer"] {
-    color: #D9CFE3 !important;
-}
-
-/* -------- Dataframe / table header text -------- */
-[data-testid="stDataFrame"] [role="columnheader"],
-[data-testid="stDataFrame"] [role="columnheader"] *,
-[data-testid="stTable"] th,
-[data-testid="stTable"] th * {
-    color: #FFFFFF !important;
-    font-weight: 700 !important;
-}
-
-[data-testid="stDataFrame"] [role="gridcell"],
-[data-testid="stDataFrame"] [role="gridcell"] *,
-[data-testid="stTable"] td,
-[data-testid="stTable"] td * {
-    color: #F5F1F9 !important;
-}
-
-/* -------- Markdown paragraphs directly on dark background -------- */
-.main [data-testid="stMarkdownContainer"] p,
-.main [data-testid="stMarkdownContainer"] li,
-.main [data-testid="stMarkdownContainer"] span {
-    color: #F2ECF8 !important;
-}
-
-/* -------- Explicit stronger contrast for the left 'Version' list -------- */
-.audit-version-block,
-.audit-version-block * {
-    color: #E6DDED !important;
-}
-.audit-version-block b,
-.audit-version-title {
-    color: #FFFFFF !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — WHITE / LIGHT CARD TEXT FIX
-   Any text inside light / white frames becomes dark for readability.
-   ========================================================= */
-
-/* Sidebar user/info light card */
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"],
-[data-testid="stSidebar"] .stAlert,
-[data-testid="stSidebar"] .stContainer {
-    color: inherit !important;
-}
-
-/* Strong dark text for content inside light cards in sidebar */
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] p,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] span,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] div,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] small,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] strong,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] b,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] label,
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"],
-[data-testid="stSidebar"] [data-testid="stVerticalBlockBorderWrapper"] [data-testid="stMarkdownContainer"] * {
-    color: #221A2B !important;
-}
-
-/* If a button becomes very light, make its text dark */
-.stButton > button[disabled],
-.stDownloadButton > button[disabled],
-[data-testid="stFormSubmitButton"] > button[disabled],
-button[disabled] {
-    color: #241C2D !important;
-}
-
-.stButton > button[disabled] *,
-.stDownloadButton > button[disabled] *,
-[data-testid="stFormSubmitButton"] > button[disabled] *,
-button[disabled] * {
-    color: #241C2D !important;
-}
-
-/* Selected tab with very light background -> dark text */
-[data-baseweb="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] {
-    color: #241C2D !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"] *,
-button[role="tab"][aria-selected="true"] * {
-    color: #241C2D !important;
-}
-
-/* Any intentionally light block should render dark text */
-.audit-light-surface,
-.audit-light-surface *,
-.audit-white-card,
-.audit-white-card * {
-    color: #221A2B !important;
-}
-
-/* Safety net for light backgrounds commonly seen in Streamlit blocks */
-[style*="background: rgb(255, 255, 255)"],
-[style*="background-color: rgb(255, 255, 255)"],
-[style*="background:#fff"],
-[style*="background: #fff"],
-[style*="background-color:#fff"],
-[style*="background-color: #fff"],
-[style*="background:white"],
-[style*="background: white"],
-[style*="background-color:white"],
-[style*="background-color: white"] {
-    color: #221A2B !important;
-}
-
-[style*="background: rgb(255, 255, 255)"] *,
-[style*="background-color: rgb(255, 255, 255)"] *,
-[style*="background:#fff"] *,
-[style*="background: #fff"] *,
-[style*="background-color:#fff"] *,
-[style*="background-color: #fff"] *,
-[style*="background:white"] *,
-[style*="background: white"] *,
-[style*="background-color:white"] *,
-[style*="background-color: white"] * {
-    color: #221A2B !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — NAVBAR FUNCTIONAL FIX
-   Real internal links, same visual theme.
-   ========================================================= */
-
-.audit-topbar {
-    position: relative !important;
-    z-index: 20 !important;
-}
-
-.audit-topbar::before,
-.audit-topbar::after {
-    pointer-events: none !important;
-}
-
-.audit-brand,
-.audit-nav-items {
-    position: relative !important;
-    z-index: 22 !important;
-}
-
-.audit-nav-items {
-    pointer-events: auto !important;
-}
-
-.audit-nav-link {
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: relative !important;
-    z-index: 23 !important;
-    pointer-events: auto !important;
-    cursor: pointer !important;
-    text-decoration: none !important;
-    color: rgba(255,255,255,.90) !important;
-    font-weight: 650 !important;
-    white-space: nowrap !important;
-    padding: .42rem .18rem !important;
-    transition:
-        color .18s ease,
-        opacity .18s ease,
-        transform .18s ease !important;
-}
-
-.audit-nav-link:visited {
-    color: rgba(255,255,255,.90) !important;
-}
-
-.audit-nav-link:hover {
-    color: #FFFFFF !important;
-    text-decoration: none !important;
-    transform: translateY(-1px) !important;
-}
-
-.audit-nav-link::after {
-    content: "" !important;
-    position: absolute !important;
-    left: 50% !important;
-    bottom: .08rem !important;
-    width: 0 !important;
-    height: 2px !important;
-    border-radius: 999px !important;
-    background: #C49FFF !important;
-    transform: translateX(-50%) !important;
-    transition: width .18s ease !important;
-}
-
-.audit-nav-link:hover::after,
-.audit-nav-link.audit-nav-active::after {
-    width: 72% !important;
-}
-
-.audit-nav-link.audit-nav-active {
-    color: #FFFFFF !important;
-    font-weight: 800 !important;
-}
-
-.audit-nav-user {
-    color: rgba(255,255,255,.76) !important;
-    font-weight: 550 !important;
-    white-space: nowrap !important;
-    pointer-events: none !important;
-}
-
-/* Invisible scroll targets. Negative margin gives comfortable visual offset. */
-.audit-anchor {
-    position: relative !important;
-    display: block !important;
-    width: 1px !important;
-    height: 1px !important;
-    margin-top: -18px !important;
-    padding-top: 18px !important;
-    visibility: hidden !important;
-}
-
-/* Smooth in-page navigation. */
-html {
-    scroll-behavior: smooth !important;
-}
-
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto !important;
-    }
-}
-
-
-/* =========================================================
-   V8.5.27 — CARTES DE VIGILANCE : TEXTE NOIR
-   ========================================================= */
-
-/* Fond clair => texte noir pour une lecture nette */
-.audit-alert-card,
-.audit-alert-card *,
-.audit-alert-card b,
-.audit-alert-card strong {
-    color: #111111 !important;
-}
-
-/* Les badges Élevée / Modérée / Faible restent colorés en fond,
-   mais leur texte devient noir aussi */
-.audit-alert-card .audit-badge,
-.audit-alert-card .audit-badge *,
-.audit-alert-card .badge-high,
-.audit-alert-card .badge-medium,
-.audit-alert-card .badge-low {
-    color: #111111 !important;
-}
-
-/* Renforce légèrement les libellés */
-.audit-alert-card > b:first-child {
-    font-weight: 800 !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — TEXTES DEMANDÉS EN NOIR
-   Ciblage uniquement des blocs indiqués par l'utilisateur.
-   ========================================================= */
-
-.audit-requested-black,
-.audit-requested-black *,
-.audit-requested-black b,
-.audit-requested-black strong,
-.audit-requested-black span,
-.audit-requested-black p,
-.audit-requested-black h1,
-.audit-requested-black h2,
-.audit-requested-black h3,
-.audit-requested-black small {
-    color: #111111 !important;
-}
-
-/* Badge du lot sélectionné */
-.audit-requested-black .audit-badge,
-.audit-requested-black .audit-badge * {
-    color: #111111 !important;
-}
-
-/* Titre Variables textuelles les plus influentes */
-.audit-requested-black-heading,
-h3.audit-requested-black-heading {
-    color: #111111 !important;
-    font-weight: 800 !important;
-}
-
-/* Carte identité sidebar : Administrateur AuditPrep / Administrateur */
-.audit-user-chip.audit-requested-black,
-.audit-user-chip.audit-requested-black *,
-.audit-user-chip.audit-requested-black b,
-.audit-user-chip.audit-requested-black span {
-    color: #111111 !important;
-}
-
-/* If these targeted cards use a light surface, keep it clearly readable. */
-.audit-card.audit-requested-black,
-.audit-info-box.audit-requested-black,
-.audit-user-chip.audit-requested-black {
-    text-shadow: none !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — MISSIONS SELECT + PRINCIPE DE SÉCURITÉ EN NOIR
-   ========================================================= */
-
-/* Selectbox des missions : fond clair + texte noir */
-[data-baseweb="select"] > div {
-    background: #FFFFFF !important;
-    color: #111111 !important;
-    border-color: rgba(125,79,254,.22) !important;
-}
-
-[data-baseweb="select"] span,
-[data-baseweb="select"] div,
-[data-baseweb="select"] input {
-    color: #111111 !important;
-}
-
-/* Liste déroulante des missions */
-[data-baseweb="popover"],
-[data-baseweb="menu"],
-[role="listbox"] {
-    background: #FFFFFF !important;
-}
-
-[role="option"],
-[role="option"] *,
-[data-baseweb="menu"] *,
-[data-baseweb="popover"] * {
-    color: #111111 !important;
-}
-
-[role="option"]:hover,
-[role="option"][aria-selected="true"] {
-    background: #EEE6FF !important;
-    color: #111111 !important;
-}
-
-[role="option"]:hover *,
-[role="option"][aria-selected="true"] * {
-    color: #111111 !important;
-}
-
-/* Principe de sécurité et autres warning sur fond clair */
-.audit-warning,
-.audit-warning *,
-.audit-warning b,
-.audit-warning strong,
-.audit-warning span,
-.audit-warning p {
-    color: #111111 !important;
-    text-shadow: none !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — INFOBULLES D'AIDE LISIBLES
-   Exemple : "Les métriques sont calculées sur 30 %..."
-   ========================================================= */
-
-[role="tooltip"],
-[role="tooltip"] *,
-[data-baseweb="tooltip"],
-[data-baseweb="tooltip"] *,
-[data-baseweb="popover"] [role="tooltip"],
-[data-baseweb="popover"] [role="tooltip"] * {
-    color: #111111 !important;
-}
-
-/* Fond clair pour garantir noir sur clair */
-[role="tooltip"],
-[data-baseweb="tooltip"] {
-    background: #FFFFFF !important;
-    border: 1px solid rgba(125,79,254,.20) !important;
-    box-shadow: 0 10px 28px rgba(0,0,0,.18) !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — PREMIUM SECTION HEADERS
-   Six requested headings only.
-   ========================================================= */
-
-.audit-section-head {
-    --section-accent-1: #7D4FFE;
-    --section-accent-2: #C49FFF;
-
-    position: relative !important;
-    isolation: isolate !important;
-    overflow: hidden !important;
-
-    display: flex !important;
-    align-items: center !important;
-
-    width: 100% !important;
-    min-height: 76px !important;
-    margin: 1.65rem 0 1rem 0 !important;
-    padding: 1.05rem 1.35rem 1.05rem 1.55rem !important;
-
-    border: 1px solid rgba(255,255,255,.14) !important;
-    border-radius: 18px !important;
-
-    background:
-        linear-gradient(
-            105deg,
-            rgba(255,255,255,.095) 0%,
-            rgba(255,255,255,.055) 38%,
-            rgba(125,79,254,.10) 100%
-        ) !important;
-
-    box-shadow:
-        0 14px 34px rgba(0,0,0,.20),
-        inset 0 1px 0 rgba(255,255,255,.10) !important;
-
-    backdrop-filter: blur(18px) saturate(135%) !important;
-    -webkit-backdrop-filter: blur(18px) saturate(135%) !important;
-}
-
-/* Accent rail */
-.audit-section-head::before {
-    content: "" !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 12px !important;
-    bottom: 12px !important;
-    width: 5px !important;
-    border-radius: 0 999px 999px 0 !important;
-    background: linear-gradient(
-        180deg,
-        var(--section-accent-1),
-        var(--section-accent-2)
-    ) !important;
-    box-shadow: 0 0 20px color-mix(in srgb, var(--section-accent-1) 48%, transparent) !important;
-}
-
-/* Soft glow on the right */
-.audit-section-head::after {
-    content: "" !important;
-    position: absolute !important;
-    z-index: -1 !important;
-    width: 210px !important;
-    height: 210px !important;
-    right: -78px !important;
-    top: -88px !important;
-    border-radius: 50% !important;
-    background: radial-gradient(
-        circle,
-        color-mix(in srgb, var(--section-accent-2) 24%, transparent) 0%,
-        transparent 68%
-    ) !important;
-    pointer-events: none !important;
-}
-
-.audit-section-head h2 {
-    position: relative !important;
-    z-index: 2 !important;
-
-    margin: 0 !important;
-    padding: 0 !important;
-
-    color: #FFFFFF !important;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    font-size: clamp(1.28rem, 1.65vw, 1.72rem) !important;
-    line-height: 1.2 !important;
-    font-weight: 780 !important;
-    letter-spacing: -0.025em !important;
-    text-shadow: 0 2px 18px rgba(0,0,0,.18) !important;
-}
-
-/* Semantic accent variations — same component, cleaner hierarchy */
-.audit-section-head--why {
-    --section-accent-1: #7D4FFE;
-    --section-accent-2: #C49FFF;
-}
-
-.audit-section-head--chain {
-    --section-accent-1: #8D63FF;
-    --section-accent-2: #7FB7FF;
-}
-
-.audit-section-head--tools {
-    --section-accent-1: #A873FF;
-    --section-accent-2: #FFD0E6;
-}
-
-.audit-section-head--summary {
-    --section-accent-1: #6F55FF;
-    --section-accent-2: #A7B8FF;
-}
-
-.audit-section-head--alerts {
-    --section-accent-1: #B96CFF;
-    --section-accent-2: #FF9DCB;
-}
-
-.audit-section-head--decisions {
-    --section-accent-1: #7D4FFE;
-    --section-accent-2: #73D5FF;
-}
-
-/* Micro interaction, without changing layout */
-.audit-section-head {
-    transition:
-        transform .22s ease,
-        border-color .22s ease,
-        box-shadow .22s ease !important;
-}
-
-.audit-section-head:hover {
-    transform: translateY(-1px) !important;
-    border-color: rgba(196,159,255,.28) !important;
-    box-shadow:
-        0 18px 40px rgba(0,0,0,.24),
-        inset 0 1px 0 rgba(255,255,255,.13) !important;
-}
-
-@media (max-width: 760px) {
-    .audit-section-head {
-        min-height: 66px !important;
-        margin: 1.25rem 0 .85rem 0 !important;
-        padding: .9rem 1rem .9rem 1.25rem !important;
-        border-radius: 15px !important;
-    }
-
-    .audit-section-head h2 {
-        font-size: 1.22rem !important;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .audit-section-head {
-        transition: none !important;
-    }
-
-    .audit-section-head:hover {
-        transform: none !important;
-    }
-}
-
-
-/* =========================================================
-   V8.5.27 — WORKFLOW STEP HEADERS
-   Étapes 1→5 : même taille, thème distinct des grands titres.
-   ========================================================= */
-
-.audit-workflow-head {
-    position: relative !important;
-    overflow: hidden !important;
-
-    display: flex !important;
-    align-items: center !important;
-    gap: 1rem !important;
-
-    width: 100% !important;
-    min-height: 68px !important;
-    margin: 1.35rem 0 .8rem 0 !important;
-    padding: .78rem 1.15rem .78rem .9rem !important;
-
-    border: 1px solid rgba(196,159,255,.22) !important;
-    border-radius: 15px !important;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(125,79,254,.13) 0%,
-            rgba(255,255,255,.065) 24%,
-            rgba(255,255,255,.035) 100%
-        ) !important;
-
-    box-shadow:
-        0 10px 26px rgba(0,0,0,.16),
-        inset 0 1px 0 rgba(255,255,255,.08) !important;
-
-    backdrop-filter: blur(14px) saturate(125%) !important;
-    -webkit-backdrop-filter: blur(14px) saturate(125%) !important;
-}
-
-/* Thin progression line at bottom — deliberately unlike the previous section cards */
-.audit-workflow-head::after {
-    content: "" !important;
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    height: 2px !important;
-    background: linear-gradient(
-        90deg,
-        #7D4FFE 0%,
-        #C49FFF 46%,
-        rgba(196,159,255,0) 100%
-    ) !important;
-}
-
-/* Step number */
-.audit-workflow-num {
-    flex: 0 0 auto !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 42px !important;
-    height: 42px !important;
-    border-radius: 12px !important;
-
-    background:
-        linear-gradient(135deg, #7D4FFE 0%, #A86DFF 100%) !important;
-
-    color: #FFFFFF !important;
-    font-family: "Inter", system-ui, sans-serif !important;
-    font-size: .84rem !important;
-    line-height: 1 !important;
-    font-weight: 850 !important;
-    letter-spacing: .04em !important;
-
-    border: 1px solid rgba(255,255,255,.18) !important;
-    box-shadow:
-        0 8px 20px rgba(125,79,254,.24),
-        inset 0 1px 0 rgba(255,255,255,.16) !important;
-}
-
-/* Exactly the same title dimensions for steps 1, 2, 3, 4 and 5 */
-.audit-workflow-head h2 {
-    margin: 0 !important;
-    padding: 0 !important;
-
-    color: #FFFFFF !important;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    font-size: clamp(1.22rem, 1.5vw, 1.52rem) !important;
-    line-height: 1.22 !important;
-    font-weight: 760 !important;
-    letter-spacing: -0.022em !important;
-}
-
-/* Subtle hover only */
-.audit-workflow-head {
-    transition:
-        border-color .18s ease,
-        background .18s ease,
-        box-shadow .18s ease !important;
-}
-
-.audit-workflow-head:hover {
-    border-color: rgba(196,159,255,.34) !important;
-    background:
-        linear-gradient(
-            90deg,
-            rgba(125,79,254,.18) 0%,
-            rgba(255,255,255,.08) 24%,
-            rgba(255,255,255,.045) 100%
-        ) !important;
-    box-shadow:
-        0 12px 30px rgba(0,0,0,.20),
-        inset 0 1px 0 rgba(255,255,255,.10) !important;
-}
-
-@media (max-width: 760px) {
-    .audit-workflow-head {
-        min-height: 62px !important;
-        gap: .75rem !important;
-        padding: .72rem .85rem !important;
-        border-radius: 13px !important;
-    }
-
-    .audit-workflow-num {
-        width: 38px !important;
-        height: 38px !important;
-        border-radius: 10px !important;
-        font-size: .78rem !important;
-    }
-
-    .audit-workflow-head h2 {
-        font-size: 1.12rem !important;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .audit-workflow-head {
-        transition: none !important;
-    }
-}
-
-
-/* =========================================================
-   V8.5.27 — REFINED WORKFLOW TIMELINE
-   Plus premium, plus léger, même taille pour les étapes 1→5.
-   ========================================================= */
-
-.audit-workflow-head {
-    position: relative !important;
-    overflow: visible !important;
-
-    display: flex !important;
-    align-items: center !important;
-    gap: 1rem !important;
-
-    width: 100% !important;
-    min-height: 64px !important;
-    margin: 1.45rem 0 .9rem 0 !important;
-    padding: .72rem 1.2rem .72rem .78rem !important;
-
-    border: 1px solid rgba(255,255,255,.10) !important;
-    border-radius: 17px !important;
-
-    background:
-        linear-gradient(
-            105deg,
-            rgba(255,255,255,.075) 0%,
-            rgba(255,255,255,.045) 55%,
-            rgba(125,79,254,.10) 100%
-        ) !important;
-
-    box-shadow:
-        0 10px 26px rgba(0,0,0,.15),
-        inset 0 1px 0 rgba(255,255,255,.08) !important;
-
-    backdrop-filter: blur(16px) saturate(130%) !important;
-    -webkit-backdrop-filter: blur(16px) saturate(130%) !important;
-
-    transition:
-        transform .2s ease,
-        border-color .2s ease,
-        box-shadow .2s ease !important;
-}
-
-/* Slim accent line */
-.audit-workflow-head::before {
-    content: "" !important;
-    position: absolute !important;
-    left: 0 !important;
-    top: 13px !important;
-    bottom: 13px !important;
-    width: 3px !important;
-    border-radius: 0 999px 999px 0 !important;
-    background: linear-gradient(180deg, #C49FFF, #7D4FFE) !important;
-    box-shadow: 0 0 14px rgba(125,79,254,.30) !important;
-}
-
-/* Remove the old bottom progress line */
-.audit-workflow-head::after {
-    display: none !important;
-}
-
-/* Step number = elegant glass circle */
-.audit-workflow-num {
-    flex: 0 0 auto !important;
-
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 44px !important;
-    height: 44px !important;
-    border-radius: 50% !important;
-
-    background:
-        radial-gradient(circle at 30% 25%, rgba(255,255,255,.22), transparent 30%),
-        linear-gradient(145deg, #8A57FF 0%, #6D3FE0 100%) !important;
-
-    color: #FFFFFF !important;
-    font-family: "Inter", system-ui, sans-serif !important;
-    font-size: .82rem !important;
-    line-height: 1 !important;
-    font-weight: 850 !important;
-    letter-spacing: .045em !important;
-
-    border: 1px solid rgba(255,255,255,.18) !important;
-
-    box-shadow:
-        0 8px 22px rgba(125,79,254,.23),
-        inset 0 1px 0 rgba(255,255,255,.18) !important;
-}
-
-/* Same title size for all five steps */
-.audit-workflow-head h2 {
-    margin: 0 !important;
-    padding: 0 !important;
-
-    color: #FFFFFF !important;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    font-size: clamp(1.22rem, 1.45vw, 1.48rem) !important;
-    line-height: 1.2 !important;
-    font-weight: 740 !important;
-    letter-spacing: -0.025em !important;
-}
-
-/* Small glow on the far right */
-.audit-workflow-head > h2::after {
-    content: "" !important;
-    position: absolute !important;
-    right: 20px !important;
-    top: 50% !important;
-    width: 44px !important;
-    height: 4px !important;
-    border-radius: 999px !important;
-    transform: translateY(-50%) !important;
-    background: linear-gradient(90deg, rgba(196,159,255,.18), rgba(125,79,254,.75)) !important;
-    opacity: .72 !important;
-}
-
-.audit-workflow-head:hover {
-    transform: translateY(-1px) !important;
-    border-color: rgba(196,159,255,.22) !important;
-    box-shadow:
-        0 14px 32px rgba(0,0,0,.19),
-        inset 0 1px 0 rgba(255,255,255,.10) !important;
-}
-
-/* Make each number visually distinct but still coherent */
-.audit-workflow-head:nth-of-type(1) .audit-workflow-num {
-    background: linear-gradient(145deg, #7D4FFE, #A06BFF) !important;
-}
-.audit-workflow-head:nth-of-type(2) .audit-workflow-num {
-    background: linear-gradient(145deg, #755BFF, #8E73FF) !important;
-}
-.audit-workflow-head:nth-of-type(3) .audit-workflow-num {
-    background: linear-gradient(145deg, #6F64F8, #8A80FF) !important;
-}
-.audit-workflow-head:nth-of-type(4) .audit-workflow-num {
-    background: linear-gradient(145deg, #7850E8, #A173FF) !important;
-}
-.audit-workflow-head:nth-of-type(5) .audit-workflow-num {
-    background: linear-gradient(145deg, #7246D8, #9B63F0) !important;
-}
-
-@media (max-width: 760px) {
-    .audit-workflow-head {
-        min-height: 60px !important;
-        gap: .78rem !important;
-        padding: .68rem .85rem .68rem .72rem !important;
-        border-radius: 14px !important;
-    }
-
-    .audit-workflow-num {
-        width: 38px !important;
-        height: 38px !important;
-        font-size: .75rem !important;
-    }
-
-    .audit-workflow-head h2 {
-        font-size: 1.08rem !important;
-    }
-
-    .audit-workflow-head > h2::after {
-        display: none !important;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    .audit-workflow-head {
-        transition: none !important;
-    }
-    .audit-workflow-head:hover {
-        transform: none !important;
-    }
-}
-
-
-/* =========================================================
-   V8.5.27 — TRAIN BUTTON TEXT IN BLACK
-   Keep the current visual style, change only the writing color.
-   ========================================================= */
-
-.st-key-v82_train_models_advanced button,
-.st-key-v82_train_models_advanced button *,
-.st-key-v82_train_models_advanced [data-testid="stButton"] button,
-.st-key-v82_train_models_advanced [data-testid="stButton"] button * {
-    color: #111111 !important;
-    fill: #111111 !important;
-}
-
-/* Keep readability on hover/focus/disabled states too */
-.st-key-v82_train_models_advanced button:hover,
-.st-key-v82_train_models_advanced button:hover *,
-.st-key-v82_train_models_advanced button:focus,
-.st-key-v82_train_models_advanced button:focus *,
-.st-key-v82_train_models_advanced button:disabled,
-.st-key-v82_train_models_advanced button:disabled * {
-    color: #111111 !important;
-    fill: #111111 !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — MESH GRADIENT ANIMÉ
-   Plusieurs zones violet foncé se déplacent et se mélangent.
-   Background only — aucun objet visible.
-   ========================================================= */
-
-[data-testid="stAppViewContainer"] {
-    position: relative !important;
-
-    background:
-        radial-gradient(
-            78% 72% at 8% 18%,
-            rgba(92, 54, 160, .34) 0%,
-            rgba(72, 41, 120, .20) 34%,
-            transparent 72%
-        ),
-        radial-gradient(
-            72% 68% at 88% 12%,
-            rgba(111, 63, 171, .28) 0%,
-            rgba(77, 42, 128, .15) 38%,
-            transparent 74%
-        ),
-        radial-gradient(
-            82% 78% at 78% 88%,
-            rgba(78, 47, 145, .32) 0%,
-            rgba(57, 34, 103, .18) 38%,
-            transparent 74%
-        ),
-        radial-gradient(
-            76% 70% at 16% 84%,
-            rgba(128, 75, 157, .19) 0%,
-            rgba(82, 45, 106, .11) 40%,
-            transparent 72%
-        ),
-        radial-gradient(
-            64% 58% at 52% 48%,
-            rgba(105, 63, 165, .16) 0%,
-            transparent 70%
-        ),
-        linear-gradient(
-            135deg,
-            #171219 0%,
-            #1C1422 26%,
-            #22152D 50%,
-            #1F1629 72%,
-            #161218 100%
-        ) !important;
-
-    background-size:
-        170% 165%,
-        175% 170%,
-        180% 175%,
-        170% 180%,
-        160% 160%,
-        100% 100% !important;
-
-    background-position:
-        0% 0%,
-        100% 0%,
-        100% 100%,
-        0% 100%,
-        50% 50%,
-        0 0 !important;
-
-    animation: auditMeshShift 38s cubic-bezier(.45,0,.25,1) infinite alternate !important;
-}
-
-/* Le mesh reste diffus : aucun cercle ni objet distinct. */
-[data-testid="stAppViewContainer"]::before {
-    content: "" !important;
-    position: fixed !important;
-    inset: -18% !important;
-    z-index: 0 !important;
-    pointer-events: none !important;
-
-    background:
-        linear-gradient(
-            115deg,
-            rgba(125,79,254,.08) 0%,
-            rgba(196,159,255,.045) 28%,
-            rgba(70,43,110,.06) 52%,
-            rgba(112,62,155,.055) 72%,
-            rgba(125,79,254,.06) 100%
-        ) !important;
-
-    filter: blur(72px) !important;
-    opacity: .78 !important;
-    transform: translate3d(0,0,0) scale(1.10) !important;
-    animation: auditMeshVeil 46s ease-in-out infinite alternate !important;
-}
-
-/* Keep the dashboard above the animated background. */
-[data-testid="stAppViewContainer"] > .main,
-[data-testid="stAppViewContainer"] > section,
-[data-testid="stAppViewContainer"] > div:not(:first-child) {
-    position: relative !important;
-    z-index: 1 !important;
-}
-
-@keyframes auditMeshShift {
-    0% {
-        background-position:
-            0% 4%,
-            98% 0%,
-            100% 96%,
-            2% 100%,
-            48% 46%,
-            0 0;
-        background-size:
-            170% 165%,
-            175% 170%,
-            180% 175%,
-            170% 180%,
-            160% 160%,
-            100% 100%;
-    }
-
-    25% {
-        background-position:
-            14% 12%,
-            86% 8%,
-            90% 84%,
-            12% 88%,
-            56% 42%,
-            0 0;
-    }
-
-    50% {
-        background-position:
-            22% 6%,
-            78% 18%,
-            78% 76%,
-            22% 82%,
-            46% 58%,
-            0 0;
-        background-size:
-            185% 175%,
-            165% 185%,
-            172% 165%,
-            184% 168%,
-            170% 170%,
-            100% 100%;
-    }
-
-    75% {
-        background-position:
-            10% 22%,
-            90% 12%,
-            86% 68%,
-            30% 90%,
-            58% 54%,
-            0 0;
-    }
-
-    100% {
-        background-position:
-            18% 8%,
-            82% 22%,
-            72% 84%,
-            8% 72%,
-            42% 44%,
-            0 0;
-        background-size:
-            176% 182%,
-            184% 172%,
-            168% 184%,
-            176% 172%,
-            164% 176%,
-            100% 100%;
-    }
-}
-
-@keyframes auditMeshVeil {
-    0% {
-        transform: translate3d(-3%, -2%, 0) scale(1.08) rotate(-1deg) !important;
-        opacity: .65;
-    }
-
-    50% {
-        transform: translate3d(3%, 3%, 0) scale(1.14) rotate(1.5deg) !important;
-        opacity: .88;
-    }
-
-    100% {
-        transform: translate3d(-1%, 5%, 0) scale(1.11) rotate(-.5deg) !important;
-        opacity: .72;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    [data-testid="stAppViewContainer"],
-    [data-testid="stAppViewContainer"]::before {
-        animation: none !important;
-    }
-}
-
-
-
-/* =========================================================
-   V8.5.27 — TEXTES EXPLICATIFS CIBLÉS EN BLANC
-   ========================================================= */
-
-.audit-caption-white,
-p.audit-caption-white {
-    color: #FFFFFF !important;
-    opacity: 1 !important;
-    font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif !important;
-    line-height: 1.55 !important;
-    margin: .35rem 0 .65rem 0 !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — PREMIER AUDIT / SANS HISTORIQUE EN NOIR
-   ========================================================= */
-
-.audit-first-audit-black,
-.audit-first-audit-black *,
-.audit-first-audit-black b,
-.audit-first-audit-black strong,
-.audit-first-audit-black span {
-    color: #111111 !important;
-    opacity: 1 !important;
-    text-shadow: none !important;
-}
-
-
-/* =========================================================
-   V8.5.27 — PREMIER AUDIT : TEXTE NOIR FORCÉ
-   ========================================================= */
-.audit-info-box.audit-first-audit-black,
-.audit-info-box.audit-first-audit-black *,
-.audit-info-box.audit-first-audit-black b,
-.audit-info-box.audit-first-audit-black span {
-    color: #111111 !important;
-    opacity: 1 !important;
-    text-shadow: none !important;
-}
-
-
-/* =========================================================
-   V8.5.28 — CONTRASTE STABLE STREAMLIT LIGHT / DARK
-   L'application conserve son univers sombre quel que soit le choix du
-   visiteur dans le menu Streamlit. Les composants natifs reçoivent donc
-   des surfaces et couleurs explicites au lieu de dépendre du thème actif.
-   ========================================================= */
-
-html,
-body {
-    color-scheme: dark !important;
-}
-
-/* Texte éditorial posé directement sur le fond sombre. */
-[data-testid="stAppViewContainer"] .main p,
-[data-testid="stAppViewContainer"] .main li,
-[data-testid="stAppViewContainer"] .main label,
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"],
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] p,
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] li {
-    color: #F7F3FB !important;
-    opacity: 1 !important;
-}
-
-/* Légendes, aides et texte sous la barre de progression. */
-[data-testid="stCaptionContainer"],
-[data-testid="stCaptionContainer"] *,
-.stCaption,
-.stCaption *,
-[data-testid="stProgress"] p,
-[data-testid="stProgress"] span,
-[data-testid="stProgress"] label {
-    color: #EDE6F5 !important;
-    opacity: 1 !important;
-}
-
-[data-testid="stProgress"] [role="progressbar"],
-[data-testid="stProgress"] > div > div {
-    background-color: rgba(255,255,255,.16) !important;
-}
-
-[data-testid="stProgress"] [role="progressbar"] > div,
-[data-testid="stProgress"] > div > div > div {
-    background: linear-gradient(90deg, #8A57FF, #C49FFF) !important;
-}
-
-/* Tous les boutons restent lisibles, y compris l'entraînement désactivé. */
-.stButton > button,
-.stButton > button *,
-.stDownloadButton > button,
-.stDownloadButton > button *,
-[data-testid="stFormSubmitButton"] > button,
-[data-testid="stFormSubmitButton"] > button *,
-.st-key-v82_train_models_advanced button,
-.st-key-v82_train_models_advanced button * {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-.stButton > button:disabled,
-.stDownloadButton > button:disabled,
-[data-testid="stFormSubmitButton"] > button:disabled,
-.st-key-v82_train_models_advanced button:disabled {
-    color: #F7F2FB !important;
-    background: linear-gradient(180deg, #655572, #4C3F58) !important;
-    border-color: rgba(255,255,255,.24) !important;
-    opacity: 1 !important;
-}
-
-.stButton > button:disabled *,
-.stDownloadButton > button:disabled *,
-[data-testid="stFormSubmitButton"] > button:disabled *,
-.st-key-v82_train_models_advanced button:disabled * {
-    color: #F7F2FB !important;
-    fill: #F7F2FB !important;
-    opacity: 1 !important;
-}
-
-/* Champs, sélecteurs et listes : toujours sombre + texte clair. */
-[data-baseweb="input"] > div,
-[data-baseweb="textarea"] > div,
-[data-baseweb="select"] > div,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea,
-.stDateInput input,
-.stTimeInput input {
-    background: #251C2D !important;
-    border-color: rgba(196,159,255,.30) !important;
-    color: #FFFFFF !important;
-}
-
-[data-baseweb="input"] input,
-[data-baseweb="textarea"] textarea,
-[data-baseweb="select"] input,
-[data-baseweb="select"] span,
-[data-baseweb="select"] div,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea,
-.stDateInput input,
-.stTimeInput input {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="input"] input::placeholder,
-[data-baseweb="textarea"] textarea::placeholder,
-.stTextInput input::placeholder,
-.stTextArea textarea::placeholder {
-    color: #D8CFE1 !important;
-    -webkit-text-fill-color: #D8CFE1 !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="popover"],
-[data-baseweb="menu"],
-[role="listbox"] {
-    background: #211827 !important;
-    border-color: rgba(196,159,255,.26) !important;
-}
-
-[role="option"],
-[role="option"] *,
-[data-baseweb="menu"] *,
-[role="listbox"] * {
-    color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-[role="option"]:hover,
-[role="option"][aria-selected="true"] {
-    background: #563A78 !important;
-}
-
-/* Radios, cases et libellés de formulaires. */
-[data-testid="stWidgetLabel"],
-[data-testid="stWidgetLabel"] *,
-[data-testid="stRadio"] label,
-[data-testid="stRadio"] label *,
-[data-testid="stCheckbox"] label,
-[data-testid="stCheckbox"] label *,
-[data-testid="stToggle"] label,
-[data-testid="stToggle"] label * {
-    color: #F5EFFA !important;
-    opacity: 1 !important;
-}
-
-/* Alertes Streamlit : surface foncée explicite, quel que soit le thème. */
-[data-testid="stAlert"],
-div[data-baseweb="notification"] {
-    background: linear-gradient(135deg, #624B69, #4E3D5A) !important;
-    border: 1px solid rgba(255,255,255,.18) !important;
-}
-
-[data-testid="stAlert"],
-[data-testid="stAlert"] *,
-div[data-baseweb="notification"],
-div[data-baseweb="notification"] * {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-/* Info-bulles : choix assumé noir sur blanc, stable dans les deux modes. */
-[role="tooltip"],
-[role="tooltip"] > div,
-[role="tooltip"] [data-testid="stMarkdownContainer"],
-[data-baseweb="tooltip"] {
-    background: #FFFFFF !important;
-    color: #17111D !important;
-    border-color: rgba(125,79,254,.24) !important;
-}
-
-[role="tooltip"] *,
-[data-baseweb="tooltip"] * {
-    color: #17111D !important;
-    -webkit-text-fill-color: #17111D !important;
-    opacity: 1 !important;
-}
-
-/* Onglets et expanders. */
-[data-baseweb="tab"],
-[data-baseweb="tab"] *,
-button[role="tab"],
-button[role="tab"] *,
-[data-testid="stExpander"] summary,
-[data-testid="stExpander"] summary * {
-    color: #EEE7F5 !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"],
-[data-baseweb="tab"][aria-selected="true"] *,
-button[role="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] * {
-    color: #FFFFFF !important;
-}
-
-/* Les cartes volontairement claires gardent leur texte sombre. */
-.audit-requested-black,
-.audit-requested-black *,
-.audit-light-surface,
-.audit-light-surface *,
-.audit-white-card,
-.audit-white-card *,
-.audit-alert-card,
-.audit-alert-card *,
-.audit-warning,
-.audit-warning *,
-.audit-info-box.audit-first-audit-black,
-.audit-info-box.audit-first-audit-black * {
-    color: #111111 !important;
-    -webkit-text-fill-color: #111111 !important;
-    opacity: 1 !important;
-    text-shadow: none !important;
-}
-
-
-/* =========================================================
-   V8.5.28-R1 — CONTRASTE COMPLET ET DETERMINISTE
-   Derniere couche CSS : elle annule les conflits des anciennes variantes
-   et definit toujours le fond ET le texte d'un composant ensemble.
-   Le rendu reste lisible quand Streamlit est regle sur Light, Dark ou System.
-   ========================================================= */
-:root {
-    --ap-r1-page-text: #FBF9FD;
-    --ap-r1-soft-text: #F1EBF7;
-    --ap-r1-muted-text: #DDD3E7;
-    --ap-r1-dark-surface: #2D2037;
-    --ap-r1-dark-surface-2: #3A2948;
-    --ap-r1-dark-border: rgba(226, 210, 244, .24);
-    --ap-r1-light-surface: #F8F4FC;
-    --ap-r1-light-surface-2: #EEE7F5;
-    --ap-r1-light-text: #211827;
-    --ap-r1-light-muted: #51455C;
-    --ap-r1-focus: #D4B8FF;
-}
-
-/* 1. Texte pose directement sur le fond violet. */
-[data-testid="stAppViewContainer"] .main,
-[data-testid="stAppViewContainer"] .main > div,
-[data-testid="stAppViewContainer"] .main p,
-[data-testid="stAppViewContainer"] .main li,
-[data-testid="stAppViewContainer"] .main label,
-[data-testid="stAppViewContainer"] .main small,
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"],
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] p,
-[data-testid="stAppViewContainer"] .main [data-testid="stMarkdownContainer"] li {
-    color: var(--ap-r1-page-text) !important;
-    opacity: 1 !important;
-}
-
-[data-testid="stAppViewContainer"] .main h1,
-[data-testid="stAppViewContainer"] .main h2,
-[data-testid="stAppViewContainer"] .main h3,
-[data-testid="stAppViewContainer"] .main h4,
-[data-testid="stAppViewContainer"] .main h5,
-[data-testid="stAppViewContainer"] .main h6 {
-    color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-/* 2. Cartes sombres : aucun gris faible sur violet. */
-.audit-card,
-.audit-soft-card,
-.audit-kpi-card,
-.audit-mini-card,
-.audit-note,
-.ap-card,
-[data-testid="stMetric"],
-[data-testid="stForm"],
-[data-testid="stExpander"] details,
-[data-testid="stVerticalBlockBorderWrapper"] {
-    background: linear-gradient(135deg, rgba(74, 48, 92, .96), rgba(44, 30, 55, .96)) !important;
-    border-color: var(--ap-r1-dark-border) !important;
-}
-
-.audit-card,
-.audit-card *,
-.audit-soft-card,
-.audit-soft-card *,
-.audit-kpi-card,
-.audit-kpi-card *,
-.audit-mini-card,
-.audit-mini-card *,
-.audit-note,
-.audit-note *,
-.ap-card,
-.ap-card *,
-[data-testid="stMetric"],
-[data-testid="stMetric"] *,
-[data-testid="stForm"],
-[data-testid="stForm"] *,
-[data-testid="stExpander"] summary,
-[data-testid="stExpander"] summary *,
-[data-testid="stExpander"] details,
-[data-testid="stExpander"] details * {
-    color: var(--ap-r1-soft-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-soft-text) !important;
-    opacity: 1 !important;
-}
-
-.audit-card h1, .audit-card h2, .audit-card h3,
-.audit-soft-card h1, .audit-soft-card h2, .audit-soft-card h3,
-.audit-kpi-card h1, .audit-kpi-card h2, .audit-kpi-card h3,
-.audit-mini-card h1, .audit-mini-card h2, .audit-mini-card h3,
-.audit-note h1, .audit-note h2, .audit-note h3,
-.ap-card h1, .ap-card h2, .ap-card h3,
-[data-testid="stMetricValue"],
-[data-testid="stMetricValue"] * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-}
-
-[data-testid="stMetricLabel"],
-[data-testid="stMetricLabel"] *,
-[data-testid="stMetricDelta"],
-[data-testid="stMetricDelta"] * {
-    color: var(--ap-r1-muted-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-muted-text) !important;
-}
-
-/* 3. Toutes les surfaces volontairement claires utilisent du texte fonce. */
-.audit-info-box,
-.audit-warning,
-.audit-success,
-.audit-alert-card,
-.audit-user-chip,
-.audit-requested-black,
-.audit-first-audit-black,
-.audit-light-surface,
-.audit-white-card {
-    background: linear-gradient(135deg, var(--ap-r1-light-surface), var(--ap-r1-light-surface-2)) !important;
-    border-color: rgba(77, 57, 92, .22) !important;
-    color: var(--ap-r1-light-text) !important;
-    text-shadow: none !important;
-}
-
-.audit-info-box *,
-.audit-warning *,
-.audit-success *,
-.audit-alert-card *,
-.audit-user-chip *,
-.audit-requested-black *,
-.audit-first-audit-black *,
-.audit-light-surface *,
-.audit-white-card * {
-    color: var(--ap-r1-light-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
-    opacity: 1 !important;
-    text-shadow: none !important;
-}
-
-/* 4. Alertes natives : surface sombre et texte blanc, meme en mode Light. */
-[data-testid="stAlert"],
-[data-testid^="stAlert"],
-div[data-baseweb="notification"],
-div[role="alert"] {
-    background: linear-gradient(135deg, #5A4265, #3C2D49) !important;
-    border: 1px solid rgba(255, 255, 255, .25) !important;
-    color: #FFFFFF !important;
-}
-
-[data-testid="stAlert"] *,
-[data-testid^="stAlert"] *,
-div[data-baseweb="notification"] *,
-div[role="alert"] * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-/* 5. Champs, zones de texte, dates, heures et controles numeriques. */
-[data-baseweb="input"] > div,
-[data-baseweb="textarea"] > div,
-[data-baseweb="select"] > div,
-[data-baseweb="base-input"],
-.stTextInput [data-baseweb="input"],
-.stNumberInput [data-baseweb="input"],
-.stTextArea [data-baseweb="textarea"],
-.stDateInput [data-baseweb="input"],
-.stTimeInput [data-baseweb="input"] {
-    background: #241A2C !important;
-    border-color: rgba(212, 184, 255, .42) !important;
-    color: #FFFFFF !important;
-}
-
-[data-baseweb="input"] input,
-[data-baseweb="textarea"] textarea,
-[data-baseweb="select"] input,
-[data-baseweb="select"] span,
-.stTextInput input,
-.stNumberInput input,
-.stTextArea textarea,
-.stDateInput input,
-.stTimeInput input {
-    background-color: transparent !important;
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    caret-color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-input::placeholder,
-textarea::placeholder,
-[data-baseweb="input"] input::placeholder,
-[data-baseweb="textarea"] textarea::placeholder {
-    color: #D9CFE3 !important;
-    -webkit-text-fill-color: #D9CFE3 !important;
-    opacity: 1 !important;
-}
-
-[data-baseweb="input"] > div:focus-within,
-[data-baseweb="textarea"] > div:focus-within,
-[data-baseweb="select"] > div:focus-within {
-    border-color: var(--ap-r1-focus) !important;
-    box-shadow: 0 0 0 3px rgba(212, 184, 255, .24) !important;
-}
-
-/* Boutons +/- du number input et calendrier. */
-.stNumberInput button,
-.stDateInput button,
-.stTimeInput button,
-[data-testid="stNumberInputStepDown"],
-[data-testid="stNumberInputStepUp"] {
-    background: #3B2B47 !important;
-    border-color: rgba(255,255,255,.18) !important;
-    color: #FFFFFF !important;
-}
-
-.stNumberInput button *,
-.stDateInput button *,
-.stTimeInput button *,
-[data-testid="stNumberInputStepDown"] *,
-[data-testid="stNumberInputStepUp"] * {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-}
-
-/* 6. Selectbox, multiselect, menus, tags et calendrier. */
-[data-baseweb="popover"],
-[data-baseweb="menu"],
-[data-baseweb="calendar"],
-[role="listbox"] {
-    background: #211727 !important;
-    border-color: rgba(212, 184, 255, .30) !important;
-    color: #FFFFFF !important;
-}
-
-[role="option"],
-[role="option"] *,
-[role="listbox"] *,
-[data-baseweb="menu"] *,
-[data-baseweb="calendar"] * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-[role="option"]:hover,
-[role="option"][aria-selected="true"] {
-    background: #604389 !important;
-}
-
-[data-baseweb="tag"] {
-    background: #6B49A0 !important;
-    color: #FFFFFF !important;
-}
-
-[data-baseweb="tag"] *,
-[data-baseweb="tag"] svg {
-    color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-}
-
-/* 7. Boutons : primaire, secondaire et desactive ont chacun un couple stable. */
-.stButton > button[kind="primary"],
-.stDownloadButton > button[kind="primary"],
-[data-testid="stFormSubmitButton"] > button[kind="primary"] {
-    background: linear-gradient(135deg, #7D4FFE, #6236D8) !important;
-    border-color: #B995FF !important;
-    color: #FFFFFF !important;
-}
-
-.stButton > button[kind="secondary"]:not(:disabled),
-.stButton > button:not([kind]):not(:disabled),
-.stDownloadButton > button[kind="secondary"]:not(:disabled),
-.stDownloadButton > button:not([kind]):not(:disabled) {
-    background: linear-gradient(135deg, #F8F4FC, #E9DFF2) !important;
-    border-color: #CDBBDD !important;
-    color: var(--ap-r1-light-text) !important;
-}
-
-.stButton > button[kind="secondary"]:not(:disabled) *,
-.stButton > button:not([kind]):not(:disabled) *,
-.stDownloadButton > button[kind="secondary"]:not(:disabled) *,
-.stDownloadButton > button:not([kind]):not(:disabled) * {
-    color: var(--ap-r1-light-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
-    fill: var(--ap-r1-light-text) !important;
-}
-
-.stButton > button:disabled,
-.stDownloadButton > button:disabled,
-[data-testid="stFormSubmitButton"] > button:disabled,
-button[disabled] {
-    background: #5B4B67 !important;
-    border-color: #877394 !important;
-    color: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-.stButton > button:disabled *,
-.stDownloadButton > button:disabled *,
-[data-testid="stFormSubmitButton"] > button:disabled *,
-button[disabled] * {
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    opacity: 1 !important;
-}
-
-/* 8. Libelles, radios, cases, toggle et slider. */
-[data-testid="stWidgetLabel"],
-[data-testid="stWidgetLabel"] *,
-[data-testid="stRadio"] label,
-[data-testid="stRadio"] label *,
-[data-testid="stCheckbox"] label,
-[data-testid="stCheckbox"] label *,
-[data-testid="stToggle"] label,
-[data-testid="stToggle"] label *,
-[data-testid="stSlider"] label,
-[data-testid="stSlider"] label * {
-    color: #F8F4FC !important;
-    -webkit-text-fill-color: #F8F4FC !important;
-    opacity: 1 !important;
-}
-
+/* Le libellé du groupe ("Mode de génération") ainsi que chacune des 3
+   options du radio (Avec historique manuel / Historique recommandé /
+   Premier audit) restent en texte clair sur le fond sombre. */
+[data-testid="stRadio"] label, [data-testid="stRadio"] label *,
+[data-testid="stRadio"] [role="radiogroup"] label,
+[data-testid="stRadio"] [role="radiogroup"] label *,
 [role="radiogroup"] *,
-[data-baseweb="checkbox"] * {
-    color: #F8F4FC !important;
+[data-testid="stCheckbox"] label, [data-testid="stCheckbox"] label *,
+[data-testid="stToggle"] label, [data-testid="stToggle"] label * {
+    color: var(--ap-text) !important;
+    opacity: 1 !important;
 }
 
-/* 9. Tabs, expanders et popovers de commande. */
+[data-baseweb="radio"] div:first-child, [data-baseweb="checkbox"] span:first-child {
+    border-color: rgba(255,255,255,.55) !important;
+}
+[data-baseweb="radio"] input:checked + div, [data-baseweb="checkbox"] input:checked + span {
+    background: var(--ap-purple) !important;
+    border-color: var(--ap-lilac) !important;
+}
+
+/* =========================================================
+   9. ONGLETS (TABS)
+   ========================================================= */
 [data-baseweb="tab-list"] {
-    background: #2A1E34 !important;
-    border-color: rgba(255,255,255,.18) !important;
+    background: rgba(255,255,255,.06) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    border-radius: 13px;
+    padding: .3rem;
+    gap: .35rem;
 }
-
-[data-baseweb="tab"],
-[data-baseweb="tab"] *,
-button[role="tab"],
-button[role="tab"] * {
-    color: #E7DEEF !important;
-    -webkit-text-fill-color: #E7DEEF !important;
-    opacity: 1 !important;
+[data-baseweb="tab"], button[role="tab"] {
+    color: #D9CFE3 !important;
+    font-weight: 650 !important;
+    border-radius: 9px !important;
 }
-
-[data-baseweb="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] {
-    background: #68479A !important;
-}
-
-[data-baseweb="tab"][aria-selected="true"],
-[data-baseweb="tab"][aria-selected="true"] *,
-button[role="tab"][aria-selected="true"],
-button[role="tab"][aria-selected="true"] * {
+[data-baseweb="tab"] *, button[role="tab"] * { color: inherit !important; }
+[data-baseweb="tab"][aria-selected="true"], button[role="tab"][aria-selected="true"] {
+    background: rgba(126,70,255,.32) !important;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+}
+[data-baseweb="tab"][aria-selected="true"] *, button[role="tab"][aria-selected="true"] * {
+    color: #FFFFFF !important;
+}
+[data-baseweb="tab-highlight"] { background-color: var(--ap-purple) !important; }
+
+/* =========================================================
+   10. EXPANDER / FORMULAIRES / CONTENEURS BORDÉS
+   ========================================================= */
+[data-testid="stExpander"] details, [data-testid="stForm"],
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background: rgba(255,255,255,.05) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    border-radius: var(--ap-radius) !important;
+}
+[data-testid="stExpander"] summary, [data-testid="stExpander"] summary *,
+[data-testid="stExpander"] details, [data-testid="stExpander"] details * {
+    color: var(--ap-text) !important;
+    opacity: 1 !important;
+    font-weight: 650;
 }
 
-/* 10. Captions, aides, progression et textes secondaires. */
-.stCaption,
-.stCaption *,
-[data-testid="stCaptionContainer"],
-[data-testid="stCaptionContainer"] *,
-[data-testid="stProgress"] p,
-[data-testid="stProgress"] span,
-[data-testid="stProgress"] label,
-[data-testid="stFileUploaderDropzoneInstructions"],
-[data-testid="stFileUploaderDropzoneInstructions"] * {
-    color: var(--ap-r1-muted-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-muted-text) !important;
+/* =========================================================
+   11. MÉTRIQUES (st.metric)
+   ========================================================= */
+[data-testid="stMetric"] {
+    background: linear-gradient(135deg, rgba(84,45,122,.55), rgba(58,30,88,.60)) !important;
+    border: 1px solid rgba(255,255,255,.14) !important;
+    border-top: 4px solid var(--ap-purple) !important;
+    border-radius: var(--ap-radius);
+    padding: 1.05rem 1.15rem;
+    box-shadow: var(--ap-shadow);
+}
+[data-testid="stMetricLabel"], [data-testid="stMetricLabel"] * {
+    color: var(--ap-text-muted) !important;
+    font-weight: 600 !important;
+}
+[data-testid="stMetricValue"], [data-testid="stMetricValue"] * {
+    color: #FFFFFF !important;
+    font-weight: 800 !important;
+}
+
+/* =========================================================
+   12. ALERTES NATIVES (st.success / st.warning / st.error / st.info)
+   ========================================================= */
+[data-testid="stAlert"], div[data-baseweb="notification"], div[role="alert"] {
+    background: linear-gradient(135deg, #5A4265, #3C2D49) !important;
+    border: 1px solid rgba(255,255,255,.22) !important;
+    border-radius: 13px !important;
+}
+[data-testid="stAlert"] *, div[data-baseweb="notification"] *, div[role="alert"] * {
+    color: #FFFFFF !important;
+    fill: #FFFFFF !important;
     opacity: 1 !important;
 }
 
-[data-testid="stProgress"] [role="progressbar"],
-[data-testid="stProgress"] > div > div {
-    background: #594765 !important;
+/* =========================================================
+   13. INFO-BULLES (tooltips) — fond blanc + texte noir, assumé
+   ========================================================= */
+[role="tooltip"], [data-baseweb="tooltip"] {
+    background: #FFFFFF !important;
+    border: 1px solid rgba(125,79,254,.24) !important;
+    box-shadow: 0 10px 28px rgba(0,0,0,.20) !important;
+}
+[role="tooltip"] *, [data-baseweb="tooltip"] * {
+    color: #17111D !important;
+    opacity: 1 !important;
 }
 
-[data-testid="stProgress"] [role="progressbar"] > div,
+/* =========================================================
+   14. PROGRESSION / UPLOAD / CODE
+   ========================================================= */
+[data-testid="stProgress"] > div > div { background: #594765 !important; }
 [data-testid="stProgress"] > div > div > div {
-    background: linear-gradient(90deg, #8E5CFF, #D0B1FF) !important;
+    background: linear-gradient(90deg, var(--ap-purple), var(--ap-lilac)) !important;
 }
-
-/* 11. Upload, code, JSON et messages techniques. */
-[data-testid="stFileUploaderDropzone"],
-[data-testid="stFileUploader"] section {
+[data-testid="stFileUploaderDropzone"], [data-testid="stFileUploader"] section {
     background: #2D2037 !important;
     border-color: rgba(212,184,255,.32) !important;
 }
-
-[data-testid="stFileUploaderDropzone"] *,
-[data-testid="stFileUploader"] section * {
-    color: #F8F4FC !important;
-    -webkit-text-fill-color: #F8F4FC !important;
+[data-testid="stFileUploaderDropzone"] *, [data-testid="stFileUploader"] section * {
+    color: var(--ap-text) !important;
 }
-
-pre,
-code,
-[data-testid="stCodeBlock"],
-[data-testid="stCodeBlock"] *,
-[data-testid="stJson"],
-[data-testid="stJson"] * {
+pre, code, [data-testid="stCodeBlock"], [data-testid="stCodeBlock"] *,
+[data-testid="stJson"], [data-testid="stJson"] * {
     background-color: #17111D !important;
     color: #F8F4FC !important;
-    -webkit-text-fill-color: #F8F4FC !important;
-    opacity: 1 !important;
 }
-
-/* Inline code in an editorial paragraph keeps a visible violet chip. */
-p code,
-li code,
-[data-testid="stMarkdownContainer"] code {
+p code, li code, [data-testid="stMarkdownContainer"] code {
     background: #3B2950 !important;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
     padding: .08rem .3rem;
     border-radius: .3rem;
 }
 
-/* 12. Tables HTML. Les dataframes/canvas gardent le theme natif coherent. */
-[data-testid="stTable"],
-[data-baseweb="table"] {
+/* =========================================================
+   15. TABLEAUX (dataframe natif + <table> HTML)
+   ========================================================= */
+[data-testid="stDataFrame"], [data-testid="stDataEditor"] {
+    border: 1px solid rgba(255,255,255,.20) !important;
+    border-radius: 14px;
+    background: #201828 !important;
+}
+[data-testid="stDataFrame"] *, [data-testid="stDataEditor"] * {
+    color: #F6F2FA !important;
+}
+[data-testid="stTable"], [data-baseweb="table"] {
     background: #211827 !important;
-    border-color: rgba(255,255,255,.18) !important;
+    border: 1px solid rgba(255,255,255,.18) !important;
 }
-
-[data-testid="stTable"] th,
-[data-testid="stTable"] th *,
-[data-baseweb="table"] th,
-[data-baseweb="table"] th * {
+[data-testid="stTable"] th, [data-baseweb="table"] th {
     background: #443154 !important;
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
 }
-
-[data-testid="stTable"] td,
-[data-testid="stTable"] td *,
-[data-baseweb="table"] td,
-[data-baseweb="table"] td * {
+[data-testid="stTable"] th, [data-testid="stTable"] th *,
+[data-baseweb="table"] th, [data-baseweb="table"] th * {
+    color: #FFFFFF !important;
+}
+[data-testid="stTable"] td, [data-baseweb="table"] td {
     background: #281D31 !important;
+}
+[data-testid="stTable"] td, [data-testid="stTable"] td *,
+[data-baseweb="table"] td, [data-baseweb="table"] td * {
     color: #F7F2FB !important;
-    -webkit-text-fill-color: #F7F2FB !important;
 }
 
-/* Bordure du dataframe sans imposer une couleur incompatible a son canvas. */
-[data-testid="stDataFrame"],
-[data-testid="stDataEditor"] {
-    border: 1px solid rgba(255,255,255,.22) !important;
-    background: transparent !important;
+/* =========================================================
+   16. CARTES SOMBRES (le style "normal" des cartes de contenu)
+   ========================================================= */
+.audit-card, .audit-soft-card, .audit-kpi-card, .audit-mini-card,
+.audit-note, .ap-card {
+    background: var(--ap-panel) !important;
+    border: 1px solid var(--ap-panel-border) !important;
+    border-radius: 18px;
+    padding: 1.15rem 1.35rem;
+    margin-bottom: 1rem;
+    box-shadow: var(--ap-shadow);
 }
-
-/* 13. Info-bulles : texte noir sur blanc, y compris les portails BaseWeb. */
-[role="tooltip"],
-[role="tooltip"] > div,
-[role="tooltip"] [data-testid="stMarkdownContainer"],
-[data-baseweb="tooltip"] {
-    background: #FFFFFF !important;
-    border-color: rgba(70,47,90,.25) !important;
-    color: #17111D !important;
-}
-
-[role="tooltip"] *,
-[data-baseweb="tooltip"] * {
-    color: #17111D !important;
-    -webkit-text-fill-color: #17111D !important;
-    fill: #17111D !important;
+.audit-card *, .audit-soft-card *, .audit-kpi-card *, .audit-mini-card *,
+.audit-note *, .ap-card * {
+    color: var(--ap-text) !important;
     opacity: 1 !important;
 }
-
-/* 14. Barre laterale et navigation superieure. */
-[data-testid="stSidebar"],
-[data-testid="stSidebarContent"] {
-    background: linear-gradient(180deg, #1D1622, #151118) !important;
-}
-
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] small,
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"],
-[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] * {
-    color: var(--ap-r1-soft-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-soft-text) !important;
-    opacity: 1 !important;
-}
-
-/* La carte d'identite de la sidebar est la seule carte claire de cette zone. */
-[data-testid="stSidebar"] .audit-user-chip,
-[data-testid="stSidebar"] .audit-user-chip * {
-    color: var(--ap-r1-light-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
-}
-
-.audit-topbar,
-.audit-topbar *,
-.audit-hero,
-.audit-hero *,
-.audit-login-shell,
-.audit-login-shell *,
-.audit-section-head,
-.audit-section-head *,
-.audit-workflow-head,
-.audit-workflow-head * {
+.audit-card h1, .audit-card h2, .audit-card h3,
+.audit-soft-card h1, .audit-soft-card h2, .audit-soft-card h3,
+.audit-kpi-card h1, .audit-kpi-card h2, .audit-kpi-card h3,
+.audit-mini-card h1, .audit-mini-card h2, .audit-mini-card h3,
+.audit-note b, .ap-card h1, .ap-card h2, .ap-card h3,
+.audit-step-bubble {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    opacity: 1 !important;
 }
-
-/* 15. Toasts, spinners, dialogues et menu Streamlit. */
-[data-testid="stToast"],
-[data-testid="stToast"] *,
-[data-testid="stSpinner"],
-[data-testid="stSpinner"] *,
-[data-baseweb="modal"],
-[data-baseweb="modal"] * {
+.audit-step-bubble {
+    width: 2.25rem; height: 2.25rem;
+    border-radius: 999px;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--ap-purple), var(--ap-lilac)) !important;
+    margin-bottom: .6rem;
+}
+.audit-kpi-label {
+    font-size: .78rem; font-weight: 800;
+    text-transform: uppercase; letter-spacing: .04em;
+    color: var(--ap-text-muted) !important;
+}
+.audit-kpi-value {
+    font-size: 2.05rem; font-weight: 850; line-height: 1.15;
+    margin-top: .35rem;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
 }
 
-[data-testid="stToast"],
-[data-baseweb="modal"] {
-    background: #2D2037 !important;
-    border-color: rgba(255,255,255,.22) !important;
+/* =========================================================
+   17. CARTES CLAIRES (volontairement blanches) — fond ET texte
+   toujours définis ENSEMBLE ici, pour éviter tout conflit.
+   ========================================================= */
+.audit-info-box, .audit-warning, .audit-success, .audit-alert-card,
+.audit-user-chip, .audit-requested-black, .audit-first-audit-black,
+.audit-light-surface, .audit-white-card {
+    background: var(--ap-panel-light) !important;
+    border: 1px solid var(--ap-panel-light-border) !important;
+    border-radius: 14px;
+    padding: .95rem 1.1rem;
+    margin: .8rem 0 1rem 0;
+    box-shadow: var(--ap-shadow);
 }
-
-/* L'interface de l'application ne depend plus des variables claires/sombres
-   injectees par Streamlit : les contrastes ci-dessus restent identiques. */
-@media (forced-colors: active) {
-    .stButton > button,
-    input,
-    textarea,
-    [data-baseweb="select"] > div,
-    [data-testid="stAlert"] {
-        forced-color-adjust: auto;
-    }
-}
-
-/* 16. Correctif final des boutons.
-   Streamlit peut appliquer la couleur du texte sur un paragraphe interne au
-   bouton. On fixe donc le couple fond/texte sur le bouton et tous ses enfants.
-   Le contraste reste identique avec le thème clair ou sombre du navigateur. */
-.stButton > button,
-.stDownloadButton > button,
-[data-testid="stFormSubmitButton"] > button,
-[data-testid="stBaseButton-secondary"],
-[data-testid="stBaseButton-primary"] {
-    background: linear-gradient(135deg, #68479A, #4B315F) !important;
-    border: 1px solid #B995FF !important;
-    color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+.audit-info-box *, .audit-warning *, .audit-success *, .audit-alert-card *,
+.audit-user-chip *, .audit-requested-black *, .audit-first-audit-black *,
+.audit-light-surface *, .audit-white-card * {
+    color: var(--ap-text-onlight) !important;
     opacity: 1 !important;
+    text-shadow: none !important;
 }
+.audit-requested-black-heading, h3.audit-requested-black-heading {
+    color: var(--ap-text-onlight) !important;
+    font-weight: 800 !important;
+}
+/* Nuances de bord selon le sens (info / succès / avertissement) */
+.audit-info-box    { border-left: 4px solid #3B82F6 !important; }
+.audit-success      { border-left: 4px solid #22C55E !important; }
+.audit-warning       { border-left: 4px solid #F59E0B !important; }
+.audit-alert-card    { border-left: 6px solid #7D4FFE !important; }
 
-.stButton > button *,
-.stDownloadButton > button *,
-[data-testid="stFormSubmitButton"] > button *,
-[data-testid="stBaseButton-secondary"] *,
-[data-testid="stBaseButton-primary"] * {
+/* Légendes explicatives : posées directement sur le fond sombre -> blanches */
+.audit-caption-white, p.audit-caption-white {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    fill: #FFFFFF !important;
     opacity: 1 !important;
+    line-height: 1.55;
+    margin: .35rem 0 .65rem 0;
 }
 
-.stButton > button:hover:not(:disabled),
-.stDownloadButton > button:hover:not(:disabled),
-[data-testid="stFormSubmitButton"] > button:hover:not(:disabled),
-[data-testid="stBaseButton-secondary"]:hover:not(:disabled),
-[data-testid="stBaseButton-primary"]:hover:not(:disabled) {
-    background: linear-gradient(135deg, #7D4FFE, #6236D8) !important;
-    border-color: #D6BEFF !important;
+/* =========================================================
+   18. BADGES / PASTILLES DE PRIORITÉ — toujours colorés et lisibles,
+   quelle que soit la carte (claire ou sombre) qui les contient.
+   ========================================================= */
+.audit-badge {
+    display: inline-block;
+    padding: .22rem .58rem;
+    border-radius: 999px;
+    font-size: .78rem;
+    font-weight: 850;
+    margin-left: .35rem;
+}
+.audit-badge.badge-high, .badge-high, .audit-pill-high {
+    background: rgba(248,113,113,.24) !important;
+    color: #B91C1C !important;
+}
+.audit-badge.badge-medium, .badge-medium, .audit-pill-mid {
+    background: rgba(245,158,11,.24) !important;
+    color: #92400E !important;
+}
+.audit-badge.badge-low, .badge-low, .audit-pill-low {
+    background: rgba(34,197,94,.22) !important;
+    color: #15803D !important;
 }
 
-.stButton > button:disabled,
-.stDownloadButton > button:disabled,
-[data-testid="stFormSubmitButton"] > button:disabled,
-[data-testid="stBaseButton-secondary"]:disabled,
-[data-testid="stBaseButton-primary"]:disabled,
-button[aria-disabled="true"] {
-    background: #5B4B67 !important;
-    border-color: #877394 !important;
+/* =========================================================
+   19. EN-TÊTES DE SECTION ET D'ÉTAPE
+   ========================================================= */
+.audit-section-head {
+    --section-accent-1: #7D4FFE;
+    --section-accent-2: #C49FFF;
+    position: relative;
+    display: flex; align-items: center;
+    width: 100%; min-height: 76px;
+    margin: 1.6rem 0 1rem 0;
+    padding: 1.05rem 1.35rem 1.05rem 1.55rem;
+    border: 1px solid rgba(255,255,255,.14);
+    border-radius: 18px;
+    background: linear-gradient(105deg, rgba(255,255,255,.09), rgba(125,79,254,.14)) !important;
+    box-shadow: var(--ap-shadow);
+}
+.audit-section-head::before {
+    content: ""; position: absolute; left: 0; top: 12px; bottom: 12px; width: 5px;
+    border-radius: 0 999px 999px 0;
+    background: linear-gradient(180deg, var(--section-accent-1), var(--section-accent-2));
+}
+.audit-section-head h2 {
+    position: relative; margin: 0 !important; padding: 0 !important;
+    border-left: none !important;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    opacity: 1 !important;
+    font-size: clamp(1.28rem, 1.65vw, 1.72rem) !important;
+    font-weight: 780 !important;
 }
+.audit-section-head--chain     { --section-accent-1: #8D63FF; --section-accent-2: #7FB7FF; }
+.audit-section-head--tools     { --section-accent-1: #A873FF; --section-accent-2: #FFD0E6; }
+.audit-section-head--summary   { --section-accent-1: #6F55FF; --section-accent-2: #A7B8FF; }
+.audit-section-head--alerts    { --section-accent-1: #B96CFF; --section-accent-2: #FF9DCB; }
+.audit-section-head--decisions { --section-accent-1: #7D4FFE; --section-accent-2: #73D5FF; }
 
-.stButton > button:disabled *,
-.stDownloadButton > button:disabled *,
-[data-testid="stFormSubmitButton"] > button:disabled *,
-[data-testid="stBaseButton-secondary"]:disabled *,
-[data-testid="stBaseButton-primary"]:disabled *,
-button[aria-disabled="true"] * {
+.audit-workflow-head {
+    display: flex; align-items: center; gap: 1rem;
+    width: 100%; min-height: 64px;
+    margin: 1.4rem 0 .85rem 0;
+    padding: .72rem 1.2rem .72rem .78rem;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 17px;
+    background: linear-gradient(105deg, rgba(255,255,255,.08), rgba(125,79,254,.16)) !important;
+    box-shadow: var(--ap-shadow);
+}
+.audit-workflow-head h2 {
+    margin: 0 !important; padding: 0 !important;
+    border-left: none !important;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
-    fill: #FFFFFF !important;
-    opacity: 1 !important;
+    font-size: clamp(1.2rem, 1.45vw, 1.48rem) !important;
+    font-weight: 740 !important;
+}
+.audit-workflow-num {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #8A57FF, #6D3FE0) !important;
+    color: #FFFFFF !important;
+    font-weight: 850;
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 8px 22px rgba(125,79,254,.28);
 }
 
-/* 17. Mode Streamlit « System ».
-   Ce mode reprend automatiquement le réglage Clair/Sombre de Windows. */
-@media (prefers-color-scheme: dark) {
-    .stButton > button,
-    .stDownloadButton > button,
-    [data-testid="stFormSubmitButton"] > button,
-    [data-testid="stBaseButton-secondary"],
-    [data-testid="stBaseButton-primary"] {
-        background: linear-gradient(135deg, #68479A, #4B315F) !important;
-        border-color: #B995FF !important;
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-    }
+/* =========================================================
+   20. GRILLES DE CARTES
+   ========================================================= */
+.audit-grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1rem; margin: 1rem 0 1.4rem 0; }
+.audit-grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 1rem; margin: 1rem 0 1.4rem 0; }
+.audit-grid-3 .audit-mini-card, .audit-grid-4 .audit-mini-card { text-align: center; min-height: 130px; }
 
-    .stButton > button *,
-    .stDownloadButton > button *,
-    [data-testid="stFormSubmitButton"] > button *,
-    [data-testid="stBaseButton-secondary"] *,
-    [data-testid="stBaseButton-primary"] * {
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-        fill: #FFFFFF !important;
-    }
+/* =========================================================
+   21. ÉCRAN DE CONNEXION
+   ========================================================= */
+.audit-login-shell {
+    max-width: 520px;
+    margin: 7vh auto 1rem auto;
+    padding: 2rem 2.2rem;
+    text-align: center;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #241633, #33195C) !important;
+    border: 1px solid rgba(255,255,255,.12) !important;
+    box-shadow: 0 24px 60px rgba(0,0,0,.34);
+}
+.audit-login-shell * { color: #FFFFFF !important; }
+.audit-login-mark {
+    width: 58px; height: 58px;
+    margin: 0 auto 1rem auto;
+    display: grid; place-items: center;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--ap-purple), var(--ap-purple-dark)) !important;
+    color: #FFFFFF !important;
+    font-size: 1.65rem;
+    box-shadow: 0 12px 30px rgba(125,79,254,.30);
+}
+.audit-login-title { font-size: 1.75rem; font-weight: 850; margin-bottom: .35rem; }
+.audit-login-company {
+    font-size: .86rem; font-weight: 800; letter-spacing: .12em; text-transform: uppercase;
+    color: rgba(255,255,255,.72) !important;
 }
 
-@media (prefers-color-scheme: light) {
-    .stButton > button,
-    .stDownloadButton > button,
-    [data-testid="stFormSubmitButton"] > button,
-    [data-testid="stBaseButton-secondary"],
-    [data-testid="stBaseButton-primary"] {
-        background: linear-gradient(135deg, #624187, #432A58) !important;
-        border-color: #8E69B5 !important;
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-    }
-
-    .stButton > button *,
-    .stDownloadButton > button *,
-    [data-testid="stFormSubmitButton"] > button *,
-    [data-testid="stBaseButton-secondary"] *,
-    [data-testid="stBaseButton-primary"] * {
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-        fill: #FFFFFF !important;
-    }
+/* =========================================================
+   22. RESPONSIVE
+   ========================================================= */
+@media (max-width: 900px) {
+    .main .block-container { padding-left: 1rem; padding-right: 1rem; }
+    .audit-card, .audit-soft-card, .audit-kpi-card, .audit-info-box,
+    .audit-warning, .audit-success, .audit-alert-card { padding: .95rem 1rem; }
+    .audit-nav-items { display: none; }
+    .audit-topbar { margin-top: -1rem; }
 }
-
+@media (max-width: 760px) {
+    .audit-section-head, .audit-workflow-head { min-height: 60px; padding: .75rem 1rem; }
+}
 </style>
 """,
     unsafe_allow_html=True,
 )
+
 
 
 # ============================================================

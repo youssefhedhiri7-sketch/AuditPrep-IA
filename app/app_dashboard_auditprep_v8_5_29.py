@@ -1873,6 +1873,8 @@ hr {
 :root {
     --gf-text: #FFFFFF;
     --gf-text-soft: #F6F2FA;
+    --gf-text-softt: #392056;
+    
     --gf-muted: #E2DAEA;
     --gf-subtle: #CBBFD7;
     --gf-label: #EFE8F6;
@@ -2186,26 +2188,111 @@ small,
     color: #FFFFFF !important;
     border-color: rgba(255,255,255,.18) !important;
 }
-
-/* Disabled buttons should still be readable */
-.stButton > button:disabled,
-.stDownloadButton > button:disabled,
-[data-testid="stFormSubmitButton"] > button:disabled,
-button[disabled] {
-    opacity: 1 !important;
-    color: #F2ECF8 !important;
-    background: linear-gradient(180deg, rgba(255,255,255,.14), rgba(255,255,255,.08)) !important;
-    border: 1px solid rgba(255,255,255,.16) !important;
-    box-shadow: none !important;
-    cursor: not-allowed !important;
-}
-.stButton > button:disabled *,
-.stDownloadButton > button:disabled *,
-[data-testid="stFormSubmitButton"] > button:disabled *,
-button[disabled] * {
-    color: #F2ECF8 !important;
+/* =========================================================
+   FORCER LA COULEUR NOIRE SUR TOUS LES BOUTONS DE TÉLÉCHARGEMENT ET LE BOUTON DE DÉPLOIEMENT
+   ========================================================= */
+button[data-testid*="Download"],
+button[data-testid*="Deploy"],
+button[class*="Download"],
+button[class*="Deploy"],
+div[data-testid*="Download"] button,
+div[data-testid*="Deploy"] button {
+    background: #FFFFFF !important;
+    color: #1A1A2E !important;
+    border: 1px solid #D9CCE8 !important;
 }
 
+/* On force le texte de ces boutons */
+button[data-testid*="Download"] *,
+button[data-testid*="Deploy"] *,
+button[class*="Download"] *,
+button[class*="Deploy"] * {
+    color: #1A1A2E !important;
+    -webkit-text-fill-color: #1A1A2E !important;
+}
+
+/* On force les icônes SVG */
+button[data-testid*="Download"] svg,
+button[data-testid*="Deploy"] svg,
+button[class*="Download"] svg,
+button[class*="Deploy"] svg,
+button[data-testid*="Download"] svg *,
+button[data-testid*="Deploy"] svg *,
+button[class*="Download"] svg *,
+button[class*="Deploy"] svg * {
+    fill: #1A1A2E !important;
+    color: #1A1A2E !important;
+}
+
+/* Au survol, on garde le même style */
+button[data-testid*="Download"]:hover,
+button[data-testid*="Deploy"]:hover,
+button[class*="Download"]:hover,
+button[class*="Deploy"]:hover {
+    background: #F5F0FA !important;
+    border-color: #7D4FFE !important;
+}
+
+/* Pour le bouton de déploiement (les trois points) */
+[data-testid="stAppDeployButton"] button,
+[data-testid="stAppDeployButton"] button * {
+    color: #1A1A2E !important;
+    -webkit-text-fill-color: #1A1A2E !important;
+}
+
+[data-testid="stAppDeployButton"] button svg,
+[data-testid="stAppDeployButton"] button svg * {
+    fill: #1A1A2E !important;
+    color: #1A1A2E !important;
+}
+
+/* Enfin, pour les boutons "primary" (si utilisés), on garde le violet mais texte blanc */
+button[data-testid*="Download"][kind="primary"] {
+    background: linear-gradient(135deg, #7D4FFE, #6036D6) !important;
+    color: #FFFFFF !important;
+    border-color: #6036D6 !important;
+}
+
+button[data-testid*="Download"][kind="primary"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+/* FORÇAGE ULTIME - Texte noir sur tous les boutons de téléchargement */
+div[data-testid="stDownloadButton"] button,
+div[data-testid="stDownloadButton"] button *,
+.stDownloadButton button,
+.stDownloadButton button * {
+    color: #1A1A2E !important;
+    -webkit-text-fill-color: #1A1A2E !important;
+}
+
+div[data-testid="stDownloadButton"] button[kind="primary"],
+div[data-testid="stDownloadButton"] button[kind="primary"] * {
+    color: #FFFFFF !important;
+    -webkit-text-fill-color: #FFFFFF !important;
+}
+button[data-testid*="Download"][kind="primary"] svg {
+    fill: #FFFFFF !important;
+}
+[data-testid="stAppDeployButton"] button svg,
+[data-testid="stAppDeployButton"] button svg * {
+    fill: #1A1A2E !important;
+    color: #1A1A2E !important;
+}
+
+/* 3. CAS SUPPLÉMENTAIRE : si les boutons ont des classes génériques */
+button[class*="stDownloadButton"] svg,
+button[class*="stAppDeployButton"] svg,
+button[class*="st-emotion-cache"] svg {
+    fill: #1A1A2E !important;
+    color: #1A1A2E !important;
+}
+/* Ultime forçage - tous les boutons de la barre d'outils */
+[data-testid="stToolbar"] button svg,
+[data-testid="stToolbar"] button svg * {
+    fill: #1A1A2E !important;
+    color: #1A1A2E !important;
+}
 /* -------- Expanders / section bars -------- */
 [data-testid="stExpander"] summary,
 [data-testid="stExpander"] summary *,
@@ -3679,6 +3766,8 @@ button[role="tab"][aria-selected="true"] * {
     --ap-r1-light-text: #211827;
     --ap-r1-light-muted: #51455C;
     --ap-r1-focus: #D4B8FF;
+    --ap-r2-soft-text: #rgb(0, 0, 0);
+
 }
 
 /* 1. Texte pose directement sur le fond violet. */
@@ -3741,7 +3830,7 @@ button[role="tab"][aria-selected="true"] * {
 [data-testid="stExpander"] details,
 [data-testid="stExpander"] details * {
     color: var(--ap-r1-soft-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-soft-text) !important;
+    -webkit-text-fill-color: var(--ap-r2-soft-text) !important;
     opacity: 1 !important;
 }
 
@@ -3754,7 +3843,7 @@ button[role="tab"][aria-selected="true"] * {
 [data-testid="stMetricValue"],
 [data-testid="stMetricValue"] * {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    -webkit-text-fill-color: #b79ae2 !important;
 }
 
 [data-testid="stMetricLabel"],
@@ -3791,7 +3880,7 @@ button[role="tab"][aria-selected="true"] * {
 .audit-light-surface *,
 .audit-white-card * {
     color: var(--ap-r1-light-text) !important;
-    -webkit-text-fill-color: var(--ap-r1-light-text) !important;
+    -webkit-text-fill-color: #603789 !important;
     opacity: 1 !important;
     text-shadow: none !important;
 }
@@ -3842,7 +3931,7 @@ div[role="alert"] * {
 .stTimeInput input {
     background-color: transparent !important;
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    -webkit-text-fill-color:  rgb(0, 0, 0) !important;
     caret-color: #FFFFFF !important;
     opacity: 1 !important;
 }
@@ -4172,7 +4261,7 @@ li code,
 [data-baseweb="modal"],
 [data-baseweb="modal"] * {
     color: #FFFFFF !important;
-    -webkit-text-fill-color: #FFFFFF !important;
+    -webkit-text-fill-color: #111111 !important;
 }
 
 [data-testid="stToast"],
@@ -6698,8 +6787,10 @@ def make_option_label(row):
 
 
 def excel_bytes(sheets):
+    """Génère un fichier Excel avec tous les onglets bien formatés selon la charte AuditPrep."""
     buffer = io.BytesIO()
-
+    
+    # Mapping des colonnes techniques vers des libellés français
     column_labels = {
         "generation_run_id": "ID génération",
         "generation_batch_code": "Code du lot généré",
@@ -6709,97 +6800,161 @@ def excel_bytes(sheets):
         "target_mission_title": "Titre mission cible",
         "source_mission_code": "Code mission historique",
         "source_mission_title": "Titre mission historique",
-        "recommendations_count": "Nombre de recommandations",
-        "checklist_items_count": "Nombre de questions",
+        "recommendations_count": "Nb recommandations",
+        "checklist_items_count": "Nb questions",
         "generated_at": "Date de génération",
         "ml_training_scope": "Périmètre d'entraînement ML",
-        "ml_expert_rows_available": "Étiquettes expertes disponibles",
-
+        "ml_expert_rows_available": "Étiquettes expertes dispo.",
         "display_order": "Ordre",
         "clause_code": "Clause ISO",
         "clause_title": "Titre clause",
         "theme": "Thème",
-        "question_text": "Question d’audit",
+        "question_text": "Question d'audit",
         "generated_priority": "Priorité générée",
-        "rule_based_priority": "Priorité règles métier V7.10",
+        "rule_based_priority": "Priorité règles métier",
         "ml_predicted_priority": "Priorité prédite ML",
         "ml_prediction_confidence": "Confiance ML (%)",
-        "ml_predicted_criticality": "Criticité prédite ML (/100)",
-        "ml_criticality_band": "Classe issue de la criticité",
-        "ml_decision": "Décision de fusion règles/ML",
-        "priority_origin": "Origine de la priorité finale",
-        "ml_review_required": "Validation auditeur requise",
+        "ml_predicted_criticality": "Criticité prédite (/100)",
+        "ml_criticality_band": "Classe criticité",
+        "ml_decision": "Décision fusion",
+        "priority_origin": "Origine priorité",
+        "ml_review_required": "Validation requise",
         "recommendation_label": "Recommandation",
         "expected_evidence": "Preuves attendues",
         "conformity_status": "Statut conformité",
-
         "process_name": "Processus",
-        "findings_count": "Nombre de constats",
+        "findings_count": "Nb constats",
         "nonconformities_count": "Non-conformités",
         "remarks_count": "Remarques",
         "improvements_count": "Améliorations",
         "open_corrective_actions_count": "Actions correctives ouvertes",
         "raw_score": "Score brut",
         "capped_score": "Score final",
-        "vigilance_level": "Niveau de vigilance",
-        "explanation_summary": "Justification du score",
-        "computed_at": "Date de calcul",
-        "generation_mode": "Mode de génération",
+        "vigilance_level": "Niveau vigilance",
+        "explanation_summary": "Justification",
+        "computed_at": "Date calcul",
+        "generation_mode": "Mode génération",
         "context_sector": "Secteur cible",
         "context_process": "Processus cible",
         "context_objective": "Objectif cible",
         "context_scope": "Périmètre cible",
         "source_context": "Origine contextuelle",
-        "raison_priorisation": "Raison de priorisation",
+        "raison_priorisation": "Raison priorisation",
         "target_priority": "Cible classification",
         "target_criticality": "Cible régression",
-        "target_source": "Origine de la cible",
+        "target_source": "Origine cible",
+        "sector": "Secteur",
+        "audited_process": "Processus audité",
+        "known_risks": "Risques connus",
+        "keywords": "Mots-clés",
+        "source_mission_code": "Code source",
+        "source_mission_title": "Titre source",
+        "mission_code": "Code mission",
+        "mission_title": "Titre mission",
+        "client_name": "Client",
+        "site_name": "Site",
+        "audit_date": "Date audit",
+        "standard_name": "Référentiel",
+        "status": "Statut",
+        "audit_type": "Type audit",
+        "finding_id": "ID constat",
+        "finding_type": "Type constat",
+        "severity_raw": "Gravité",
+        "validation_comment": "Commentaire validation",
+        "validated_by": "Validé par",
+        "validated_at": "Date validation",
+        "model_text": "Texte modèle",
+        "model_text_raw": "Texte brut modèle",
+        "finding_description": "Description constat",
+        "finding_title": "Titre constat",
+        "clause_id": "ID clause",
+        "process_id": "ID processus",
+        "finding_type_id": "ID type constat",
+        "audit_report_id": "ID rapport",
+        "mission_id": "ID mission",
+        "importance": "Importance",
+        "variable": "Variable",
+        "classe": "Classe",
+        "metrique": "Métrique",
+        "valeur": "Valeur",
+        "famille": "Famille",
+        "precision": "Précision",
+        "recall": "Rappel",
+        "f1-score": "F1-score",
+        "support": "Support",
+        "questions_count": "Nb questions",
+        "questions_priorite_haute": "Questions Haute",
+        "questions_priorite_moyenne": "Questions Moyenne",
+        "questions_priorite_faible": "Questions Faible",
+        "displayed_questions_count": "Nb questions affichées",
+        "persistence_status": "Statut persistance",
+        "ml_status": "Statut ML",
+        "ml_dataset_rows": "Lignes dataset ML",
+        "ml_train_rows": "Lignes entraînement",
+        "ml_test_rows": "Lignes test",
+        "ml_classification_accuracy": "Accuracy classification",
+        "ml_regression_mae": "MAE régression",
+        "ml_regression_rmse": "RMSE régression",
+        "ml_regression_r2": "R² régression",
+        "level": "Niveau",
+        "alert_label": "Alerte",
+        "alert_dimension": "Dimension",
+        "alert_key": "Clé alerte",
+        "score": "Score",
     }
-
+    
     with pd.ExcelWriter(buffer, engine="openpyxl") as writer:
         for sheet_name, df in sheets.items():
+            if df is None or df.empty:
+                continue
+                
             clean = clean_df(df)
-
-            # Renommer les colonnes techniques en français
+            
+            # Renommer les colonnes
             clean = clean.rename(columns=column_labels)
-
+            
+            # Nettoyer le nom de l'onglet
             safe_sheet_name = str(sheet_name)[:31]
-
+            
+            # Écrire l'onglet
             clean.to_excel(
                 writer,
                 index=False,
                 sheet_name=safe_sheet_name
             )
-
+            
             ws = writer.book[safe_sheet_name]
-
+            
             # Figer la première ligne
             ws.freeze_panes = "A2"
-
+            
             # Activer le filtre automatique
             if ws.max_row > 1 and ws.max_column > 1:
                 ws.auto_filter.ref = ws.dimensions
-
+            
             from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
             from openpyxl.utils import get_column_letter
             
+            # Couleurs selon la charte AuditPrep
             header_fill = PatternFill(
                 fill_type="solid",
-                fgColor="1F4E78"
+                fgColor="7D4FFE"  # Violet primaire
             )
-
+            
             header_font = Font(
                 bold=True,
-                color="FFFFFF"
+                color="FFFFFF",
+                size=11,
+                name="Inter"
             )
-
+            
             thin_border = Border(
-                left=Side(style="thin", color="D9E2F3"),
-                right=Side(style="thin", color="D9E2F3"),
-                top=Side(style="thin", color="D9E2F3"),
-                bottom=Side(style="thin", color="D9E2F3")
+                left=Side(style="thin", color="D9CCE8"),
+                right=Side(style="thin", color="D9CCE8"),
+                top=Side(style="thin", color="D9CCE8"),
+                bottom=Side(style="thin", color="D9CCE8")
             )
-
+            
             # Style général
             for row in ws.iter_rows():
                 for cell in row:
@@ -6808,8 +6963,14 @@ def excel_bytes(sheets):
                         wrap_text=True
                     )
                     cell.border = thin_border
-
-            # Style de l’en-tête
+                    if cell.row > 1:
+                        cell.font = Font(
+                            name="Inter",
+                            size=10,
+                            color="30243F"  # Texte sombre
+                        )
+            
+            # Style de l'en-tête
             for cell in ws[1]:
                 cell.fill = header_fill
                 cell.font = header_font
@@ -6818,34 +6979,31 @@ def excel_bytes(sheets):
                     vertical="center",
                     wrap_text=True
                 )
-
+            
             ws.row_dimensions[1].height = 32
-
-            # Important : on garde le filtre automatique simple.
-            # On n'ajoute PAS de tableau Excel natif, car certaines versions d'Excel
-            # réparent/suppriment les tables générées automatiquement par openpyxl
-            # quand il existe des en-têtes longs, similaires ou issus de vues SQL.
-
-            # Largeur automatique des colonnes
+            
+            # Ajuster la largeur des colonnes
             for column_cells in ws.columns:
                 max_length = 0
                 column_letter = get_column_letter(column_cells[0].column)
-
+                
                 for cell in column_cells:
                     value = cell.value
                     if value is not None:
                         value_length = len(str(value))
                         if value_length > max_length:
                             max_length = value_length
-
-                adjusted_width = min(max(max_length + 2, 14), 55)
+                
+                adjusted_width = min(max(max_length + 2, 14), 60)
                 ws.column_dimensions[column_letter].width = adjusted_width
-
-            # Hauteur raisonnable pour les lignes longues
+            
+            # Hauteur des lignes
             for row_number in range(2, ws.max_row + 1):
-                ws.row_dimensions[row_number].height = 38
-
+                ws.row_dimensions[row_number].height = 35
+    
     return buffer.getvalue()
+
+
 # ============================================================
 # 4. REQUÊTES SQL
 # ============================================================
@@ -7403,7 +7561,7 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("### Version")
-    st.caption("AuditPrep V8.5.29 — version finale, compatibilité Cloud, contraste complet Light/Dark, moteur SQL V6 et IA supervisée par l’auditeur.")
+    st.caption("AuditPrep V8.5.29 ")
 
 render_brand_nav("Espace audit", current_user)
 
@@ -8129,20 +8287,59 @@ else:
     with ml_tab_data:
         visible_cols = [
             c for c in [
-                "finding_id", "mission_code", "process_name", "clause_code", "finding_type",
+                 "mission_code", "process_name", "clause_code", "finding_type",
                 "severity_raw", "target_priority", "target_criticality", "target_source",
                 "validated_by", "validated_at", "validation_comment",
             ]
             if c in ml_dataset_df.columns
         ]
         st.dataframe(clean_df(ml_dataset_df[visible_cols]), use_container_width=True, hide_index=True, height=360)
-        st.download_button(
-            "Télécharger le dataset supervisé en CSV",
-            data=clean_df(ml_dataset_df).to_csv(index=False).encode("utf-8-sig"),
-            file_name="auditprep_dataset_supervise_v8_3.csv",
-            mime="text/csv",
-            key="v82_download_dataset",
-        )
+        
+        # Export du dataset supervisé - version améliorée
+        if not ml_dataset_df.empty:
+            # Sélectionner les colonnes pertinentes dans un ordre logique
+            cols_ordre = [
+                "mission_code", "process_name", "clause_code", 
+                "clause_title", "finding_type", "severity_raw", "status",
+                "target_priority", "target_criticality", "target_source",
+                "validated_by", "validated_at", "validation_comment",
+                "sector", "audited_process", "known_risks", "keywords"
+            ]
+            cols_existants = [c for c in cols_ordre if c in ml_dataset_df.columns]
+            dataset_export_df = ml_dataset_df[cols_existants].copy()
+            
+            col_export1, col_export2 = st.columns(2)
+            with col_export1:
+                st.download_button(
+                    "📥 Télécharger le dataset en CSV (Excel)",
+                    data=clean_df(dataset_export_df).to_csv(
+                        index=False, 
+                        encoding="utf-8-sig",
+                        sep=";",
+                        decimal=","
+                    ).encode("utf-8-sig"),
+                    file_name=f"auditprep_dataset_{datetime.now().strftime('%Y%m%d')}.csv",
+                    mime="text/csv",
+                    key="v82_download_dataset_csv",
+                    help="CSV optimisé pour Excel (séparateur ; et virgule décimale)"
+                )
+            with col_export2:
+                # Export Excel du dataset
+                dataset_excel = excel_bytes({
+                    "dataset_supervise": ml_dataset_df,
+                    "metriques_ia": ml_metrics_export_df(ml_pack),
+                    "importance_classification": ml_pack.get("classification_importance", pd.DataFrame()),
+                    "importance_regression": ml_pack.get("regression_importance", pd.DataFrame()),
+                    "matrice_confusion": ml_pack.get("confusion_matrix", pd.DataFrame()).reset_index(),
+                })
+                st.download_button(
+                    "📊 Télécharger le dataset en Excel complet",
+                    data=dataset_excel,
+                    file_name=f"auditprep_dataset_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                    key="v82_download_dataset_xlsx",
+                    help="Excel complet avec tous les onglets formatés selon la charte AuditPrep"
+                )
 
 
 # ============================================================
@@ -8899,12 +9096,36 @@ with tab_checklist:
         display_df = clean_df(filtered[show_cols]).rename(columns=display_labels)
         st.dataframe(display_df, use_container_width=True, hide_index=True, height=520)
 
-        st.download_button(
-            "Télécharger la check-list filtrée en CSV",
-            data=clean_df(filtered).to_csv(index=False).encode("utf-8-sig"),
-            file_name=f"checklist_{batch_code}.csv",
-            mime="text/csv",
-        )
+        # Export amélioré de la check-list
+        col_export1, col_export2 = st.columns(2)
+        with col_export1:
+            st.download_button(
+                "📥 Télécharger en CSV (Excel)",
+                data=clean_df(filtered).to_csv(
+                    index=False, 
+                    encoding="utf-8-sig",
+                    sep=";",
+                    decimal=","
+                ).encode("utf-8-sig"),
+                file_name=f"checklist_{batch_code}_{datetime.now().strftime('%Y%m%d')}.csv",
+                mime="text/csv",
+                key="v82_download_checklist_csv",
+                help="CSV optimisé pour Excel (séparateur ; et virgule décimale)"
+            )
+        with col_export2:
+            # Export Excel de la check-list uniquement
+            checklist_excel = excel_bytes({
+                "checklist": filtered,
+                "traceabilite": trace_df
+            })
+            st.download_button(
+                "📊 Télécharger en Excel",
+                data=checklist_excel,
+                file_name=f"checklist_{batch_code}_{datetime.now().strftime('%Y%m%d')}.xlsx",
+                mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                key="v82_download_checklist_xlsx",
+                help="Excel complet avec formatage selon la charte AuditPrep"
+            )
 
         with st.expander("Voir les justifications détaillées", expanded=False):
             just_cols = [c for c in [
